@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediNest | Our Doctors
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">Meet Our Doctors</h1>
+            <p class="text-muted">
+                Connect with healthcare professionals through MediNest.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            {% for doctor in doctors %}
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    {% if doctor.profile_image %}
+
+                    <img src="{{ doctor.profile_image.url }}" class="card-img-top"
+                        style="height:260px; object-fit:cover;" alt="{{ doctor.name }}">
+
+                    {% else %}
+
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:260px;">
+                        <span style="font-size:80px;">👨‍⚕️</span>
+                    </div>
+
+                    {% endif %}
+
+                    <div class="card-body">
+
+                        <h4 class="fw-bold">
+                            {{ doctor.name }}
+                        </h4>
+
+                        <p class="text-primary fw-semibold">
+                            {{ doctor.specialization }}
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Qualification:</strong>
+                            {{ doctor.qualification }}
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Experience:</strong>
+                            {{ doctor.experience }} years
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Consultation:</strong>
+                            ₹{{ doctor.consultation_fee }}
+                        </p>
+
+                        <p class="text-muted mt-3">
+                            {{ doctor.bio|truncatewords:25 }}
+                        </p>
+
+                        <p class="small">
+                            <strong>Available:</strong>
+                            {{ doctor.available_days }}
+                        </p>
+
+                        <p class="small">
+                            <strong>Time:</strong>
+                            {{ doctor.available_time }}
+                        </p>
+
+                        <button class="btn btn-primary w-100">
+                            Book Appointment
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    No doctors are currently available.
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

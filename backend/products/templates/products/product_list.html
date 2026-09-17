@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediNest | Products</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f8fc;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #0b3d91;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #eef3f8;
+        }
+
+        .no-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef3f8;
+            border-radius: 12px;
+            color: #64748b;
+        }
+
+        .category {
+            color: #0b6e99;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0b3d91;
+        }
+
+        .old-price {
+            color: #888;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .discount {
+            color: #16803c;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>MediNest</h1>
+        <p>Healthcare Products</p>
+    </div>
+
+    <div class="container">
+
+        <div class="products">
+
+            {% for product in products %}
+
+            <div class="card">
+
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                <div class="no-image">
+                    No Image Available
+                </div>
+                {% endif %}
+
+                <div class="category">
+                    {{ product.category.name }}
+                </div>
+
+                <h2>{{ product.name }}</h2>
+
+                <p>
+                    {{ product.description|truncatewords:15 }}
+                </p>
+
+                <div>
+                    <span class="price">
+                        ₹{{ product.discounted_price|floatformat:2 }}
+                    </span>
+
+                    {% if product.discount_percentage > 0 %}
+                    <span class="old-price">
+                        ₹{{ product.price|floatformat:2 }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                {% if product.discount_percentage > 0 %}
+                <p class="discount">
+                    {{ product.discount_percentage }}% OFF
+                </p>
+                {% endif %}
+
+                <p>
+                    Stock: {{ product.stock }}
+                </p>
+
+            </div>
+
+            {% empty %}
+
+            <p>No products available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
