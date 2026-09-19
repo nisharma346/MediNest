@@ -1,0 +1,690 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .checkout-page {
+        background: #f5fbfd;
+        min-height: 100vh;
+        padding: 55px 0 80px;
+    }
+
+    .checkout-header {
+        margin-bottom: 35px;
+    }
+
+    .checkout-badge {
+        display: inline-block;
+        background: #e5f8fa;
+        color: #087f91;
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .checkout-header h1 {
+        color: #123f63;
+        font-size: 44px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .checkout-header p {
+        color: #66829a;
+        font-size: 16px;
+    }
+
+
+    /* Main Cards */
+
+    .checkout-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 35px rgba(30, 90, 120, 0.08);
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: #173f61;
+        font-size: 23px;
+        font-weight: 750;
+        margin-bottom: 25px;
+    }
+
+    .step-number {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,
+                #0879c9,
+                #05aaa4);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+
+
+    /* Form */
+
+    .form-label {
+        color: #42627a;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .form-control {
+        height: 52px;
+        border: 1px solid #d8e7ee;
+        border-radius: 10px;
+        padding: 0 15px;
+    }
+
+    .form-control:focus {
+        border-color: #079ca5;
+        box-shadow: 0 0 0 3px rgba(7, 156, 165, 0.10);
+    }
+
+
+    /* Payment */
+
+    .payment-option {
+        border: 1px solid #dceaf0;
+        border-radius: 14px;
+        padding: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+        height: 100%;
+    }
+
+    .payment-option:hover {
+        border-color: #079ca5;
+        background: #f6fcfd;
+    }
+
+    .payment-option input {
+        margin-right: 8px;
+    }
+
+    .payment-icon {
+        font-size: 24px;
+        color: #0879c9;
+        margin-bottom: 8px;
+    }
+
+    .payment-title {
+        font-weight: 700;
+        color: #173f61;
+    }
+
+    .payment-text {
+        font-size: 13px;
+        color: #7890a0;
+    }
+
+
+    /* Order Summary */
+
+    .summary-card {
+        position: sticky;
+        top: 100px;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 18px 0;
+        border-bottom: 1px solid #e8f0f4;
+    }
+
+    .product-image {
+        width: 65px;
+        height: 65px;
+        border-radius: 12px;
+        background: #f0f7f9;
+        object-fit: cover;
+    }
+
+    .product-name {
+        color: #173f61;
+        font-weight: 700;
+    }
+
+    .product-category {
+        color: #8195a3;
+        font-size: 13px;
+    }
+
+    .product-price {
+        margin-left: auto;
+        color: #0871c2;
+        font-weight: 700;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        color: #617789;
+    }
+
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #dce8ed;
+        margin-top: 10px;
+        padding-top: 20px;
+        color: #123f63;
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    .free {
+        color: #0a8d79;
+        font-weight: 700;
+    }
+
+
+    /* Button */
+
+    .place-order-btn {
+        width: 100%;
+        border: none;
+        height: 58px;
+        border-radius: 12px;
+        color: white;
+        font-size: 17px;
+        font-weight: 700;
+        background: linear-gradient(90deg,
+                #0868b7,
+                #05aaa4);
+        margin-top: 25px;
+        transition: 0.2s;
+    }
+
+    .place-order-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 130, 160, 0.2);
+    }
+
+    .security-text {
+        text-align: center;
+        color: #8296a4;
+        font-size: 13px;
+        margin-top: 15px;
+    }
+
+    .back-cart {
+        display: inline-block;
+        margin-top: 20px;
+        color: #0879c9;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+
+<section class="checkout-page">
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="checkout-header">
+
+            <div class="checkout-badge">
+                <i class="fa-solid fa-shield-halved me-2"></i>
+                Secure Checkout
+            </div>
+
+            <h1>Checkout</h1>
+
+            <p>
+                Complete your order and get your healthcare products delivered.
+            </p>
+
+        </div>
+
+
+        <form id="checkout-form" method="POST">
+
+            {% csrf_token %}
+
+            <div class="row g-4">
+
+
+                <!-- LEFT -->
+
+                <div class="col-lg-8">
+
+
+                    <!-- DELIVERY -->
+
+                    <div class="checkout-card">
+
+                        <div class="section-title">
+
+                            <span class="step-number">
+                                1
+                            </span>
+
+                            <div>
+                                Delivery Address
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Full Name *
+                                </label>
+
+                                <input type="text" name="full_name" class="form-control"
+                                    value="{{ request.user.get_full_name }}" placeholder="Enter your full name"
+                                    required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Phone Number *
+                                </label>
+
+                                <input type="tel" name="phone" class="form-control" placeholder="Enter phone number"
+                                    required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Address Line 1 *
+                                </label>
+
+                                <input type="text" name="address_line1" class="form-control"
+                                    placeholder="House no., Street, Area" required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Address Line 2
+                                </label>
+
+                                <input type="text" name="address_line2" class="form-control"
+                                    placeholder="Apartment, Landmark etc.">
+
+                            </div>
+
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    City *
+                                </label>
+
+                                <input type="text" name="city" class="form-control" placeholder="City" required>
+
+                            </div>
+
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    State *
+                                </label>
+
+                                <input type="text" name="state" class="form-control" placeholder="State" required>
+
+                            </div>
+
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Pincode *
+                                </label>
+
+                                <input type="text" name="pincode" class="form-control" placeholder="Pincode" required>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PAYMENT -->
+
+                    <div class="checkout-card">
+
+                        <div class="section-title">
+
+                            <span class="step-number">
+                                2
+                            </span>
+
+                            Payment Method
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <div class="col-md-6">
+
+                                <label class="payment-option">
+
+                                    <input type="radio" name="payment_method" value="razorpay" checked>
+
+                                    <div class="payment-icon">
+                                        <i class="fa-solid fa-credit-card"></i>
+                                    </div>
+
+                                    <div class="payment-title">
+                                        Razorpay
+                                    </div>
+
+                                    <div class="payment-text">
+                                        UPI, Cards, Net Banking & Wallets
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="payment-option">
+
+                                    <input type="radio" name="payment_method" value="cod">
+
+                                    <div class="payment-icon">
+                                        <i class="fa-solid fa-money-bill-wave"></i>
+                                    </div>
+
+                                    <div class="payment-title">
+                                        Cash on Delivery
+                                    </div>
+
+                                    <div class="payment-text">
+                                        Pay when you receive your order
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button type="submit" class="place-order-btn" id="place-order-btn">
+
+                            <i class="fa-solid fa-lock me-2"></i>
+
+                            Place Order
+
+                        </button>
+
+
+                        <div class="security-text">
+
+                            <i class="fa-solid fa-shield-halved me-1"></i>
+
+                            Your information is secure and protected.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RIGHT -->
+
+                <div class="col-lg-4">
+
+                    <div class="checkout-card summary-card">
+
+                        <div class="section-title">
+
+                            <i class="fa-solid fa-receipt"></i>
+
+                            Order Summary
+
+                        </div>
+
+
+                        {% for item in cart_items %}
+
+                        <div class="summary-item">
+
+                            {% if item.product.image %}
+
+                            <img src="{{ item.product.image.url }}" class="product-image" alt="{{ item.product.name }}">
+
+                            {% else %}
+
+                            <div class="product-image d-flex align-items-center justify-content-center">
+
+                                <i class="fa-solid fa-pills text-primary"></i>
+
+                            </div>
+
+                            {% endif %}
+
+
+                            <div>
+
+                                <div class="product-name">
+                                    {{ item.product.name }}
+                                </div>
+
+                                <div class="product-category">
+                                    {{ item.product.category.name }}
+                                </div>
+
+                                <div class="product-category">
+                                    Qty: {{ item.quantity }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="product-price">
+
+                                ₹{{ item.subtotal|floatformat:2 }}
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Subtotal
+                            </span>
+
+                            <strong>
+                                ₹{{ total|floatformat:2 }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Shipping
+                            </span>
+
+                            <span class="free">
+                                FREE
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <span>
+                                ₹{{ total|floatformat:2 }}
+                            </span>
+
+                        </div>
+
+
+                        <a href="{% url 'cart:cart_detail' %}" class="back-cart">
+
+                            <i class="fa-solid fa-arrow-left me-2"></i>
+
+                            Back to Cart
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const checkoutForm = document.getElementById('checkout-form');
+    const placeOrderBtn = document.getElementById('place-order-btn');
+
+    checkoutForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(checkoutForm);
+        const paymentMethod = formData.get('payment_method');
+
+        if (paymentMethod !== 'razorpay') {
+            checkoutForm.submit();
+            return;
+        }
+
+        placeOrderBtn.disabled = true;
+        placeOrderBtn.innerHTML = '<span class="me-2">Processing...</span>';
+
+        try {
+            const response = await fetch('{% url "orders:checkout" %}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                alert(data.message || 'Unable to initialize Razorpay payment.');
+                placeOrderBtn.disabled = false;
+                placeOrderBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Place Order';
+                return;
+            }
+
+            const options = {
+                key: data.key,
+                amount: data.amount,
+                currency: data.currency,
+                name: 'MediNest',
+                description: 'Healthcare products purchase',
+                order_id: data.razorpay_order_id,
+                handler: function (response) {
+                    const callbackData = new FormData();
+                    callbackData.append('csrfmiddlewaretoken', formData.get('csrfmiddlewaretoken'));
+                    callbackData.append('payment_id', response.razorpay_payment_id);
+                    callbackData.append('razorpay_order_id', response.razorpay_order_id);
+                    callbackData.append('signature', response.razorpay_signature);
+                    callbackData.append('local_order_id', data.order_id);
+
+                    fetch('{% url "orders:payment_callback" %}', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                        },
+                        body: callbackData
+                    })
+                        .then((callbackResponse) => callbackResponse.json())
+                        .then((callbackDataJson) => {
+                            if (callbackDataJson.success && callbackDataJson.redirect_url) {
+                                window.location.href = callbackDataJson.redirect_url;
+                            } else {
+                                alert(callbackDataJson.message || 'Payment verification failed.');
+                                placeOrderBtn.disabled = false;
+                                placeOrderBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Place Order';
+                            }
+                        })
+                        .catch(() => {
+                            alert('Payment verification failed. Please try again.');
+                            placeOrderBtn.disabled = false;
+                            placeOrderBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Place Order';
+                        });
+                },
+                prefill: {
+                    name: formData.get('full_name'),
+                    contact: formData.get('phone'),
+                },
+                theme: {
+                    color: '#0b7abf'
+                },
+                modal: {
+                    ondismiss: function () {
+                        placeOrderBtn.disabled = false;
+                        placeOrderBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Place Order';
+                    }
+                }
+            };
+
+            const razorpayInstance = new Razorpay(options);
+            razorpayInstance.open();
+        } catch (error) {
+            alert('Something went wrong while starting the payment.');
+            placeOrderBtn.disabled = false;
+            placeOrderBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Place Order';
+        }
+    });
+</script>
+
+{% endblock %}

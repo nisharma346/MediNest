@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .product-detail-section {
+        background: #f5f8fc;
+        padding: 60px 0 80px;
+        min-height: 80vh;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    }
+
+    .detail-image {
+        width: 100%;
+        height: 430px;
+        object-fit: cover;
+        border-radius: 18px;
+        background: #eef3f8;
+    }
+
+    .no-detail-image {
+        width: 100%;
+        height: 430px;
+        border-radius: 18px;
+        background: #eef3f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-size: 18px;
+    }
+
+    .detail-category {
+        color: #0d6efd;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .detail-title {
+        color: #14213d;
+        font-size: 38px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .detail-description {
+        color: #64748b;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .detail-price {
+        color: #0b3d91;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .detail-old-price {
+        color: #999;
+        text-decoration: line-through;
+        font-size: 17px;
+        margin-left: 10px;
+    }
+
+    .detail-discount {
+        display: inline-block;
+        background: #e8f7ee;
+        color: #16803c;
+        padding: 7px 14px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        margin-top: 12px;
+    }
+
+    .stock-available {
+        color: #16803c;
+        font-weight: 600;
+        margin-top: 18px;
+    }
+
+    .stock-out {
+        color: #dc3545;
+        font-weight: 600;
+        margin-top: 18px;
+    }
+
+    .add-cart-btn {
+        display: inline-block;
+        background: #0d6efd;
+        color: white;
+        text-decoration: none;
+        padding: 13px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .add-cart-btn:hover {
+        background: #0b5ed7;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .back-btn {
+        display: inline-block;
+        color: #0d6efd;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+        .detail-title {
+            font-size: 30px;
+        }
+
+        .detail-image,
+        .no-detail-image {
+            height: 300px;
+        }
+    }
+</style>
+
+
+<section class="product-detail-section">
+
+    <div class="container">
+
+        <a href="{% url 'products:product_list' %}" class="back-btn">
+            ← Back to Products
+        </a>
+
+        <div class="detail-card">
+
+            <div class="row align-items-center g-5">
+
+                <!-- Product Image -->
+                <div class="col-lg-6">
+
+                    {% if product.image %}
+
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-image">
+
+                    {% else %}
+
+                    <div class="no-detail-image">
+                        No Image Available
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Product Information -->
+                <div class="col-lg-6">
+
+                    <div class="detail-category">
+                        {{ product.category.name }}
+                    </div>
+
+                    <h1 class="detail-title">
+                        {{ product.name }}
+                    </h1>
+
+                    <p class="detail-description">
+                        {{ product.description }}
+                    </p>
+
+
+                    <!-- Price -->
+                    <div class="mt-4">
+
+                        <span class="detail-price">
+                            ₹{{ product.discounted_price|floatformat:2 }}
+                        </span>
+
+                        {% if product.discount_percentage > 0 %}
+
+                        <span class="detail-old-price">
+                            ₹{{ product.price|floatformat:2 }}
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Discount -->
+                    {% if product.discount_percentage > 0 %}
+
+                    <div class="detail-discount">
+                        {{ product.discount_percentage }}% OFF
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- Stock -->
+                    {% if product.stock > 0 %}
+
+                    <p class="stock-available">
+                        ✓ In Stock — {{ product.stock }} available
+                    </p>
+
+
+                    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">
+                        <i class="fa-solid fa-cart-shopping me-2"></i>
+                        Add to Cart
+                    </a>
+
+                    {% else %}
+
+                    <p class="stock-out">
+                        ✕ Currently Out of Stock
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

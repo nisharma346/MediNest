@@ -1,159 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block content %}
 
-    <title>MediNest | Products</title>
+<style>
+    .product-page {
+        background: #f5f8fc;
+        padding: 50px 0 70px;
+        min-height: 80vh;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f8fc;
-            color: #1f2937;
-        }
+    .product-header {
+        background: #0b3d91;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 0 0 25px 25px;
+        margin-bottom: 40px;
+    }
 
-        .header {
-            background: #0b3d91;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
+    .product-header h1 {
+        margin: 0;
+        font-weight: 700;
+    }
 
-        .header h1 {
-            margin: 0;
-        }
+    .product-header p {
+        margin: 8px 0 0;
+        font-size: 17px;
+    }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 40px auto;
-        }
+    .product-card {
+        background: white;
+        border-radius: 18px;
+        padding: 18px;
+        height: 100%;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 25px;
-        }
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(13, 110, 253, 0.15);
+    }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transition: 0.3s;
-        }
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #eef3f8;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+    .no-image {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef3f8;
+        border-radius: 12px;
+        color: #64748b;
+    }
 
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 12px;
-            background: #eef3f8;
-        }
+    .product-category {
+        color: #0b6e99;
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 15px;
+    }
 
-        .no-image {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #eef3f8;
-            border-radius: 12px;
-            color: #64748b;
-        }
+    .product-name {
+        font-size: 21px;
+        font-weight: 700;
+        color: #14213d;
+        margin-top: 8px;
+    }
 
-        .category {
-            color: #0b6e99;
-            font-size: 14px;
-            margin-top: 15px;
-        }
+    .product-description {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
 
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            color: #0b3d91;
-        }
+    .price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0b3d91;
+    }
 
-        .old-price {
-            color: #888;
-            text-decoration: line-through;
-            margin-left: 8px;
-        }
+    .old-price {
+        color: #888;
+        text-decoration: line-through;
+        margin-left: 8px;
+        font-size: 14px;
+    }
 
-        .discount {
-            color: #16803c;
-            font-size: 14px;
-            font-weight: bold;
-        }
-    </style>
-</head>
+    .discount {
+        color: #16803c;
+        font-size: 14px;
+        font-weight: 700;
+        margin-top: 8px;
+    }
 
-<body>
+    .stock {
+        color: #64748b;
+        font-size: 14px;
+    }
 
-    <div class="header">
-        <h1>MediNest</h1>
-        <p>Healthcare Products</p>
-    </div>
+    .view-details-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: 1px solid #0d6efd;
+        border-radius: 50px;
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .view-details-btn:hover {
+        background: #0d6efd;
+        color: white;
+    }
+</style>
+
+
+<section class="product-page">
 
     <div class="container">
 
-        <div class="products">
+        <!-- Header -->
+        <div class="product-header">
+            <h1>MediNest</h1>
+            <p>Healthcare Products</p>
+        </div>
+
+
+        <!-- Products -->
+        <div class="row g-4">
 
             {% for product in products %}
 
-            <div class="card">
+            <div class="col-xl-3 col-lg-4 col-md-6">
 
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                {% else %}
-                <div class="no-image">
-                    No Image Available
-                </div>
-                {% endif %}
+                <div class="product-card">
 
-                <div class="category">
-                    {{ product.category.name }}
-                </div>
+                    <!-- Image -->
+                    {% if product.image %}
 
-                <h2>{{ product.name }}</h2>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
 
-                <p>
-                    {{ product.description|truncatewords:15 }}
-                </p>
+                    {% else %}
 
-                <div>
-                    <span class="price">
-                        ₹{{ product.discounted_price|floatformat:2 }}
-                    </span>
+                    <div class="no-image">
+                        No Image Available
+                    </div>
 
-                    {% if product.discount_percentage > 0 %}
-                    <span class="old-price">
-                        ₹{{ product.price|floatformat:2 }}
-                    </span>
                     {% endif %}
+
+
+                    <!-- Category -->
+                    <div class="product-category">
+                        {{ product.category.name }}
+                    </div>
+
+
+                    <!-- Product Name -->
+                    <h2 class="product-name">
+                        {{ product.name }}
+                    </h2>
+
+
+                    <!-- Description -->
+                    <p class="product-description">
+                        {{ product.description|truncatewords:15 }}
+                    </p>
+
+
+                    <!-- Price -->
+                    <div>
+
+                        <span class="price">
+                            ₹{{ product.discounted_price|floatformat:2 }}
+                        </span>
+
+                        {% if product.discount_percentage > 0 %}
+
+                        <span class="old-price">
+                            ₹{{ product.price|floatformat:2 }}
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Discount -->
+                    {% if product.discount_percentage > 0 %}
+
+                    <p class="discount">
+                        {{ product.discount_percentage }}% OFF
+                    </p>
+
+                    {% endif %}
+
+
+                    <!-- Stock -->
+                    <p class="stock">
+                        Stock: {{ product.stock }}
+                    </p>
+
+
+                    <!-- VIEW DETAILS BUTTON -->
+                    <a href="{% url 'products:product_detail' product.slug %}" class="view-details-btn">
+                        <i class="fa-solid fa-eye me-2"></i>
+                        View Details
+                    </a>
+
                 </div>
-
-                {% if product.discount_percentage > 0 %}
-                <p class="discount">
-                    {{ product.discount_percentage }}% OFF
-                </p>
-                {% endif %}
-
-                <p>
-                    Stock: {{ product.stock }}
-                </p>
 
             </div>
 
             {% empty %}
 
-            <p>No products available.</p>
+            <div class="col-12 text-center">
+                <p class="text-muted">
+                    No products available.
+                </p>
+            </div>
 
             {% endfor %}
 
@@ -161,6 +236,6 @@
 
     </div>
 
-</body>
+</section>
 
-</html>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .success-page {
+        min-height: 75vh;
+        background: #f5fbfd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+    .success-card {
+        background: white;
+        max-width: 700px;
+        width: 100%;
+        text-align: center;
+        padding: 55px 40px;
+        border-radius: 24px;
+        box-shadow: 0 15px 50px rgba(30, 90, 120, 0.10);
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        background: #e6f8f2;
+        color: #0a9b79;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+        margin: 0 auto 25px;
+    }
+
+    .success-card h1 {
+        color: #123f63;
+        font-weight: 800;
+    }
+
+    .success-card p {
+        color: #6f8798;
+    }
+
+    .order-number {
+        background: #f2f8fb;
+        border-radius: 12px;
+        padding: 15px;
+        margin: 25px 0;
+        color: #123f63;
+        font-weight: 700;
+    }
+
+    .invoice-box {
+        background: #f8fdfd;
+        border: 1px solid #dcf0f3;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0 30px;
+        color: #173f61;
+    }
+
+    .action-row {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .home-btn,
+    .invoice-btn {
+        display: inline-block;
+        background: linear-gradient(90deg,
+                #0868b7,
+                #05aaa4);
+        color: white;
+        text-decoration: none;
+        padding: 14px 30px;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    .invoice-btn {
+        background: #0f4f73;
+    }
+</style>
+
+
+<section class="success-page">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <h1>
+            Order Placed Successfully!
+        </h1>
+
+        <p>
+            Thank you for shopping with MediNest.
+            Your healthcare order has been received and payment has been completed.
+        </p>
+
+
+        <div class="order-number">
+
+            Order #{{ order.id }}
+
+            <br>
+
+            Invoice: {{ order.invoice_number }}
+
+            <br>
+
+            Total:
+            ₹{{ order.total_amount|floatformat:2 }}
+
+        </div>
+
+        <div class="invoice-box">
+            <strong>Payment status:</strong> Completed
+            <br>
+            <strong>Payment method:</strong> {{ order.get_payment_method_display }}
+        </div>
+
+        <div class="action-row">
+            <a href="{% url 'orders:invoice' order.id %}" class="invoice-btn">
+                View Invoice
+            </a>
+
+            <a href="{% url 'core:home' %}" class="home-btn">
+                Continue Shopping
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

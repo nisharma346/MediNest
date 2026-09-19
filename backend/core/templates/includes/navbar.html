@@ -1,0 +1,279 @@
+<nav class="navbar navbar-expand-lg bg-white sticky-top medinest-navbar">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand medinest-logo" href="{% url 'core:home' %}">
+            <i class="fa-solid fa-heart-pulse"></i>
+            MediNest
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#medinestNavbar"
+            aria-controls="medinestNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="medinestNavbar">
+
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:home' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'doctors:doctor_list' %}">
+                        Doctors
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:services' %}">
+                        Services
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products:product_list' %}">
+                        Products
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Health Articles
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Right Side -->
+            <div class="d-flex align-items-center gap-3">
+
+                <!-- Search -->
+                <button class="nav-icon-btn" type="button" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <!-- Cart -->
+                <a href="#" class="nav-icon-btn" title="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+
+                {% if user.is_authenticated %}
+
+                <!-- Logged-in User -->
+                <div class="dropdown">
+
+                    <button class="user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fa-solid fa-user"></i>
+                        {{ user.username }}
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa-solid fa-user me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa-solid fa-cart-shopping me-2"></i>
+                                My Cart
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                {% else %}
+
+                <a href="{% url 'accounts:login' %}" class="login-btn">
+                    Login
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<style>
+    .medinest-navbar {
+        min-height: 72px;
+        border-bottom: 1px solid #edf2f5;
+        box-shadow: 0 3px 15px rgba(0, 60, 100, 0.05);
+        z-index: 1000;
+    }
+
+    .medinest-logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 23px;
+        font-weight: 800;
+        color: #0b4f91 !important;
+        letter-spacing: -0.5px;
+    }
+
+    .medinest-logo i {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0750a0, #00a49b);
+        color: white;
+        font-size: 19px;
+    }
+
+    .navbar-nav {
+        gap: 4px;
+    }
+
+    .navbar-nav .nav-link {
+        color: #536779;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 12px !important;
+        border-radius: 9px;
+        transition: all 0.25s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #0750a0;
+        background: #f0f8fb;
+    }
+
+    .nav-icon-btn {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        color: #334e68;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: 0.25s;
+    }
+
+    .nav-icon-btn:hover {
+        color: #0750a0;
+        background: #eef7fb;
+    }
+
+    .login-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(90deg, #0750a0, #008f98);
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+
+    .login-btn:hover {
+        color: white !important;
+        transform: translateY(-1px);
+        box-shadow: 0 7px 18px rgba(0, 100, 150, 0.18);
+    }
+
+    .user-btn {
+        border: none;
+        background: #f0f7fa;
+        color: #19324d;
+        padding: 9px 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .user-btn:hover {
+        background: #e5f1f5;
+    }
+
+    .dropdown-menu {
+        border: 1px solid #edf2f5;
+        border-radius: 12px;
+        padding: 8px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+    }
+
+    .dropdown-item {
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-size: 14px;
+    }
+
+    .dropdown-item:hover {
+        background: #f0f7fa;
+    }
+
+    .navbar-toggler {
+        border: none;
+        color: #0750a0;
+        font-size: 21px;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    @media (max-width: 991px) {
+
+        .navbar-collapse {
+            background: white;
+            padding: 18px 0;
+        }
+
+        .navbar-nav {
+            gap: 2px;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 11px 12px !important;
+        }
+
+        .d-flex.align-items-center.gap-3 {
+            margin-top: 10px;
+            justify-content: flex-start;
+        }
+
+    }
+</style>

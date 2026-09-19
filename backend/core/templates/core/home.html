@@ -1,61 +1,499 @@
 {% extends "base.html" %}
 
-{% block title %}
-MediNest | Healthcare & Wellness
-{% endblock %}
-
 {% block content %}
 
-<!-- Hero Section -->
-<section class="py-5">
-    <div class="container py-5">
+<style>
+    /* =========================
+       HERO SECTION
+    ========================= */
+
+    .hero-section {
+        background: linear-gradient(135deg,
+                #eaf8ff 0%,
+                #f3fbff 55%,
+                #e9faf4 100%);
+        padding: 90px 0 70px;
+        overflow: hidden;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        color: #075bb5;
+        border: 1px solid #dcecf8;
+        border-radius: 30px;
+        padding: 9px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 22px;
+        box-shadow: 0 5px 20px rgba(0, 80, 150, 0.06);
+    }
+
+    .hero-title {
+        font-size: 52px;
+        line-height: 1.08;
+        font-weight: 800;
+        color: #102a43;
+        margin-bottom: 22px;
+    }
+
+    .hero-title span {
+        color: #087fc1;
+    }
+
+    .hero-description {
+        font-size: 17px;
+        line-height: 1.8;
+        color: #61758a;
+        max-width: 620px;
+        margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .hero-btn-primary {
+        background: linear-gradient(90deg, #063f91, #0099a8);
+        color: white;
+        padding: 14px 25px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .hero-btn-primary:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 100, 160, 0.20);
+    }
+
+    .hero-btn-secondary {
+        background: white;
+        color: #19324d;
+        padding: 14px 25px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid #dce5ec;
+        transition: 0.3s;
+    }
+
+    .hero-btn-secondary:hover {
+        color: #19324d;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-image-wrapper {
+        position: relative;
+        text-align: center;
+    }
+
+    .hero-image-card {
+        background: white;
+        border-radius: 28px;
+        padding: 12px;
+        box-shadow: 0 20px 60px rgba(0, 60, 100, 0.12);
+        overflow: hidden;
+    }
+
+    .hero-image-card img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+        object-position: 100% center;
+        border-radius: 20px;
+        transform: scale(1.10);
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats-section {
+        background: white;
+        padding: 25px 0;
+        border-bottom: 1px solid #edf2f5;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+        font-weight: 800;
+        color: #102a43;
+    }
+
+    .stat-label {
+        color: #718096;
+        font-size: 14px;
+    }
+
+    /* =========================
+       GENERAL SECTION
+    ========================= */
+
+    .home-section {
+        padding: 80px 0;
+    }
+
+    .section-heading {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .section-heading h2 {
+        color: #102a43;
+        font-weight: 750;
+        font-size: 36px;
+    }
+
+    .section-heading p {
+        color: #718096;
+        max-width: 650px;
+        margin: 12px auto 0;
+    }
+
+    /* =========================
+       SERVICE CARDS
+    ========================= */
+
+    .service-card {
+        height: 100%;
+        background: white;
+        border: 1px solid #edf2f5;
+        border-radius: 18px;
+        padding: 26px;
+        transition: 0.3s;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .service-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 15px 35px rgba(0, 80, 120, 0.10);
+    }
+
+    .service-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        background: #eaf7f5;
+        color: #008b78;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+        margin-bottom: 18px;
+    }
+
+    .service-card h5 {
+        color: #19324d;
+        font-weight: 700;
+    }
+
+    .service-card p {
+        color: #718096;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       DOCTOR CARDS
+    ========================= */
+
+    .doctor-card {
+        height: 100%;
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+    }
+
+    .doctor-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 15px 35px rgba(0, 80, 120, 0.12);
+    }
+
+    .doctor-image {
+        height: 230px;
+        width: 100%;
+        object-fit: cover;
+        background: #eef5f8;
+    }
+
+    .doctor-content {
+        padding: 22px;
+    }
+
+    .doctor-specialization {
+        color: #078875;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .doctor-content h5 {
+        color: #19324d;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    .doctor-meta {
+        color: #718096;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    /* =========================
+       PRODUCT CARDS
+    ========================= */
+
+    .product-card {
+        height: 100%;
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 15px 35px rgba(0, 80, 120, 0.12);
+    }
+
+    .product-image {
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
+        background: #f4f7f9;
+    }
+
+    .product-content {
+        padding: 20px;
+    }
+
+    .product-category {
+        color: #078875;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .product-content h5 {
+        color: #19324d;
+        font-weight: 700;
+        margin: 7px 0;
+    }
+
+    .product-price {
+        font-size: 19px;
+        color: #087c67;
+        font-weight: 700;
+    }
+
+    .old-price {
+        color: #9aa6b2;
+        text-decoration: line-through;
+        font-size: 14px;
+        margin-left: 6px;
+    }
+
+    .discount-badge {
+        display: inline-block;
+        background: #e6f7ef;
+        color: #087c67;
+        border-radius: 20px;
+        padding: 4px 9px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* =========================
+       WHY MEDINEST
+    ========================= */
+
+    .why-section {
+        background: #f6fbfd;
+    }
+
+    .why-card {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        height: 100%;
+        border: 1px solid #edf2f5;
+    }
+
+    .why-icon {
+        font-size: 28px;
+        color: #087c67;
+        margin-bottom: 15px;
+    }
+
+    .why-card h5 {
+        color: #19324d;
+        font-weight: 700;
+    }
+
+    .why-card p {
+        color: #718096;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta-section {
+        padding: 80px 0;
+    }
+
+    .cta-box {
+        background: linear-gradient(110deg, #073d8c, #008d91);
+        color: white;
+        border-radius: 25px;
+        padding: 55px;
+        text-align: center;
+    }
+
+    .cta-box h2 {
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .cta-box p {
+        opacity: 0.9;
+        max-width: 650px;
+        margin: 0 auto 25px;
+    }
+
+    .cta-btn {
+        display: inline-block;
+        background: white;
+        color: #073d8c;
+        padding: 13px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 991px) {
+
+        .hero-title {
+            font-size: 42px;
+        }
+
+        .hero-image-card {
+            margin-top: 40px;
+        }
+    }
+
+    @media (max-width: 576px) {
+
+        .hero-section {
+            padding: 60px 0;
+        }
+
+        .hero-title {
+            font-size: 36px;
+        }
+
+        .hero-description {
+            font-size: 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 30px;
+        }
+
+        .cta-box {
+            padding: 35px 20px;
+        }
+    }
+</style>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero-section">
+
+    <div class="container">
 
         <div class="row align-items-center">
 
             <div class="col-lg-7">
 
-                <span class="badge bg-primary mb-3">
-                    Trusted Healthcare Platform
-                </span>
+                <div class="hero-badge">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    Your Health. Your Care. Your Nest.
+                </div>
 
-                <h1 class="display-4 fw-bold">
-                    Your Health,
-                    <span class="text-primary">Our Priority.</span>
+                <h1 class="hero-title">
+                    Better Healthcare,
+                    <br>
+                    Right at Your
+                    <span>Fingertips.</span>
                 </h1>
 
-                <p class="lead text-muted mt-3">
-                    Discover trusted healthcare products, connect with
-                    doctors and manage your wellness journey with MediNest.
+                <p class="hero-description">
+                    MediNest brings together trusted doctors, genuine
+                    healthcare products and useful health information
+                    in one convenient place. Book consultations,
+                    explore healthcare products and take better care
+                    of your health.
                 </p>
 
-                <div class="mt-4">
+                <div class="hero-buttons">
 
-                    <a href="/products/" class="btn btn-primary btn-lg me-2">
-                        Explore Products
+                    <a href="{% url 'doctors:doctor_list' %}" class="hero-btn-primary">
+
+                        <i class="fa-regular fa-calendar-check me-2"></i>
+                        Book an Appointment
+
                     </a>
 
-                    <a href="#" class="btn btn-outline-primary btn-lg">
-                        Find a Doctor
+                    <a href="{% url 'products:product_list' %}" class="hero-btn-secondary">
+
+                        <i class="fa-solid fa-bag-shopping me-2"></i>
+                        Shop Healthcare Products
+
                     </a>
 
                 </div>
 
             </div>
 
-            <div class="col-lg-5 text-center mt-4 mt-lg-0">
 
-                <div class="p-5 bg-light rounded-4">
-                    <div style="font-size: 100px;">
-                        🏥
+            <div class="col-lg-5">
+
+                <div class="hero-image-wrapper">
+
+                    <div class="hero-image-card">
+
+                        <img src="/media/medinest_hero_image.png" alt="MediNest Healthcare">
+
+
                     </div>
 
-                    <h3 class="mt-3">
-                        Complete Healthcare
-                    </h3>
-
-                    <p class="text-muted">
-                        Products, doctors & wellness services in one place.
-                    </p>
                 </div>
 
             </div>
@@ -63,102 +501,104 @@ MediNest | Healthcare & Wellness
         </div>
 
     </div>
+
 </section>
 
 
-<!-- Features -->
-<section class="bg-light py-5">
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats-section">
 
     <div class="container">
 
-        <div class="text-center mb-5">
+        <div class="row">
 
-            <h2 class="fw-bold">
-                Everything You Need for Better Health
-            </h2>
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <div class="stat-number">1,200+</div>
+                    <div class="stat-label">Healthcare Products</div>
+                </div>
+            </div>
 
-            <p class="text-muted">
-                Simple, convenient and reliable healthcare services.
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <div class="stat-number">45+</div>
+                    <div class="stat-label">Qualified Doctors</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <div class="stat-number">4.8/5</div>
+                    <div class="stat-label">Patient Experience</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section class="home-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Healthcare Services</h2>
+
+            <p>
+                Everything you need for convenient and reliable
+                healthcare, all in one place.
             </p>
 
         </div>
 
-
         <div class="row g-4">
 
-            <div class="col-md-4">
+            {% for service in services %}
 
-                <div class="card border-0 shadow-sm h-100 p-4 text-center">
+            <div class="col-md-6 col-lg-4">
 
-                    <div style="font-size: 45px;">
-                        🛒
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        {% if service.icon %}
+                        <i class="{{ service.icon }}"></i>
+                        {% else %}
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        {% endif %}
+
                     </div>
 
-                    <h4 class="mt-3">
-                        Healthcare Products
-                    </h4>
+                    <h5>{{ service.name }}</h5>
 
-                    <p class="text-muted">
-                        Explore healthcare, wellness and personal care products.
+                    <p>
+                        {{ service.short_description }}
                     </p>
-
-                    <a href="/products/" class="btn btn-outline-primary">
-                        Shop Now
-                    </a>
 
                 </div>
 
             </div>
 
+            {% empty %}
 
-            <div class="col-md-4">
-
-                <div class="card border-0 shadow-sm h-100 p-4 text-center">
-
-                    <div style="font-size: 45px;">
-                        👨‍⚕️
-                    </div>
-
-                    <h4 class="mt-3">
-                        Find Doctors
-                    </h4>
-
-                    <p class="text-muted">
-                        Connect with healthcare professionals and book appointments.
-                    </p>
-
-                    <a href="#" class="btn btn-outline-primary">
-                        Find Doctor
-                    </a>
-
-                </div>
-
+            <div class="col-12 text-center">
+                <p class="text-muted">
+                    Healthcare services will appear here.
+                </p>
             </div>
 
-
-            <div class="col-md-4">
-
-                <div class="card border-0 shadow-sm h-100 p-4 text-center">
-
-                    <div style="font-size: 45px;">
-                        💙
-                    </div>
-
-                    <h4 class="mt-3">
-                        Health & Wellness
-                    </h4>
-
-                    <p class="text-muted">
-                        Learn more about healthy living through useful health articles.
-                    </p>
-
-                    <a href="#" class="btn btn-outline-primary">
-                        Read Articles
-                    </a>
-
-                </div>
-
-            </div>
+            {% endfor %}
 
         </div>
 
@@ -167,30 +607,106 @@ MediNest | Healthcare & Wellness
 </section>
 
 
-<!-- Featured Products -->
+<!-- =========================
+     DOCTORS
+========================= -->
 
-<section class="py-5">
+<section class="home-section why-section">
 
     <div class="container">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="section-heading">
 
-            <div>
-                <h2 class="fw-bold mb-1">
-                    Featured Products
-                </h2>
+            <h2>Meet Our Doctors</h2>
 
-                <p class="text-muted mb-0">
-                    Popular healthcare products from MediNest
-                </p>
-            </div>
-
-            <a href="/products/" class="btn btn-outline-primary">
-                View All
-            </a>
+            <p>
+                Connect with qualified healthcare professionals
+                for your healthcare needs.
+            </p>
 
         </div>
 
+        <div class="row g-4">
+
+            {% for doctor in featured_doctors %}
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="doctor-card">
+
+                    {% if doctor.profile_image %}
+
+                    <img src="{{ doctor.profile_image.url }}" class="doctor-image" alt="{{ doctor.name }}">
+
+                    {% else %}
+
+                    <div class="doctor-image d-flex align-items-center justify-content-center">
+
+                        <i class="fa-solid fa-user-doctor fa-4x text-secondary"></i>
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="doctor-content">
+
+                        <div class="doctor-specialization">
+                            {{ doctor.specialization }}
+                        </div>
+
+                        <h5>{{ doctor.name }}</h5>
+
+                        <div class="doctor-meta">
+
+                            <i class="fa-solid fa-briefcase me-1"></i>
+                            {{ doctor.experience }} years experience
+
+                            <br>
+
+                            <i class="fa-solid fa-indian-rupee-sign me-1"></i>
+                            ₹{{ doctor.consultation_fee }}
+
+                        </div>
+
+                        <a href="{% url 'doctors:doctor_list' %}" class="btn btn-outline-primary w-100">
+
+                            View Doctor
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section class="home-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Featured Healthcare Products</h2>
+
+            <p>
+                Explore healthcare products carefully selected
+                for your everyday wellness needs.
+            </p>
+
+        </div>
 
         <div class="row g-4">
 
@@ -198,48 +714,41 @@ MediNest | Healthcare & Wellness
 
             <div class="col-md-6 col-lg-4">
 
-                <div class="card border-0 shadow-sm h-100">
+                <div class="product-card">
 
                     {% if product.image %}
 
-                    <img src="{{ product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;"
-                        alt="{{ product.name }}">
+                    <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
 
                     {% else %}
 
-                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:220px;">
-                        <span style="font-size:60px;">
-                            🩺
-                        </span>
+                    <div class="product-image d-flex align-items-center justify-content-center">
+
+                        <i class="fa-solid fa-pills fa-4x text-secondary"></i>
+
                     </div>
 
                     {% endif %}
 
+                    <div class="product-content">
 
-                    <div class="card-body">
-
-                        <small class="text-primary">
+                        <div class="product-category">
                             {{ product.category.name }}
-                        </small>
+                        </div>
 
-                        <h5 class="fw-bold mt-2">
+                        <h5>
                             {{ product.name }}
                         </h5>
 
-                        <p class="text-muted">
-                            {{ product.description|truncatewords:12 }}
-                        </p>
+                        <div class="mb-3">
 
-
-                        <div class="d-flex align-items-center">
-
-                            <strong class="text-primary fs-5">
+                            <span class="product-price">
                                 ₹{{ product.discounted_price|floatformat:2 }}
-                            </strong>
+                            </span>
 
                             {% if product.discount_percentage > 0 %}
 
-                            <span class="text-muted text-decoration-line-through ms-2">
+                            <span class="old-price">
                                 ₹{{ product.price|floatformat:2 }}
                             </span>
 
@@ -247,14 +756,18 @@ MediNest | Healthcare & Wellness
 
                         </div>
 
-
                         {% if product.discount_percentage > 0 %}
 
-                        <span class="badge bg-success mt-2">
+                        <span class="discount-badge">
                             {{ product.discount_percentage }}% OFF
                         </span>
 
                         {% endif %}
+
+                        <a href="{% url 'products:product_detail' product.slug %}"
+                            class="btn btn-outline-primary w-100 mt-3">
+                            View Details
+                        </a>
 
                     </div>
 
@@ -264,15 +777,153 @@ MediNest | Healthcare & Wellness
 
             {% empty %}
 
-            <div class="col-12">
+            <div class="col-12 text-center">
 
-                <div class="alert alert-info">
-                    No products available yet.
-                </div>
+                <p class="text-muted">
+                    Products will appear here once added from the admin panel.
+                </p>
 
             </div>
 
             {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WHY CHOOSE MEDINEST
+========================= -->
+
+<section class="home-section why-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Why Choose MediNest?</h2>
+
+            <p>
+                Designed to make everyday healthcare simpler,
+                more convenient and accessible.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+
+                    <h5>Trusted Doctors</h5>
+
+                    <p>
+                        Connect with qualified healthcare
+                        professionals for consultations.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+
+                    <h5>Healthcare Focused</h5>
+
+                    <p>
+                        A platform designed around everyday
+                        healthcare and wellness needs.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+
+                    <h5>Easy Shopping</h5>
+
+                    <p>
+                        Explore healthcare products and
+                        manage your shopping conveniently.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <h5>Secure Experience</h5>
+
+                    <p>
+                        Your account and shopping experience
+                        are built with security in mind.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <h2>
+                Start Your Health Journey Today
+            </h2>
+
+            <p>
+                Take a simple step towards better healthcare.
+                Explore our doctors, services and healthcare products.
+            </p>
+
+            <a href="{% url 'products:product_list' %}" class="cta-btn">
+                Explore MediNest
+                <i class="fa-solid fa-arrow-right ms-2"></i>
+            </a>
 
         </div>
 

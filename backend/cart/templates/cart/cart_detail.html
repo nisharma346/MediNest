@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .cart-page {
+        padding: 60px 0;
+        background: #f7fbfd;
+        min-height: 75vh;
+    }
+
+    .cart-title {
+        font-size: 34px;
+        font-weight: 800;
+        color: #12395b;
+        margin-bottom: 8px;
+    }
+
+    .cart-subtitle {
+        color: #6b7f90;
+        margin-bottom: 35px;
+    }
+
+    .cart-card {
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 8px 25px rgba(0, 70, 100, 0.06);
+    }
+
+    .product-image {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 14px;
+        background: #f1f7f9;
+    }
+
+    .product-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #173b59;
+    }
+
+    .product-category {
+        font-size: 13px;
+        color: #78909c;
+        margin-top: 4px;
+    }
+
+    .price {
+        color: #0750a0;
+        font-weight: 700;
+        font-size: 17px;
+    }
+
+    .quantity-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f2f8fa;
+        padding: 6px;
+        border-radius: 10px;
+        width: fit-content;
+    }
+
+    .quantity-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 8px;
+        background: white;
+        color: #0750a0;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quantity-btn:hover {
+        background: #0750a0;
+        color: white;
+    }
+
+    .quantity-number {
+        font-weight: 700;
+        min-width: 20px;
+        text-align: center;
+    }
+
+    .remove-btn {
+        color: #dc3545;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .remove-btn:hover {
+        text-decoration: underline;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 18px;
+        padding: 25px;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 8px 25px rgba(0, 70, 100, 0.06);
+        position: sticky;
+        top: 100px;
+    }
+
+    .summary-title {
+        font-size: 21px;
+        font-weight: 800;
+        color: #173b59;
+        margin-bottom: 22px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 800;
+        color: #173b59;
+        padding-top: 18px;
+        border-top: 1px solid #e9eef1;
+        margin-top: 18px;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 13px;
+        margin-top: 20px;
+        background: linear-gradient(90deg, #0750a0, #00a49b);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .checkout-btn:hover {
+        box-shadow: 0 8px 20px rgba(0, 100, 150, 0.18);
+    }
+
+    .empty-cart {
+        background: white;
+        border-radius: 20px;
+        padding: 70px 20px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0, 70, 100, 0.06);
+    }
+
+    .empty-cart i {
+        font-size: 55px;
+        color: #0b91a0;
+        margin-bottom: 20px;
+    }
+
+    .shop-btn {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 11px 22px;
+        background: #0750a0;
+        color: white;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* Checkout Button Fix */
+
+    .checkout-action {
+        width: 100%;
+        margin-top: 24px;
+    }
+
+    .checkout-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        width: 100% !important;
+        min-height: 52px;
+
+        padding: 14px 20px;
+
+        border-radius: 11px;
+
+        background: linear-gradient(90deg,
+                #0868b7,
+                #05aaa4);
+
+        color: #ffffff !important;
+        text-decoration: none !important;
+
+        font-size: 15px;
+        font-weight: 700;
+
+        border: none;
+
+        transition: all 0.2s ease;
+    }
+
+    .checkout-btn:hover {
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 130, 160, 0.20);
+    }
+</style>
+
+
+<section class="cart-page">
+
+    <div class="container">
+
+        <h1 class="cart-title">Your Shopping Cart</h1>
+
+        <p class="cart-subtitle">
+            Review your healthcare products before checkout.
+        </p>
+
+
+        {% if cart_items %}
+
+        <div class="row g-4">
+
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+
+                {% for item in cart_items %}
+
+                <div class="cart-card">
+
+                    <div class="row align-items-center g-3">
+
+                        <!-- Product -->
+                        <div class="col-md-5">
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                {% if item.product.image %}
+
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                    class="product-image">
+
+                                {% else %}
+
+                                <div class="product-image d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-pills text-secondary"></i>
+                                </div>
+
+                                {% endif %}
+
+
+                                <div>
+
+                                    <div class="product-name">
+                                        {{ item.product.name }}
+                                    </div>
+
+                                    <div class="product-category">
+                                        {{ item.product.category.name }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Price -->
+                        <div class="col-md-2">
+
+                            <div class="price">
+                                ₹{{ item.product.discounted_price|floatformat:2 }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- Quantity -->
+                        <div class="col-md-3">
+
+                            <div class="quantity-box">
+
+                                <a href="{% url 'cart:decrease_quantity' item.id %}" class="quantity-btn">
+                                    −
+                                </a>
+
+                                <span class="quantity-number">
+                                    {{ item.quantity }}
+                                </span>
+
+                                <a href="{% url 'cart:increase_quantity' item.id %}" class="quantity-btn">
+                                    +
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Remove -->
+                        <div class="col-md-2 text-md-end">
+
+                            <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">
+                                <i class="fa-solid fa-trash me-1"></i>
+                                Remove
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Summary -->
+            <div class="col-lg-4">
+
+                <div class="summary-card">
+
+                    <div class="summary-title">
+                        Order Summary
+                    </div>
+
+                    <div class="d-flex justify-content-between text-muted">
+                        <span>Items</span>
+                        <span>{{ cart_items|length }}</span>
+                    </div>
+
+                    <div class="total-row">
+
+                        <span>Total</span>
+
+                        <span>
+                            ₹{{ total|floatformat:2 }}
+                        </span>
+
+                    </div>
+
+                    <div class="checkout-action">
+                        <a href="{% url 'orders:checkout' %}" class="checkout-btn">
+                            <i class="fa-solid fa-lock me-2"></i>
+                            Proceed to Checkout
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- Empty Cart -->
+
+        <div class="empty-cart">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            <h3>Your cart is empty</h3>
+
+            <p class="text-muted">
+                Explore our healthcare products and add something to your cart.
+            </p>
+
+            <a href="{% url 'products:product_list' %}" class="shop-btn">
+                Shop Healthcare Products
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

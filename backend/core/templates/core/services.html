@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .services-section {
+        padding: 70px 0;
+        background: #f8fbff;
+    }
+
+    .services-heading {
+        max-width: 750px;
+        margin: 0 auto 50px;
+        text-align: center;
+    }
+
+    .services-heading h1 {
+        font-weight: 700;
+        color: #14213d;
+        font-size: 42px;
+    }
+
+    .services-heading p {
+        color: #6c757d;
+        font-size: 17px;
+        margin-top: 12px;
+    }
+
+    .service-card {
+        height: 100%;
+        background: #ffffff;
+        border: 1px solid #edf1f7;
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(13, 110, 253, 0.15);
+        border-color: #d9e8ff;
+    }
+
+    .service-icon {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        background: #eaf3ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d6efd;
+        font-size: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+        background: #0d6efd;
+        color: white;
+        transform: scale(1.08);
+    }
+
+    .service-card h4 {
+        font-size: 21px;
+        font-weight: 700;
+        color: #14213d;
+        margin-bottom: 12px;
+    }
+
+    .service-short {
+        color: #4f5d73;
+        font-size: 15px;
+        line-height: 1.6;
+        min-height: 48px;
+    }
+
+    .service-description {
+        color: #7a8494;
+        font-size: 14px;
+        line-height: 1.7;
+        margin-top: 15px;
+    }
+
+    .learn-more-btn {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 9px 24px;
+        border: 1px solid #0d6efd;
+        border-radius: 50px;
+        color: #0d6efd;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .learn-more-btn:hover {
+        background: #0d6efd;
+        color: white;
+    }
+</style>
+
+
+<section class="services-section">
+
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="services-heading">
+            <h1>Our Healthcare Services</h1>
+
+            <p>
+                Convenient healthcare services designed to support
+                your health and well-being.
+            </p>
+        </div>
+
+
+        <!-- Services -->
+        <div class="row g-4">
+
+            {% for service in services %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="service-card">
+
+                    <!-- Icon -->
+                    <div class="service-icon">
+                        <i class="{{ service.icon }}"></i>
+                    </div>
+
+                    <!-- Name -->
+                    <h4>
+                        {{ service.name }}
+                    </h4>
+
+                    <!-- Short Description -->
+                    <p class="service-short">
+                        {{ service.short_description }}
+                    </p>
+
+                    <!-- Description -->
+                    <p class="service-description">
+                        {{ service.description }}
+                    </p>
+
+                    <!-- Button -->
+                    <a href="#" class="learn-more-btn">
+                        Learn More
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+                <p class="text-muted">
+                    No healthcare services are currently available.
+                </p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
