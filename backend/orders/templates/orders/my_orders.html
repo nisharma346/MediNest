@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .orders-page {
+        background: #f5fbfd;
+        min-height: 85vh;
+        padding: 50px 0 80px;
+    }
+
+    .page-header {
+        margin-bottom: 35px;
+    }
+
+    .page-badge {
+        display: inline-block;
+        background: #e5f8fa;
+        color: #087f91;
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+        color: #123f63;
+        font-size: 38px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #66829a;
+        font-size: 16px;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(30, 90, 120, 0.07);
+        margin-bottom: 24px;
+        border: 1px solid #edf4f8;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(30, 90, 120, 0.12);
+    }
+
+    .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #f0f6fa;
+        margin-bottom: 20px;
+    }
+
+    .order-id-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #123f63;
+    }
+
+    .invoice-tag {
+        font-size: 13px;
+        color: #5d788e;
+        background: #f1f7fa;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    .order-date {
+        color: #7992a4;
+        font-size: 14px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .status-pending {
+        background: #fff8e6;
+        color: #b7791f;
+    }
+
+    .status-confirmed {
+        background: #eef2ff;
+        color: #3730a3;
+    }
+
+    .status-shipped {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .status-delivered {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .status-cancelled {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .info-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #839bb0;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #163e60;
+    }
+
+    .btn-view-details {
+        background: #f0f7fa;
+        color: #0868b7;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px 20px;
+        text-decoration: none;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-view-details:hover {
+        background: #e1f0f7;
+        color: #064c87;
+    }
+
+    .btn-view-invoice {
+        background: linear-gradient(90deg, #0868b7, #05aaa4);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px 20px;
+        text-decoration: none;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-view-invoice:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(5, 170, 164, 0.25);
+    }
+
+    .empty-orders {
+        background: white;
+        border-radius: 24px;
+        padding: 60px 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(30, 90, 120, 0.07);
+    }
+
+    .empty-icon {
+        width: 90px;
+        height: 90px;
+        background: #eef7fc;
+        color: #0879c9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin: 0 auto 20px;
+    }
+</style>
+
+<section class="orders-page">
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="page-header">
+            <div class="page-badge">
+                <i class="fa-solid fa-box-open me-2"></i>Order History
+            </div>
+            <h1>My Orders</h1>
+            <p>Track your past purchases, view order details, and download invoices.</p>
+        </div>
+
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-card-header">
+                    <div>
+                        <span class="order-id-title">Order #{{ order.id }}</span>
+                        {% if order.invoice_number %}
+                            <span class="invoice-tag"><i class="fa-solid fa-file-invoice me-1"></i>{{ order.invoice_number }}</span>
+                        {% endif %}
+                        <div class="order-date mt-1">
+                            <i class="fa-regular fa-calendar-alt me-1"></i>Placed on {{ order.created_at|date:"d M Y, H:i" }}
+                        </div>
+                    </div>
+                    <div>
+                        {% if order.status == 'pending' %}
+                            <span class="status-badge status-pending"><i class="fa-solid fa-clock me-1"></i>Pending</span>
+                        {% elif order.status == 'confirmed' %}
+                            <span class="status-badge status-confirmed"><i class="fa-solid fa-circle-check me-1"></i>Confirmed</span>
+                        {% elif order.status == 'shipped' %}
+                            <span class="status-badge status-shipped"><i class="fa-solid fa-truck-fast me-1"></i>Shipped</span>
+                        {% elif order.status == 'delivered' %}
+                            <span class="status-badge status-delivered"><i class="fa-solid fa-box-archive me-1"></i>Delivered</span>
+                        {% else %}
+                            <span class="status-badge status-cancelled"><i class="fa-solid fa-circle-xmark me-1"></i>Cancelled</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row align-items-center g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="info-label">Total Amount</div>
+                        <div class="info-value">₹{{ order.total_amount|floatformat:2 }}</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-label">Payment Method</div>
+                        <div class="info-value">{{ order.get_payment_method_display }}</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-label">Items Count</div>
+                        <div class="info-value">{{ order.items.count }} Item{% if order.items.count != 1 %}s{% endif %}</div>
+                    </div>
+                    <div class="col-12 col-md-3 text-md-end">
+                        <div class="d-flex gap-2 justify-content-md-end flex-wrap">
+                            <a href="{% url 'orders:order_detail' order.id %}" class="btn-view-details">
+                                <i class="fa-solid fa-circle-info"></i> View Details
+                            </a>
+                            <a href="{% url 'orders:invoice' order.id %}" class="btn-view-invoice">
+                                <i class="fa-solid fa-receipt"></i> View Invoice
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-orders">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2">No orders placed yet</h3>
+                <p class="text-muted mb-4">When you purchase items on MediNest, your order details and invoices will appear here.</p>
+                <a href="{% url 'products:product_list' %}" class="btn-view-invoice">
+                    <i class="fa-solid fa-cart-plus me-1"></i> Start Shopping
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

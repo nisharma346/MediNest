@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediNest | Appointment Details #{{ appointment.id }}
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'appointments:my_appointments' %}" class="text-decoration-none">My Appointments</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Appointment #{{ appointment.id }}</li>
+            </ol>
+        </nav>
+
+        <div id="alert-container">
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                    <div class="card-header bg-white p-4 border-bottom d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <h4 class="fw-bold mb-1">Appointment Details</h4>
+                            <p class="text-muted small mb-0">Reference Code: #{{ appointment.id }}</p>
+                        </div>
+
+                        <div class="d-flex gap-2 align-items-center">
+                            {% if appointment.payment_status == 'paid' %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-shield-check me-1"></i> Payment Paid
+                            </span>
+                            {% elif appointment.payment_status == 'failed' %}
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-circle-xmark me-1"></i> Payment Failed
+                            </span>
+                            {% else %}
+                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-clock me-1"></i> Payment Pending
+                            </span>
+                            {% endif %}
+
+                            {% if appointment.status == 'Confirmed' %}
+                            <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-calendar-check me-1"></i> Confirmed
+                            </span>
+                            {% elif appointment.status == 'Completed' %}
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-circle-check me-1"></i> Completed
+                            </span>
+                            {% elif appointment.status == 'Cancelled' %}
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa-solid fa-circle-xmark me-1"></i> Cancelled
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Doctor Info -->
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-4 border mb-4">
+                            {% if appointment.doctor.profile_image %}
+                            <img src="{{ appointment.doctor.profile_image.url }}" class="rounded-circle shadow-sm"
+                                style="width: 70px; height: 70px; object-fit: cover;" alt="{{ appointment.doctor.name }}">
+                            {% else %}
+                            <div class="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center"
+                                style="width: 70px; height: 70px; font-size: 35px;">
+                                👨‍⚕️
+                            </div>
+                            {% endif %}
+
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold mb-1">Dr. {{ appointment.doctor.name }}</h5>
+                                <div class="text-primary small fw-semibold">{{ appointment.doctor.specialization }}</div>
+                                <div class="text-muted small">{{ appointment.doctor.qualification }} ({{ appointment.doctor.experience }} yrs exp)</div>
+                            </div>
+
+                            <a href="{% url 'doctors:doctor_detail' appointment.doctor.id %}" class="btn btn-outline-primary btn-sm rounded-3">
+                                Doctor Profile
+                            </a>
+                        </div>
+
+                        <!-- Schedule & Patient Details -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div class="border rounded-3 p-3 h-100 bg-white">
+                                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">
+                                        <i class="fa-regular fa-calendar-check me-2 text-primary"></i> Schedule Details
+                                    </h6>
+                                    <p class="mb-2">
+                                        <strong>Date:</strong> {{ appointment.appointment_date }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Time:</strong> {{ appointment.appointment_time|time:"h:i A" }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Consultation Fee:</strong> <span class="fw-bold text-success">₹{{ appointment.consultation_fee }}</span>
+                                    </p>
+                                    <p class="mb-0 text-muted small">
+                                        <strong>Booked On:</strong> {{ appointment.created_at|date:"M d, Y, h:i A" }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="border rounded-3 p-3 h-100 bg-white">
+                                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">
+                                        <i class="fa-regular fa-user me-2 text-primary"></i> Patient Info
+                                    </h6>
+                                    <p class="mb-2">
+                                        <strong>Name:</strong> {{ appointment.patient_name }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Phone:</strong> {{ appointment.phone }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Email:</strong> {{ appointment.email }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <div class="border rounded-3 p-3 bg-white mb-4">
+                            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">
+                                <i class="fa-solid fa-credit-card me-2 text-primary"></i> Payment Details
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <p class="mb-1 text-muted small">Payment Method</p>
+                                    <p class="fw-semibold text-dark mb-0">Razorpay (Online)</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="mb-1 text-muted small">Payment Status</p>
+                                    <p class="fw-bold mb-0">
+                                        {% if appointment.payment_status == 'paid' %}
+                                        <span class="text-success"><i class="fa-solid fa-circle-check me-1"></i> Paid</span>
+                                        {% elif appointment.payment_status == 'failed' %}
+                                        <span class="text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> Failed</span>
+                                        {% else %}
+                                        <span class="text-warning-emphasis"><i class="fa-solid fa-clock me-1"></i> Pending</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                {% if appointment.razorpay_payment_id %}
+                                <div class="col-12">
+                                    <p class="mb-1 text-muted small">Razorpay Payment ID</p>
+                                    <p class="fw-mono mb-0"><code>{{ appointment.razorpay_payment_id }}</code></p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Symptoms / Message -->
+                        <div class="border rounded-3 p-3 bg-white mb-4">
+                            <h6 class="fw-bold text-dark border-bottom pb-2 mb-2">
+                                <i class="fa-solid fa-notes-medical me-2 text-primary"></i> Symptoms / Reason for Consultation
+                            </h6>
+                            <p class="mb-0 text-secondary">
+                                {% if appointment.symptoms %}
+                                {{ appointment.symptoms }}
+                                {% else %}
+                                <em>No symptoms specified.</em>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top">
+                            <a href="{% url 'appointments:my_appointments' %}" class="btn btn-outline-secondary rounded-3">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Back to My Appointments
+                            </a>
+
+                            <div class="d-flex gap-2">
+                                {% if appointment.payment_status != 'paid' and appointment.status != 'Cancelled' %}
+                                <button type="button" id="retry-pay-btn" class="btn btn-success rounded-3">
+                                    <i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}
+                                </button>
+                                {% endif %}
+
+                                {% if can_cancel %}
+                                <button type="button" class="btn btn-outline-danger rounded-3" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                    <i class="fa-solid fa-circle-xmark me-1"></i> Cancel Appointment
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Information -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-info text-primary me-2"></i> Important Notes</h5>
+                        <ul class="text-muted small ps-3 mb-0 leading-relaxed">
+                            <li class="mb-2">Payment must be completed to guarantee your consultation slot.</li>
+                            <li class="mb-2">Please arrive 15 minutes before your scheduled appointment time.</li>
+                            <li class="mb-2">Bring any relevant medical history documents or prior prescriptions.</li>
+                            <li>For emergencies, please contact MediNest support or visit the nearest healthcare facility.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% if can_cancel %}
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-danger" id="cancelModalLabel">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i> Confirm Cancellation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <p class="fs-5 text-dark mb-2">Are you sure you want to cancel this appointment?</p>
+                <p class="text-muted small mb-0">
+                    Appointment <strong>#{{ appointment.id }}</strong> with <strong>Dr. {{ appointment.doctor.name }}</strong> scheduled for {{ appointment.appointment_date }} at {{ appointment.appointment_time|time:"h:i A" }}.
+                </p>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-light rounded-3 px-4" data-bs-dismiss="modal">Keep Appointment</button>
+                <form method="post" action="{% url 'appointments:cancel_appointment' appointment.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger rounded-3 px-4">Yes, Cancel Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if appointment.payment_status != 'paid' and appointment.status != 'Cancelled' %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const retryBtn = document.getElementById('retry-pay-btn');
+    if (!retryBtn) return;
+
+    retryBtn.addEventListener('click', async function() {
+        retryBtn.disabled = true;
+        retryBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Initializing...';
+
+        try {
+            const response = await fetch('{% url "appointments:retry_payment" appointment.id %}', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                alert(data.message || 'Payment initialization failed.');
+                retryBtn.disabled = false;
+                retryBtn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}';
+                return;
+            }
+
+            const options = {
+                key: data.key,
+                amount: data.amount,
+                currency: data.currency,
+                name: 'MediNest Healthcare',
+                description: 'Doctor Consultation - Dr. ' + data.doctor_name,
+                order_id: data.razorpay_order_id,
+                prefill: {
+                    name: data.patient_name,
+                    email: data.patient_email,
+                    contact: data.patient_phone
+                },
+                theme: {
+                    color: '#0750a0'
+                },
+                handler: function(razorpayResponse) {
+                    const callbackData = new FormData();
+                    callbackData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                    callbackData.append('appointment_id', data.appointment_id);
+                    callbackData.append('payment_id', razorpayResponse.razorpay_payment_id);
+                    callbackData.append('razorpay_order_id', razorpayResponse.razorpay_order_id);
+                    callbackData.append('signature', razorpayResponse.razorpay_signature);
+
+                    fetch('{% url "appointments:payment_callback" %}', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: callbackData
+                    })
+                    .then(res => res.json())
+                    .then(resData => {
+                        if (resData.success && resData.redirect_url) {
+                            window.location.href = resData.redirect_url;
+                        } else {
+                            alert(resData.message || 'Payment verification failed.');
+                            retryBtn.disabled = false;
+                            retryBtn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}';
+                        }
+                    })
+                    .catch(() => {
+                        alert('Payment verification server error.');
+                        retryBtn.disabled = false;
+                        retryBtn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}';
+                    });
+                },
+                modal: {
+                    ondismiss: function() {
+                        retryBtn.disabled = false;
+                        retryBtn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}';
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+
+        } catch (err) {
+            alert('Error connecting to payment server.');
+            retryBtn.disabled = false;
+            retryBtn.innerHTML = '<i class="fa-solid fa-credit-card me-1"></i> Pay Now ₹{{ appointment.consultation_fee }}';
+        }
+    });
+});
+</script>
+{% endif %}
+
+{% endblock %}

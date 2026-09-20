@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .order-detail-page {
+        background: #f5fbfd;
+        min-height: 85vh;
+        padding: 50px 0 80px;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #0879c9;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 15px;
+        transition: 0.2s;
+    }
+
+    .back-link:hover {
+        color: #055996;
+        transform: translateX(-3px);
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(30, 90, 120, 0.07);
+        margin-bottom: 25px;
+        border: 1px solid #edf4f8;
+    }
+
+    .card-title-custom {
+        font-size: 20px;
+        font-weight: 800;
+        color: #123f63;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .card-title-custom i {
+        color: #0879c9;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .status-pending { background: #fff8e6; color: #b7791f; }
+    .status-confirmed { background: #eef2ff; color: #3730a3; }
+    .status-shipped { background: #e0f2fe; color: #0284c7; }
+    .status-delivered { background: #ecfdf5; color: #047857; }
+    .status-cancelled { background: #fef2f2; color: #b91c1c; }
+
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .items-table th {
+        color: #56738b;
+        font-size: 12px;
+        text-transform: uppercase;
+        padding: 12px 10px;
+        border-bottom: 2px solid #edf4f7;
+        text-align: left;
+    }
+
+    .items-table td {
+        padding: 16px 10px;
+        border-bottom: 1px solid #f2f7fa;
+        vertical-align: middle;
+    }
+
+    .product-thumb {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background: #f0f7f9;
+        object-fit: cover;
+    }
+
+    .product-title {
+        font-weight: 700;
+        color: #173f61;
+        font-size: 15px;
+    }
+
+    .product-cat {
+        font-size: 13px;
+        color: #7d94a5;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        color: #617789;
+        font-size: 15px;
+    }
+
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        border-top: 2px dashed #dce8ed;
+        margin-top: 15px;
+        padding-top: 18px;
+        color: #123f63;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .btn-invoice {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(90deg, #0868b7, #05aaa4);
+        color: white;
+        border-radius: 12px;
+        padding: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    .btn-invoice:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(5, 170, 164, 0.25);
+    }
+
+    .btn-back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #eef7fc;
+        color: #0868b7;
+        border-radius: 12px;
+        padding: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    .btn-back:hover {
+        background: #e1f0f7;
+        color: #055996;
+    }
+
+    .info-group {
+        margin-bottom: 12px;
+    }
+
+    .info-group-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #839bb0;
+        font-weight: 600;
+    }
+
+    .info-group-value {
+        font-size: 15px;
+        font-weight: 700;
+        color: #163e60;
+    }
+</style>
+
+<section class="order-detail-page">
+    <div class="container">
+        
+        <a href="{% url 'orders:my_orders' %}" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to My Orders
+        </a>
+
+        <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h1 class="h2 fw-bold text-dark mb-1">Order #{{ order.id }}</h1>
+                <div class="text-muted small">
+                    Placed on {{ order.created_at|date:"d M Y, H:i" }}
+                    {% if order.invoice_number %}
+                        | <span class="fw-semibold text-primary">Invoice: {{ order.invoice_number }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                {% if order.status == 'pending' %}
+                    <span class="status-badge status-pending"><i class="fa-solid fa-clock me-1"></i>Pending</span>
+                {% elif order.status == 'confirmed' %}
+                    <span class="status-badge status-confirmed"><i class="fa-solid fa-circle-check me-1"></i>Confirmed</span>
+                {% elif order.status == 'shipped' %}
+                    <span class="status-badge status-shipped"><i class="fa-solid fa-truck-fast me-1"></i>Shipped</span>
+                {% elif order.status == 'delivered' %}
+                    <span class="status-badge status-delivered"><i class="fa-solid fa-box-archive me-1"></i>Delivered</span>
+                {% else %}
+                    <span class="status-badge status-cancelled"><i class="fa-solid fa-circle-xmark me-1"></i>Cancelled</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-4">
+            
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                
+                <!-- Items Card -->
+                <div class="detail-card">
+                    <div class="card-title-custom">
+                        <i class="fa-solid fa-boxes-packing"></i> Order Items
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" class="product-thumb" alt="{{ item.product.name }}">
+                                            {% else %}
+                                                <div class="product-thumb d-flex align-items-center justify-content-center">
+                                                    <i class="fa-solid fa-pills text-primary"></i>
+                                                </div>
+                                            {% endif %}
+                                            <div>
+                                                <div class="product-title">{{ item.product.name }}</div>
+                                                {% if item.product.category %}
+                                                    <div class="product-cat">{{ item.product.category.name }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center fw-semibold text-secondary">₹{{ item.price|floatformat:2 }}</td>
+                                    <td class="text-center fw-bold text-dark">{{ item.quantity }}</td>
+                                    <td class="text-end fw-bold text-primary">₹{{ item.subtotal|floatformat:2 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Delivery Address Card -->
+                <div class="detail-card">
+                    <div class="card-title-custom">
+                        <i class="fa-solid fa-location-dot"></i> Delivery Address
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <div class="info-group-label">Recipient Name</div>
+                                <div class="info-group-value">{{ order.full_name }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <div class="info-group-label">Phone Number</div>
+                                <div class="info-group-value">{{ order.phone }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="info-group mb-0">
+                                <div class="info-group-label">Address</div>
+                                <div class="info-group-value">
+                                    {{ order.address_line1 }}{% if order.address_line2 %}, {{ order.address_line2 }}{% endif %}<br>
+                                    {{ order.city }}, {{ order.state }} - {{ order.pincode }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                
+                <!-- Payment Summary Card -->
+                <div class="detail-card">
+                    <div class="card-title-custom">
+                        <i class="fa-solid fa-receipt"></i> Payment Summary
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Payment Method</span>
+                        <strong>{{ order.get_payment_method_display }}</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Invoice Number</span>
+                        <strong>{{ order.invoice_number|default:"Processing" }}</strong>
+                    </div>
+
+                    {% if order.paid_at %}
+                    <div class="summary-row">
+                        <span>Paid At</span>
+                        <strong>{{ order.paid_at|date:"d M Y, H:i" }}</strong>
+                    </div>
+                    {% endif %}
+
+                    <hr class="my-3 text-secondary opacity-25">
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <strong>₹{{ order.total_amount|floatformat:2 }}</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <strong class="text-success">FREE</strong>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total Paid</span>
+                        <span>₹{{ order.total_amount|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{% url 'orders:invoice' order.id %}" class="btn-invoice">
+                            <i class="fa-solid fa-file-invoice"></i> View Invoice
+                        </a>
+                        <a href="{% url 'orders:my_orders' %}" class="btn-back">
+                            <i class="fa-solid fa-list-ul"></i> My Orders
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

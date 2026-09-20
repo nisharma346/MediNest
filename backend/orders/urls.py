@@ -1,12 +1,31 @@
 from django.urls import path
 
-from .views import checkout, order_success, payment_callback, invoice
+from .views import (
+    checkout,
+    order_success,
+    payment_callback,
+    invoice,
+    my_orders,
+    order_detail,
+)
 
 
 app_name = "orders"
 
 
 urlpatterns = [
+
+    path(
+        "my-orders/",
+        my_orders,
+        name="my_orders"
+    ),
+
+    path(
+        "detail/<int:order_id>/",
+        order_detail,
+        name="order_detail"
+    ),
 
     path(
         "checkout/",

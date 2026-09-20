@@ -65,7 +65,7 @@
                 </button>
 
                 <!-- Cart -->
-                <a href="#" class="nav-icon-btn" title="Cart">
+                <a href="{% url 'cart:cart_detail' %}" class="nav-icon-btn" title="Cart">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
 
@@ -76,22 +76,29 @@
 
                     <button class="user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-user me-1"></i>
                         {{ user.username }}
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end">
 
                         <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-user me-2"></i>
-                                My Profile
+                            <a class="dropdown-item" href="{% url 'orders:my_orders' %}">
+                                <i class="fa-solid fa-box-open me-2 text-primary"></i>
+                                My Orders
                             </a>
                         </li>
 
                         <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-cart-shopping me-2"></i>
+                            <a class="dropdown-item" href="{% url 'appointments:my_appointments' %}">
+                                <i class="fa-solid fa-calendar-check me-2 text-primary"></i>
+                                My Appointments
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'cart:cart_detail' %}">
+                                <i class="fa-solid fa-cart-shopping me-2 text-primary"></i>
                                 My Cart
                             </a>
                         </li>

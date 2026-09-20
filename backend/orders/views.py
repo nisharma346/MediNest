@@ -6,7 +6,7 @@ import razorpay
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -217,8 +217,8 @@ def payment_callback(request):
 
 @login_required
 def order_success(request, order_id):
-
-    order = Order.objects.get(
+    order = get_object_or_404(
+        Order,
         id=order_id,
         user=request.user
     )
@@ -238,7 +238,7 @@ def order_success(request, order_id):
 
 @login_required
 def invoice(request, order_id):
-    order = Order.objects.get(id=order_id, user=request.user)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
     if not order.invoice_number:
         order.invoice_number = _generate_invoice_number(order)
         order.save(update_fields=["invoice_number"])
@@ -246,5 +246,25 @@ def invoice(request, order_id):
     return render(
         request,
         "orders/invoice.html",
+        {"order": order},
+    )
+
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+    return render(
+        request,
+        "orders/my_orders.html",
+        {"orders": orders},
+    )
+
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(
+        request,
+        "orders/order_detail.html",
         {"order": order},
     )
