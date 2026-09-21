@@ -12,7 +12,7 @@
                 #eaf8ff 0%,
                 #f3fbff 55%,
                 #e9faf4 100%);
-        padding: 90px 0 70px;
+        padding: 80px 0 70px;
         overflow: hidden;
     }
 
@@ -24,7 +24,7 @@
         color: #075bb5;
         border: 1px solid #dcecf8;
         border-radius: 30px;
-        padding: 9px 16px;
+        padding: 9px 18px;
         font-size: 14px;
         font-weight: 600;
         margin-bottom: 22px;
@@ -32,8 +32,8 @@
     }
 
     .hero-title {
-        font-size: 52px;
-        line-height: 1.08;
+        font-size: 50px;
+        line-height: 1.12;
         font-weight: 800;
         color: #102a43;
         margin-bottom: 22px;
@@ -44,9 +44,9 @@
     }
 
     .hero-description {
-        font-size: 17px;
-        line-height: 1.8;
-        color: #61758a;
+        font-size: 16.5px;
+        line-height: 1.75;
+        color: #52677d;
         max-width: 620px;
         margin-bottom: 30px;
     }
@@ -59,34 +59,34 @@
 
     .hero-btn-primary {
         background: linear-gradient(90deg, #063f91, #0099a8);
-        color: white;
-        padding: 14px 25px;
-        border-radius: 12px;
+        color: white !important;
+        padding: 14px 28px;
+        border-radius: 50px;
         text-decoration: none;
         font-weight: 600;
         border: none;
-        transition: 0.3s;
+        transition: all 0.3s ease;
     }
 
     .hero-btn-primary:hover {
-        color: white;
+        color: white !important;
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0, 100, 160, 0.20);
+        box-shadow: 0 10px 25px rgba(0, 100, 160, 0.22);
     }
 
     .hero-btn-secondary {
         background: white;
-        color: #19324d;
-        padding: 14px 25px;
-        border-radius: 12px;
+        color: #19324d !important;
+        padding: 14px 28px;
+        border-radius: 50px;
         text-decoration: none;
         font-weight: 600;
         border: 1px solid #dce5ec;
-        transition: 0.3s;
+        transition: all 0.3s ease;
     }
 
     .hero-btn-secondary:hover {
-        color: #19324d;
+        color: #063f91 !important;
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     }
@@ -106,21 +106,20 @@
 
     .hero-image-card img {
         width: 100%;
-        height: 420px;
+        height: 400px;
         object-fit: cover;
-        object-position: 100% center;
         border-radius: 20px;
-        transform: scale(1.10);
     }
 
     /* =========================
-       STATS
+       STATS SECTION
     ========================= */
 
     .stats-section {
         background: white;
-        padding: 25px 0;
+        padding: 30px 0;
         border-bottom: 1px solid #edf2f5;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
     }
 
     .stat-item {
@@ -129,22 +128,23 @@
     }
 
     .stat-number {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 800;
-        color: #102a43;
+        color: #0b3d91;
     }
 
     .stat-label {
-        color: #718096;
-        font-size: 14px;
+        color: #64748b;
+        font-size: 14.5px;
+        font-weight: 600;
     }
 
     /* =========================
-       GENERAL SECTION
+       GENERAL SECTIONS
     ========================= */
 
     .home-section {
-        padding: 80px 0;
+        padding: 75px 0;
     }
 
     .section-heading {
@@ -154,14 +154,15 @@
 
     .section-heading h2 {
         color: #102a43;
-        font-weight: 750;
+        font-weight: 800;
         font-size: 36px;
     }
 
     .section-heading p {
-        color: #718096;
+        color: #64748b;
         max-width: 650px;
-        margin: 12px auto 0;
+        margin: 10px auto 0;
+        font-size: 16px;
     }
 
     /* =========================
@@ -172,21 +173,21 @@
         height: 100%;
         background: white;
         border: 1px solid #edf2f5;
-        border-radius: 18px;
-        padding: 26px;
-        transition: 0.3s;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+        border-radius: 20px;
+        padding: 28px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
     }
 
     .service-card:hover {
-        transform: translateY(-7px);
+        transform: translateY(-6px);
         box-shadow: 0 15px 35px rgba(0, 80, 120, 0.10);
     }
 
     .service-icon {
         width: 55px;
         height: 55px;
-        border-radius: 15px;
+        border-radius: 16px;
         background: #eaf7f5;
         color: #008b78;
         display: flex;
@@ -199,12 +200,14 @@
     .service-card h5 {
         color: #19324d;
         font-weight: 700;
+        margin-bottom: 10px;
     }
 
     .service-card p {
-        color: #718096;
+        color: #64748b;
         font-size: 14px;
-        line-height: 1.7;
+        line-height: 1.6;
+        margin-bottom: 0;
     }
 
     /* =========================
@@ -214,15 +217,15 @@
     .doctor-card {
         height: 100%;
         background: white;
-        border-radius: 18px;
+        border-radius: 20px;
         overflow: hidden;
         border: 1px solid #edf2f5;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-        transition: 0.3s;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
     .doctor-card:hover {
-        transform: translateY(-7px);
+        transform: translateY(-6px);
         box-shadow: 0 15px 35px rgba(0, 80, 120, 0.12);
     }
 
@@ -241,18 +244,22 @@
         color: #078875;
         font-size: 13px;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .doctor-content h5 {
         color: #19324d;
         font-weight: 700;
         margin-top: 5px;
+        margin-bottom: 10px;
     }
 
     .doctor-meta {
-        color: #718096;
-        font-size: 14px;
-        margin-bottom: 15px;
+        color: #64748b;
+        font-size: 13.5px;
+        margin-bottom: 18px;
+        line-height: 1.6;
     }
 
     /* =========================
@@ -262,15 +269,15 @@
     .product-card {
         height: 100%;
         background: white;
-        border-radius: 18px;
+        border-radius: 20px;
         overflow: hidden;
         border: 1px solid #edf2f5;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-        transition: 0.3s;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
     .product-card:hover {
-        transform: translateY(-7px);
+        transform: translateY(-6px);
         box-shadow: 0 15px 35px rgba(0, 80, 120, 0.12);
     }
 
@@ -289,17 +296,19 @@
         color: #078875;
         font-size: 13px;
         font-weight: 600;
+        text-transform: uppercase;
     }
 
     .product-content h5 {
         color: #19324d;
         font-weight: 700;
-        margin: 7px 0;
+        margin: 6px 0;
+        font-size: 18px;
     }
 
     .product-price {
         font-size: 19px;
-        color: #087c67;
+        color: #0b3d91;
         font-weight: 700;
     }
 
@@ -315,13 +324,38 @@
         background: #e6f7ef;
         color: #087c67;
         border-radius: 20px;
-        padding: 4px 9px;
+        padding: 3px 10px;
         font-size: 12px;
         font-weight: 700;
     }
 
+    .wishlist-toggle-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.92);
+        color: #475569;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+        transition: all 0.25s ease;
+        z-index: 2;
+    }
+
+    .wishlist-toggle-btn:hover {
+        background: #fff1f2;
+        color: #e11d48;
+    }
+
+    .wishlist-toggle-btn.active {
+        background: #ffe4e6;
+        color: #e11d48;
+    }
+
     /* =========================
-       WHY MEDINEST
+       WHY SECTION
     ========================= */
 
     .why-section {
@@ -330,10 +364,11 @@
 
     .why-card {
         background: white;
-        border-radius: 18px;
+        border-radius: 20px;
         padding: 28px;
         height: 100%;
         border: 1px solid #edf2f5;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
     }
 
     .why-icon {
@@ -348,25 +383,27 @@
     }
 
     .why-card p {
-        color: #718096;
+        color: #64748b;
         font-size: 14px;
-        line-height: 1.7;
+        line-height: 1.65;
+        margin-bottom: 0;
     }
 
     /* =========================
-       CTA
+       CTA SECTION
     ========================= */
 
     .cta-section {
-        padding: 80px 0;
+        padding: 75px 0;
     }
 
     .cta-box {
         background: linear-gradient(110deg, #073d8c, #008d91);
         color: white;
-        border-radius: 25px;
-        padding: 55px;
+        border-radius: 28px;
+        padding: 55px 30px;
         text-align: center;
+        box-shadow: 0 12px 40px rgba(7, 61, 140, 0.2);
     }
 
     .cta-box h2 {
@@ -375,52 +412,53 @@
     }
 
     .cta-box p {
-        opacity: 0.9;
+        opacity: 0.92;
         max-width: 650px;
         margin: 0 auto 25px;
+        font-size: 16.5px;
     }
 
     .cta-btn {
         display: inline-block;
         background: white;
-        color: #073d8c;
-        padding: 13px 25px;
-        border-radius: 10px;
+        color: #073d8c !important;
+        padding: 14px 30px;
+        border-radius: 50px;
         text-decoration: none;
         font-weight: 700;
+        transition: all 0.3s ease;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
+    .cta-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
 
     @media (max-width: 991px) {
-
         .hero-title {
-            font-size: 42px;
+            font-size: 40px;
         }
 
         .hero-image-card {
-            margin-top: 40px;
+            margin-top: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
         }
     }
 
     @media (max-width: 576px) {
-
         .hero-section {
-            padding: 60px 0;
+            padding: 50px 0;
         }
 
         .hero-title {
-            font-size: 36px;
+            font-size: 32px;
         }
 
         .hero-description {
             font-size: 15px;
-        }
-
-        .section-heading h2 {
-            font-size: 30px;
         }
 
         .cta-box {
@@ -430,18 +468,12 @@
 </style>
 
 
-<!-- =========================
-     HERO
-========================= -->
-
+<!-- HERO SECTION -->
 <section class="hero-section">
-
     <div class="container">
-
         <div class="row align-items-center">
 
             <div class="col-lg-7">
-
                 <div class="hero-badge">
                     <i class="fa-solid fa-shield-heart"></i>
                     Your Health. Your Care. Your Nest.
@@ -455,571 +487,386 @@
                 </h1>
 
                 <p class="hero-description">
-                    MediNest brings together trusted doctors, genuine
-                    healthcare products and useful health information
-                    in one convenient place. Book consultations,
-                    explore healthcare products and take better care
-                    of your health.
+                    MediNest brings together trusted doctors, genuine healthcare products, and vital wellness services into one seamless platform. Book consultations, order medicines, and manage your family's health effortlessly.
                 </p>
 
                 <div class="hero-buttons">
-
                     <a href="{% url 'doctors:doctor_list' %}" class="hero-btn-primary">
-
-                        <i class="fa-regular fa-calendar-check me-2"></i>
-                        Book an Appointment
-
+                        <i class="fa-regular fa-calendar-check me-2"></i> Find a Doctor
                     </a>
-
                     <a href="{% url 'products:product_list' %}" class="hero-btn-secondary">
-
-                        <i class="fa-solid fa-bag-shopping me-2"></i>
-                        Shop Healthcare Products
-
+                        <i class="fa-solid fa-bag-shopping me-2"></i> Shop Products
                     </a>
-
                 </div>
-
             </div>
 
-
             <div class="col-lg-5">
-
                 <div class="hero-image-wrapper">
-
                     <div class="hero-image-card">
-
-                        <img src="/media/medinest_hero_image.png" alt="MediNest Healthcare">
-
-
+                        <img src="/media/medinest_hero_image.png" alt="MediNest Healthcare" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80';">
                     </div>
-
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </section>
 
 
-<!-- =========================
-     STATS
-========================= -->
-
+<!-- STATS SECTION (DYNAMIC FROM DB) -->
 <section class="stats-section">
-
     <div class="container">
-
         <div class="row">
 
             <div class="col-md-4">
                 <div class="stat-item">
-                    <div class="stat-number">1,200+</div>
-                    <div class="stat-label">Healthcare Products</div>
+                    <div class="stat-number">{{ total_products_count }}+</div>
+                    <div class="stat-label">Healthcare Products Available</div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="stat-item">
-                    <div class="stat-number">45+</div>
-                    <div class="stat-label">Qualified Doctors</div>
+                    <div class="stat-number">{{ total_doctors_count }}+</div>
+                    <div class="stat-label">Qualified Medical Doctors</div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="stat-item">
-                    <div class="stat-number">4.8/5</div>
-                    <div class="stat-label">Patient Experience</div>
+                    <div class="stat-number">⭐ {{ avg_patient_rating }}/5</div>
+                    <div class="stat-label">Patient Feedback Rating</div>
                 </div>
             </div>
 
         </div>
-
     </div>
-
 </section>
 
 
-<!-- =========================
-     SERVICES
-========================= -->
-
+<!-- SERVICES SECTION -->
 <section class="home-section">
-
     <div class="container">
-
         <div class="section-heading">
-
             <h2>Healthcare Services</h2>
-
-            <p>
-                Everything you need for convenient and reliable
-                healthcare, all in one place.
-            </p>
-
+            <p>Everything you need for convenient and reliable healthcare, all in one place.</p>
         </div>
 
         <div class="row g-4">
-
             {% for service in services %}
-
             <div class="col-md-6 col-lg-4">
-
                 <div class="service-card">
-
                     <div class="service-icon">
-
                         {% if service.icon %}
                         <i class="{{ service.icon }}"></i>
                         {% else %}
                         <i class="fa-solid fa-heart-pulse"></i>
                         {% endif %}
-
                     </div>
-
                     <h5>{{ service.name }}</h5>
-
-                    <p>
-                        {{ service.short_description }}
-                    </p>
-
+                    <p>{{ service.short_description }}</p>
                 </div>
-
             </div>
-
             {% empty %}
-
-            <div class="col-12 text-center">
-                <p class="text-muted">
-                    Healthcare services will appear here.
-                </p>
+            <div class="col-12 text-center py-4">
+                <p class="text-muted mb-0">Healthcare services will appear here once added from admin panel.</p>
             </div>
-
             {% endfor %}
-
         </div>
 
+        {% if services %}
+        <div class="text-center mt-4">
+            <a href="{% url 'core:services' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-list me-2"></i> View All Services
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </section>
 
 
-<!-- =========================
-     DOCTORS
-========================= -->
-
+<!-- FEATURED DOCTORS SECTION -->
 <section class="home-section why-section">
-
     <div class="container">
-
         <div class="section-heading">
-
             <h2>Meet Our Doctors</h2>
-
-            <p>
-                Connect with qualified healthcare professionals
-                for your healthcare needs.
-            </p>
-
+            <p>Connect with qualified healthcare professionals for online & in-person consultations.</p>
         </div>
 
         <div class="row g-4">
-
             {% for doctor in featured_doctors %}
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="doctor-card">
-
                     {% if doctor.profile_image %}
-
                     <img src="{{ doctor.profile_image.url }}" class="doctor-image" alt="{{ doctor.name }}">
-
                     {% else %}
-
                     <div class="doctor-image d-flex align-items-center justify-content-center">
-
-                        <i class="fa-solid fa-user-doctor fa-4x text-secondary"></i>
-
+                        <i class="fa-solid fa-user-doctor fa-4x text-secondary opacity-50"></i>
                     </div>
-
                     {% endif %}
 
                     <div class="doctor-content">
-
                         <div class="doctor-specialization">
                             {{ doctor.specialization }}
                         </div>
 
-                        <h5>{{ doctor.name }}</h5>
+                        <h5>{{ doctor.display_name }}</h5>
 
                         <div class="doctor-meta">
-
-                            <i class="fa-solid fa-briefcase me-1"></i>
+                            <i class="fa-solid fa-briefcase me-1 text-primary"></i>
                             {{ doctor.experience }} years experience
-
                             <br>
-
-                            <i class="fa-solid fa-indian-rupee-sign me-1"></i>
-                            ₹{{ doctor.consultation_fee }}
-
+                            <i class="fa-solid fa-tag me-1 text-success"></i>
+                            Fee: ₹{{ doctor.consultation_fee|floatformat:2 }}
                         </div>
 
-                        <a href="{% url 'doctors:doctor_list' %}" class="btn btn-outline-primary w-100">
-
-                            View Doctor
-
+                        <a href="{% url 'appointments:book_appointment' doctor.id %}" class="btn btn-primary rounded-pill w-100 fw-semibold btn-sm py-2">
+                            <i class="fa-regular fa-calendar-check me-1"></i> Book Appointment
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted mb-0">No doctors listed currently. Check back soon!</p>
+            </div>
             {% endfor %}
-
         </div>
 
+        {% if featured_doctors %}
+        <div class="text-center mt-5">
+            <a href="{% url 'doctors:doctor_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-user-doctor me-2"></i> View All Doctors
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </section>
 
 
-<!-- =========================
-     PRODUCTS
-========================= -->
-
+<!-- FEATURED PRODUCTS SECTION -->
 <section class="home-section">
-
     <div class="container">
-
         <div class="section-heading">
-
             <h2>Featured Healthcare Products</h2>
-
-            <p>
-                Explore healthcare products carefully selected
-                for your everyday wellness needs.
-            </p>
-
+            <p>Explore healthcare products carefully selected for your everyday wellness needs.</p>
         </div>
 
         <div class="row g-4">
-
             {% for product in featured_products %}
-
             <div class="col-md-6 col-lg-4">
-
-                <div class="product-card">
+                <div class="product-card position-relative">
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'wishlist:add_to_wishlist' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit"
+                            class="wishlist-toggle-btn {% if product.id in wishlist_ids %}active{% endif %}"
+                            title="{% if product.id in wishlist_ids %}Added to Wishlist{% else %}Add to Wishlist{% endif %}">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}"
+                        class="wishlist-toggle-btn d-inline-flex align-items-center justify-content-center"
+                        title="Add to Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                    {% endif %}
 
                     {% if product.image %}
-
                     <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
-
                     {% else %}
-
                     <div class="product-image d-flex align-items-center justify-content-center">
-
-                        <i class="fa-solid fa-pills fa-4x text-secondary"></i>
-
+                        <i class="fa-solid fa-pills fa-4x text-secondary opacity-50"></i>
                     </div>
-
                     {% endif %}
 
                     <div class="product-content">
-
                         <div class="product-category">
                             {{ product.category.name }}
                         </div>
 
-                        <h5>
-                            {{ product.name }}
-                        </h5>
+                        <h5>{{ product.name }}</h5>
 
-                        <!-- Rating -->
+                        <!-- Rating Badge -->
                         <div class="product-rating mb-2">
                             {% if product.review_count > 0 %}
                                 <span class="text-warning">
                                     <i class="fa-solid fa-star"></i>
                                 </span>
-                                <span class="fw-bold text-dark ms-1" style="font-size: 14px;">{{ product.average_rating }}</span>
-                                <span class="text-muted" style="font-size: 13px;">({{ product.review_count }})</span>
+                                <span class="fw-bold text-dark ms-1" style="font-size: 13.5px;">{{ product.average_rating }}</span>
+                                <span class="text-muted" style="font-size: 12.5px;">({{ product.review_count }})</span>
                             {% else %}
-                                <span class="text-muted" style="font-size: 13px;">No reviews yet</span>
+                                <span class="text-muted" style="font-size: 12.5px;">No reviews yet</span>
                             {% endif %}
                         </div>
 
-
-                        <div class="mb-3">
-
+                        <div class="d-flex align-items-baseline gap-1 mb-2">
                             <span class="product-price">
                                 ₹{{ product.discounted_price|floatformat:2 }}
                             </span>
-
                             {% if product.discount_percentage > 0 %}
-
                             <span class="old-price">
                                 ₹{{ product.price|floatformat:2 }}
                             </span>
-
                             {% endif %}
-
                         </div>
 
                         {% if product.discount_percentage > 0 %}
-
-                        <span class="discount-badge">
+                        <span class="discount-badge mb-3">
                             {{ product.discount_percentage }}% OFF
                         </span>
-
                         {% endif %}
 
-                        <a href="{% url 'products:product_detail' product.slug %}"
-                            class="btn btn-outline-primary w-100 mt-3">
-                            View Details
-                        </a>
-
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary btn-sm rounded-pill fw-semibold py-2">
+                                <i class="fa-solid fa-cart-shopping me-1"></i> Add to Cart
+                            </a>
+                            <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-primary btn-sm rounded-pill fw-semibold py-2">
+                                <i class="fa-solid fa-eye me-1"></i> View Details
+                            </a>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
-
             {% empty %}
-
-            <div class="col-12 text-center">
-
-                <p class="text-muted">
-                    Products will appear here once added from the admin panel.
-                </p>
-
+            <div class="col-12 text-center py-4">
+                <p class="text-muted mb-0">Products will appear here once added from the admin panel.</p>
             </div>
-
             {% endfor %}
-
         </div>
 
+        {% if featured_products %}
+        <div class="text-center mt-5">
+            <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-bag-shopping me-2"></i> View All Products
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </section>
 
 
-<!-- =========================
-     LATEST HEALTH ARTICLES
-========================= -->
-
+<!-- LATEST HEALTH ARTICLES -->
 <section class="home-section bg-light-subtle">
-
     <div class="container">
-
         <div class="section-heading">
-
             <h2>Latest Health Articles</h2>
-
-            <p>
-                Informative health reads to help you make confident,
-                everyday wellness decisions.
-            </p>
-
+            <p>Informative health reads to help you make confident, everyday wellness decisions.</p>
         </div>
 
         <div class="row g-4">
-
             {% for article in latest_articles %}
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="product-card h-100">
-
                     {% if article.featured_image %}
-
                     <img src="{{ article.featured_image.url }}" class="product-image" alt="{{ article.title }}">
-
                     {% else %}
-
                     <div class="product-image d-flex align-items-center justify-content-center">
-                        <i class="fa-solid fa-newspaper fa-3x text-secondary"></i>
+                        <i class="fa-solid fa-newspaper fa-3x text-secondary opacity-50"></i>
                     </div>
-
                     {% endif %}
 
-                    <div class="product-content">
-
-                        <div class="product-category">
+                    <div class="product-content d-flex flex-column h-100">
+                        <div class="product-category mb-1">
                             {% if article.category %}{{ article.category.name }}{% endif %}
                         </div>
 
-                        <h5>{{ article.title }}</h5>
+                        <h5 style="font-size: 16px;">{{ article.title }}</h5>
 
-                        <p class="text-muted small mb-3">
-                            {{ article.short_description|truncatechars:100 }}
+                        <p class="text-muted small mb-3 flex-grow-1" style="line-height: 1.5;">
+                            {{ article.short_description|truncatechars:90 }}
                         </p>
 
-                        <a href="{% url 'blog:article_detail' article.slug %}"
-                            class="btn btn-outline-primary w-100 mt-2">
-                            Read More
+                        <a href="{% url 'blog:article_detail' article.slug %}" class="btn btn-outline-primary btn-sm rounded-pill w-100 mt-auto py-2 fw-semibold">
+                            Read More <i class="fa-solid fa-arrow-right ms-1"></i>
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
             {% empty %}
-
-            <div class="col-12 text-center">
-                <p class="text-muted">Health articles will appear here once published from the admin panel.</p>
+            <div class="col-12 text-center py-4">
+                <p class="text-muted mb-0">Health articles will appear here once published from admin panel.</p>
             </div>
-
             {% endfor %}
-
         </div>
 
+        {% if latest_articles %}
+        <div class="text-center mt-5">
+            <a href="{% url 'blog:article_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-newspaper me-2"></i> View All Articles
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </section>
 
 
-<!-- =========================
-     WHY CHOOSE MEDINEST
-========================= -->
-
+<!-- WHY CHOOSE MEDINEST -->
 <section class="home-section why-section">
-
     <div class="container">
-
         <div class="section-heading">
-
             <h2>Why Choose MediNest?</h2>
-
-            <p>
-                Designed to make everyday healthcare simpler,
-                more convenient and accessible.
-            </p>
-
+            <p>Designed to make everyday healthcare simpler, more convenient and accessible.</p>
         </div>
 
         <div class="row g-4">
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="why-card">
-
                     <div class="why-icon">
                         <i class="fa-solid fa-user-doctor"></i>
                     </div>
-
-                    <h5>Trusted Doctors</h5>
-
-                    <p>
-                        Connect with qualified healthcare
-                        professionals for consultations.
-                    </p>
-
+                    <h5>Verified Doctors</h5>
+                    <p>Connect with qualified healthcare professionals for your healthcare needs.</p>
                 </div>
-
             </div>
 
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="why-card">
-
                     <div class="why-icon">
                         <i class="fa-solid fa-shield-heart"></i>
                     </div>
-
                     <h5>Healthcare Focused</h5>
-
-                    <p>
-                        A platform designed around everyday
-                        healthcare and wellness needs.
-                    </p>
-
+                    <p>A platform designed around everyday healthcare and wellness needs.</p>
                 </div>
-
             </div>
 
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="why-card">
-
                     <div class="why-icon">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
-
                     <h5>Easy Shopping</h5>
-
-                    <p>
-                        Explore healthcare products and
-                        manage your shopping conveniently.
-                    </p>
-
+                    <p>Explore healthcare products and manage your shopping conveniently.</p>
                 </div>
-
             </div>
 
-
             <div class="col-md-6 col-lg-3">
-
                 <div class="why-card">
-
                     <div class="why-icon">
                         <i class="fa-solid fa-lock"></i>
                     </div>
-
                     <h5>Secure Experience</h5>
-
-                    <p>
-                        Your account and shopping experience
-                        are built with security in mind.
-                    </p>
-
+                    <p>Your account and shopping experience are built with security in mind.</p>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 
-<!-- =========================
-     CTA
-========================= -->
-
+<!-- CTA SECTION -->
 <section class="cta-section">
-
     <div class="container">
-
         <div class="cta-box">
-
-            <h2>
-                Start Your Health Journey Today
-            </h2>
-
-            <p>
-                Take a simple step towards better healthcare.
-                Explore our doctors, services and healthcare products.
-            </p>
-
+            <h2>Start Your Health Journey Today</h2>
+            <p>Take a simple step towards better healthcare. Explore our doctors, services and healthcare products.</p>
             <a href="{% url 'products:product_list' %}" class="cta-btn">
-                Explore MediNest
-                <i class="fa-solid fa-arrow-right ms-2"></i>
+                Explore MediNest <i class="fa-solid fa-arrow-right ms-2"></i>
             </a>
-
         </div>
-
     </div>
-
 </section>
 
 {% endblock %}

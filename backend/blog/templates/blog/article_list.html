@@ -28,7 +28,8 @@ MediNest | Health Articles
 
             <div class="row g-4">
                 {% for article in featured_articles %}
-                <div class="col-lg-4">
+                <div class="col-md-6 col-lg-4">
+
                     <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
                         {% if article.featured_image %}
                         <img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }}"

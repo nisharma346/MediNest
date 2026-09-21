@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 from django.utils import timezone
 
 from blog.models import Article
@@ -9,7 +9,9 @@ from products.models import Product, ProductReview
 from doctors.models import Doctor
 from appointments.models import Appointment
 from orders.models import Order
+from wishlist.models import WishlistItem
 from .models import Service
+
 
 User = get_user_model()
 
@@ -17,7 +19,7 @@ User = get_user_model()
 def home(request):
     featured_products = Product.objects.filter(
         is_active=True
-    ).order_by("-created_at")[:6]
+    ).select_related("category").order_by("-created_at")[:6]
 
     featured_doctors = Doctor.objects.filter(
         is_available=True
@@ -29,7 +31,20 @@ def home(request):
 
     latest_articles = Article.objects.filter(
         is_published=True
-    ).order_by("-published_date", "-created_at")[:4]
+    ).select_related("category").order_by("-published_date", "-created_at")[:4]
+
+    # Dynamic Statistics
+    total_products_count = Product.objects.filter(is_active=True).count()
+    total_doctors_count = Doctor.objects.filter(is_available=True).count()
+    avg_rating_val = ProductReview.objects.filter(is_approved=True).aggregate(Avg("rating"))["rating__avg"]
+    avg_patient_rating = round(avg_rating_val, 1) if avg_rating_val else 4.9
+
+    # Wishlist IDs for authenticated users
+    wishlist_ids = set()
+    if request.user.is_authenticated:
+        wishlist_ids = set(
+            WishlistItem.objects.filter(user=request.user).values_list("product_id", flat=True)
+        )
 
     return render(
         request,
@@ -39,8 +54,13 @@ def home(request):
             "featured_doctors": featured_doctors,
             "services": services,
             "latest_articles": latest_articles,
+            "total_products_count": total_products_count,
+            "total_doctors_count": total_doctors_count,
+            "avg_patient_rating": avg_patient_rating,
+            "wishlist_ids": wishlist_ids,
         }
     )
+
 
 
 def services(request):
