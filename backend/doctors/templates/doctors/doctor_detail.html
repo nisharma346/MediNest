@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-MediNest | Dr. {{ doctor.name }} Details
+MediNest | {{ doctor.display_name }} Details
 {% endblock %}
 
 {% block content %}
@@ -10,8 +10,9 @@ MediNest | Dr. {{ doctor.name }} Details
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_list' %}" class="text-decoration-none">Doctors</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dr. {{ doctor.name }}</li>
+                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_list' %}"
+                        class="text-decoration-none">Doctors</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ doctor.display_name }}</li>
             </ol>
         </nav>
 
@@ -36,42 +37,48 @@ MediNest | Dr. {{ doctor.name }} Details
                                 <i class="fa-solid fa-stethoscope me-1"></i> {{ doctor.specialization }}
                             </span>
                             {% if doctor.is_available %}
-                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+                            <span
+                                class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
                                 <i class="fa-solid fa-circle-check me-1"></i> Available for Consultation
                             </span>
                             {% else %}
-                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">
+                            <span
+                                class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">
                                 <i class="fa-solid fa-circle-xmark me-1"></i> Currently Unavailable
                             </span>
                             {% endif %}
                         </div>
 
-                        <h2 class="fw-bold text-dark mb-1">Dr. {{ doctor.name }}</h2>
+                        <h2 class="fw-bold text-dark mb-1">{{ doctor.display_name }}</h2>
                         <p class="text-secondary mb-3 fs-5">{{ doctor.qualification }}</p>
 
                         <div class="row g-3 my-3">
                             <div class="col-6 col-sm-4">
                                 <div class="p-3 bg-light rounded-3 text-center border">
-                                    <div class="text-muted small text-uppercase font-monospace fw-semibold">Experience</div>
+                                    <div class="text-muted small text-uppercase font-monospace fw-semibold">Experience
+                                    </div>
                                     <div class="fw-bold text-dark fs-5 mt-1">{{ doctor.experience }} Years</div>
                                 </div>
                             </div>
 
                             <div class="col-6 col-sm-4">
                                 <div class="p-3 bg-light rounded-3 text-center border">
-                                    <div class="text-muted small text-uppercase font-monospace fw-semibold">Consultation Fee</div>
+                                    <div class="text-muted small text-uppercase font-monospace fw-semibold">Consultation
+                                        Fee</div>
                                     <div class="fw-bold text-success fs-5 mt-1">₹{{ doctor.consultation_fee }}</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <h5 class="fw-bold text-dark mb-2"><i class="fa-solid fa-user-doctor me-2 text-primary"></i>Biography</h5>
+                            <h5 class="fw-bold text-dark mb-2"><i
+                                    class="fa-solid fa-user-doctor me-2 text-primary"></i>Biography</h5>
                             <p class="text-muted leading-relaxed mb-0">
                                 {% if doctor.bio %}
                                 {{ doctor.bio }}
                                 {% else %}
-                                Experienced healthcare professional dedicated to providing compassionate, patient-centered care.
+                                Experienced healthcare professional dedicated to providing compassionate,
+                                patient-centered care.
                                 {% endif %}
                             </p>
                         </div>
@@ -103,7 +110,8 @@ MediNest | Dr. {{ doctor.name }} Details
                         </div>
 
                         {% if doctor.is_available %}
-                        <a href="{% url 'appointments:book_appointment' doctor.id %}" class="btn btn-primary btn-lg rounded-3 px-4 shadow-sm">
+                        <a href="{% url 'appointments:book_appointment' doctor.id %}"
+                            class="btn btn-primary btn-lg rounded-3 px-4 shadow-sm">
                             <i class="fa-solid fa-calendar-plus me-2"></i> Book Appointment
                         </a>
                         {% else %}

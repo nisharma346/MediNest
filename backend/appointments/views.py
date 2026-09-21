@@ -40,12 +40,12 @@ def book_appointment(request, doctor_id):
     if not doctor.is_available:
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return JsonResponse(
-                {"success": False, "message": f"Dr. {doctor.name} is currently unavailable for bookings."},
+                {"success": False, "message": f"{doctor.display_name} is currently unavailable for bookings."},
                 status=400,
             )
         messages.error(
             request,
-            f"Dr. {doctor.name} is currently unavailable for bookings."
+            f"{doctor.display_name} is currently unavailable for bookings."
         )
         return redirect("doctors:doctor_detail", pk=doctor.id)
 

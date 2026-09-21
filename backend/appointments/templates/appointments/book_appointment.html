@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
+MediNest | Book & Pay Consultation - {{ doctor.display_name }}
 {% endblock %}
 
 {% block content %}
@@ -11,8 +11,10 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_list' %}" class="text-decoration-none">Doctors</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_detail' doctor.id %}" class="text-decoration-none">Dr. {{ doctor.name }}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_list' %}"
+                        class="text-decoration-none">Doctors</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'doctors:doctor_detail' doctor.id %}"
+                        class="text-decoration-none">{{ doctor.display_name }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Book & Pay</li>
             </ol>
         </nav>
@@ -49,8 +51,9 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                         </div>
                         {% endif %}
 
-                        <h4 class="fw-bold mb-1">Dr. {{ doctor.name }}</h4>
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-3">
+                        <h4 class="fw-bold mb-1">{{ doctor.display_name }}</h4>
+                        <span
+                            class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-3">
                             {{ doctor.specialization }}
                         </span>
 
@@ -73,7 +76,8 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                             </p>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mt-4 p-3 bg-success-subtle text-success border border-success-subtle rounded-3">
+                        <div
+                            class="d-flex justify-content-between align-items-center mt-4 p-3 bg-success-subtle text-success border border-success-subtle rounded-3">
                             <span class="fw-semibold">Consultation Fee</span>
                             <span class="fs-4 fw-bold">₹{{ doctor.consultation_fee }}</span>
                         </div>
@@ -92,18 +96,21 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                             </div>
                             <div>
                                 <h3 class="fw-bold mb-0">Book & Pay Consultation</h3>
-                                <p class="text-muted small mb-0">Enter patient info and proceed to secure online payment</p>
+                                <p class="text-muted small mb-0">Enter patient info and proceed to secure online payment
+                                </p>
                             </div>
                         </div>
 
                         <form id="appointment-booking-form" method="post" novalidate>
                             {% csrf_token %}
 
-                            <h5 class="fw-bold text-dark mb-3"><i class="fa-regular fa-calendar me-2 text-primary"></i>1. Date & Time Selection</h5>
+                            <h5 class="fw-bold text-dark mb-3"><i
+                                    class="fa-regular fa-calendar me-2 text-primary"></i>1. Date & Time Selection</h5>
 
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
-                                    <label for="{{ form.appointment_date.id_for_label }}" class="form-label fw-semibold">
+                                    <label for="{{ form.appointment_date.id_for_label }}"
+                                        class="form-label fw-semibold">
                                         Appointment Date <span class="text-danger">*</span>
                                     </label>
                                     {{ form.appointment_date }}
@@ -111,7 +118,8 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="{{ form.appointment_time.id_for_label }}" class="form-label fw-semibold">
+                                    <label for="{{ form.appointment_time.id_for_label }}"
+                                        class="form-label fw-semibold">
                                         Appointment Time <span class="text-danger">*</span>
                                     </label>
                                     {{ form.appointment_time }}
@@ -119,7 +127,8 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                                 </div>
                             </div>
 
-                            <h5 class="fw-bold text-dark mb-3"><i class="fa-regular fa-id-card me-2 text-primary"></i>2. Patient Information</h5>
+                            <h5 class="fw-bold text-dark mb-3"><i class="fa-regular fa-id-card me-2 text-primary"></i>2.
+                                Patient Information</h5>
 
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
@@ -151,15 +160,20 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                                 </div>
                             </div>
 
-                            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-shield-halved me-2 text-success"></i>3. Payment Method</h5>
+                            <h5 class="fw-bold text-dark mb-3"><i
+                                    class="fa-solid fa-shield-halved me-2 text-success"></i>3. Payment Method</h5>
 
                             <div class="p-3 border rounded-3 bg-light mb-4">
                                 <div class="form-check d-flex align-items-center gap-3">
-                                    <input class="form-check-input mt-0" type="radio" name="payment_method" id="payment_razorpay" value="razorpay" checked>
+                                    <input class="form-check-input mt-0" type="radio" name="payment_method"
+                                        id="payment_razorpay" value="razorpay" checked>
                                     <label class="form-check-label w-100" for="payment_razorpay">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <span class="fw-bold text-dark"><i class="fa-solid fa-credit-card text-primary me-2"></i> Razorpay</span>
-                                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                            <span class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-credit-card text-primary me-2"></i>
+                                                Razorpay</span>
+                                            <span
+                                                class="badge bg-success-subtle text-success border border-success-subtle">
                                                 <i class="fa-solid fa-lock me-1"></i> 256-bit Secure
                                             </span>
                                         </div>
@@ -171,10 +185,12 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4 pt-3 border-top">
-                                <a href="{% url 'doctors:doctor_detail' doctor.id %}" class="btn btn-outline-secondary px-4 rounded-3">
+                                <a href="{% url 'doctors:doctor_detail' doctor.id %}"
+                                    class="btn btn-outline-secondary px-4 rounded-3">
                                     Cancel
                                 </a>
-                                <button type="submit" id="pay-btn" class="btn btn-primary px-5 rounded-3 fw-bold shadow-sm">
+                                <button type="submit" id="pay-btn"
+                                    class="btn btn-primary px-5 rounded-3 fw-bold shadow-sm">
                                     <i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}
                                 </button>
                             </div>
@@ -190,113 +206,113 @@ MediNest | Book & Pay Consultation - Dr. {{ doctor.name }}
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const bookingForm = document.getElementById('appointment-booking-form');
-    const payBtn = document.getElementById('pay-btn');
-    const alertContainer = document.getElementById('alert-container');
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookingForm = document.getElementById('appointment-booking-form');
+        const payBtn = document.getElementById('pay-btn');
+        const alertContainer = document.getElementById('alert-container');
 
-    function showAlert(message, type = 'danger') {
-        alertContainer.innerHTML = `
+        function showAlert(message, type = 'danger') {
+            alertContainer.innerHTML = `
             <div class="alert alert-${type} alert-dismissible fade show rounded-3 mb-4" role="alert">
                 <i class="fa-solid fa-circle-exclamation me-2"></i> ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         `;
-        window.scrollTo({ top: alertContainer.offsetTop - 100, behavior: 'smooth' });
-    }
+            window.scrollTo({ top: alertContainer.offsetTop - 100, behavior: 'smooth' });
+        }
 
-    bookingForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+        bookingForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-        payBtn.disabled = true;
-        payBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...';
+            payBtn.disabled = true;
+            payBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...';
 
-        const formData = new FormData(bookingForm);
+            const formData = new FormData(bookingForm);
 
-        try {
-            const response = await fetch('{% url "appointments:book_appointment" doctor.id %}', {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                },
-                body: formData
-            });
+            try {
+                const response = await fetch('{% url "appointments:book_appointment" doctor.id %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    },
+                    body: formData
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (!response.ok || !data.success) {
-                showAlert(data.message || 'Validation failed. Please check form details.');
-                payBtn.disabled = false;
-                payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
-                return;
-            }
+                if (!response.ok || !data.success) {
+                    showAlert(data.message || 'Validation failed. Please check form details.');
+                    payBtn.disabled = false;
+                    payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
+                    return;
+                }
 
-            const options = {
-                key: data.key,
-                amount: data.amount,
-                currency: data.currency,
-                name: 'MediNest Healthcare',
-                description: 'Doctor Consultation - Dr. ' + data.doctor_name,
-                order_id: data.razorpay_order_id,
-                prefill: {
-                    name: data.patient_name,
-                    email: data.patient_email,
-                    contact: data.patient_phone
-                },
-                theme: {
-                    color: '#0750a0'
-                },
-                handler: function(razorpayResponse) {
-                    const callbackData = new FormData();
-                    callbackData.append('csrfmiddlewaretoken', formData.get('csrfmiddlewaretoken'));
-                    callbackData.append('appointment_id', data.appointment_id);
-                    callbackData.append('payment_id', razorpayResponse.razorpay_payment_id);
-                    callbackData.append('razorpay_order_id', razorpayResponse.razorpay_order_id);
-                    callbackData.append('signature', razorpayResponse.razorpay_signature);
+                const options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: 'MediNest Healthcare',
+                    description: 'Doctor Consultation - Dr. ' + data.doctor_name,
+                    order_id: data.razorpay_order_id,
+                    prefill: {
+                        name: data.patient_name,
+                        email: data.patient_email,
+                        contact: data.patient_phone
+                    },
+                    theme: {
+                        color: '#0750a0'
+                    },
+                    handler: function (razorpayResponse) {
+                        const callbackData = new FormData();
+                        callbackData.append('csrfmiddlewaretoken', formData.get('csrfmiddlewaretoken'));
+                        callbackData.append('appointment_id', data.appointment_id);
+                        callbackData.append('payment_id', razorpayResponse.razorpay_payment_id);
+                        callbackData.append('razorpay_order_id', razorpayResponse.razorpay_order_id);
+                        callbackData.append('signature', razorpayResponse.razorpay_signature);
 
-                    fetch('{% url "appointments:payment_callback" %}', {
-                        method: 'POST',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                        },
-                        body: callbackData
-                    })
-                    .then(res => res.json())
-                    .then(resData => {
-                        if (resData.success && resData.redirect_url) {
-                            window.location.href = resData.redirect_url;
-                        } else {
-                            showAlert(resData.message || 'Payment verification failed.');
+                        fetch('{% url "appointments:payment_callback" %}', {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                            },
+                            body: callbackData
+                        })
+                            .then(res => res.json())
+                            .then(resData => {
+                                if (resData.success && resData.redirect_url) {
+                                    window.location.href = resData.redirect_url;
+                                } else {
+                                    showAlert(resData.message || 'Payment verification failed.');
+                                    payBtn.disabled = false;
+                                    payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
+                                }
+                            })
+                            .catch(() => {
+                                showAlert('Payment verification server error. Please contact support.');
+                                payBtn.disabled = false;
+                                payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
+                            });
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            showAlert('Payment cancelled by user. You can retry payment anytime.', 'warning');
                             payBtn.disabled = false;
                             payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
                         }
-                    })
-                    .catch(() => {
-                        showAlert('Payment verification server error. Please contact support.');
-                        payBtn.disabled = false;
-                        payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
-                    });
-                },
-                modal: {
-                    ondismiss: function() {
-                        showAlert('Payment cancelled by user. You can retry payment anytime.', 'warning');
-                        payBtn.disabled = false;
-                        payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
                     }
-                }
-            };
+                };
 
-            const rzp = new Razorpay(options);
-            rzp.open();
+                const rzp = new Razorpay(options);
+                rzp.open();
 
-        } catch (error) {
-            showAlert('An unexpected network error occurred.');
-            payBtn.disabled = false;
-            payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
-        }
+            } catch (error) {
+                showAlert('An unexpected network error occurred.');
+                payBtn.disabled = false;
+                payBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i> Confirm & Pay ₹{{ doctor.consultation_fee }}';
+            }
+        });
     });
-});
 </script>
 {% endblock %}

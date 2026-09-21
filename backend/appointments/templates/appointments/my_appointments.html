@@ -55,7 +55,8 @@ MediNest | My Appointments
                                 <div class="d-flex align-items-center gap-3">
                                     {% if appointment.doctor.profile_image %}
                                     <img src="{{ appointment.doctor.profile_image.url }}" class="rounded-circle"
-                                        style="width: 42px; height: 42px; object-fit: cover;" alt="{{ appointment.doctor.name }}">
+                                        style="width: 42px; height: 42px; object-fit: cover;"
+                                        alt="{{ appointment.doctor.name }}">
                                     {% else %}
                                     <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
                                         style="width: 42px; height: 42px; font-size: 20px;">
@@ -63,7 +64,7 @@ MediNest | My Appointments
                                     </div>
                                     {% endif %}
                                     <div>
-                                        <div class="fw-bold text-dark">Dr. {{ appointment.doctor.name }}</div>
+                                        <div class="fw-bold text-dark">{{ appointment.doctor.display_name }}</div>
                                         <div class="small text-muted">{{ appointment.doctor.specialization }}</div>
                                     </div>
                                 </div>
@@ -86,15 +87,18 @@ MediNest | My Appointments
 
                             <td class="px-4">
                                 {% if appointment.payment_status == 'paid' %}
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-circle-check me-1"></i> Paid
                                 </span>
                                 {% elif appointment.payment_status == 'failed' %}
-                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-circle-xmark me-1"></i> Failed
                                 </span>
                                 {% else %}
-                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-clock me-1"></i> Pending
                                 </span>
                                 {% endif %}
@@ -102,15 +106,18 @@ MediNest | My Appointments
 
                             <td class="px-4">
                                 {% if appointment.status == 'Confirmed' %}
-                                <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-info-subtle text-info border border-info-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-calendar-check me-1"></i> Confirmed
                                 </span>
                                 {% elif appointment.status == 'Completed' %}
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-circle-check me-1"></i> Completed
                                 </span>
                                 {% elif appointment.status == 'Cancelled' %}
-                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">
+                                <span
+                                    class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-circle-xmark me-1"></i> Cancelled
                                 </span>
                                 {% else %}
@@ -121,7 +128,8 @@ MediNest | My Appointments
                             </td>
 
                             <td class="px-4 text-end">
-                                <a href="{% url 'appointments:appointment_detail' appointment.id %}" class="btn btn-outline-primary btn-sm rounded-3">
+                                <a href="{% url 'appointments:appointment_detail' appointment.id %}"
+                                    class="btn btn-outline-primary btn-sm rounded-3">
                                     <i class="fa-solid fa-eye me-1"></i> View Details
                                 </a>
                             </td>

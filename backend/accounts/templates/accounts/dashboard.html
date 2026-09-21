@@ -1,0 +1,556 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediNest | Dashboard
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-page py-5">
+    <div class="container">
+
+        <div class="row g-4 align-items-center mb-4">
+            <div class="col-lg-8">
+                <div class="welcome-panel">
+                    <div class="welcome-badge">
+                        <i class="fa-solid fa-heart-pulse me-2"></i> Health Dashboard
+                    </div>
+                    <h1 class="fw-bold mb-2">Welcome back, {{ user.first_name|default:user.username }}</h1>
+                    <p class="mb-0 text-muted">
+                        Your wellness journey is in good hands. Track orders, appointments, and care updates in one
+                        place.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'doctors:doctor_list' %}" class="btn dashboard-cta-btn btn-lg rounded-pill px-4">
+                    <i class="fa-solid fa-calendar-plus me-2"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card primary-card">
+                    <div class="stat-icon"><i class="fa-solid fa-box-open"></i></div>
+                    <div>
+                        <div class="stat-label">Total Orders</div>
+                        <div class="stat-value">{{ total_orders }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card success-card">
+                    <div class="stat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div>
+                        <div class="stat-label">Active Orders</div>
+                        <div class="stat-value">{{ active_orders }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card info-card">
+                    <div class="stat-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                    <div>
+                        <div class="stat-label">Upcoming Appointments</div>
+                        <div class="stat-value">{{ upcoming_appointments }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card warning-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div>
+                        <div class="stat-label">Completed Appointments</div>
+                        <div class="stat-value">{{ completed_appointments }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-xl-8">
+                <div class="panel-card h-100">
+                    <div class="panel-header">
+                        <div>
+                            <div class="section-kicker">Orders</div>
+                            <h3 class="panel-title">Recent Orders</h3>
+                        </div>
+                        <a href="{% url 'orders:my_orders' %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                            View All Orders
+                        </a>
+                    </div>
+
+                    {% if recent_orders %}
+                    <div class="list-group list-group-flush">
+                        {% for order in recent_orders %}
+                        <div class="list-item-row">
+                            <div>
+                                <div class="list-title">Order #{{ order.id }}</div>
+                                <div class="list-meta">
+                                    <i class="fa-regular fa-calendar me-1"></i>{{ order.created_at|date:"d M Y" }}
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="list-title">₹{{ order.total_amount }}</div>
+                                <div class="list-meta">{{ order.payment_method|title }}</div>
+                            </div>
+                            <div class="text-center">
+                                <span class="status-pill status-{{ order.status|lower }}">
+                                    {{ order.status|title }}
+                                </span>
+                            </div>
+                            <div class="text-end">
+                                <a href="{% url 'orders:order_detail' order.id %}"
+                                    class="btn btn-primary btn-sm rounded-3">
+                                    View Order
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">No orders yet</h5>
+                        <p class="text-muted mb-0">Your recent order history will appear here.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="panel-card h-100">
+                    <div class="panel-header">
+                        <div>
+                            <div class="section-kicker">Quick access</div>
+                            <h3 class="panel-title">Quick Actions</h3>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <a href="{% url 'products:product_list' %}" class="quick-action-card">
+                            <i class="fa-solid fa-store"></i>
+                            <span>Browse Products</span>
+                        </a>
+                        <a href="{% url 'doctors:doctor_list' %}" class="quick-action-card">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Find a Doctor</span>
+                        </a>
+                        <a href="{% url 'doctors:doctor_list' %}" class="quick-action-card">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            <span>Book Appointment</span>
+                        </a>
+                        <a href="#" class="quick-action-card">
+                            <i class="fa-solid fa-newspaper"></i>
+                            <span>Health Articles</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-xl-8">
+                <div class="panel-card h-100">
+                    <div class="panel-header">
+                        <div>
+                            <div class="section-kicker">Appointments</div>
+                            <h3 class="panel-title">Upcoming Appointments</h3>
+                        </div>
+                        <a href="{% url 'appointments:my_appointments' %}"
+                            class="btn btn-sm btn-outline-primary rounded-pill">
+                            View All Appointments
+                        </a>
+                    </div>
+
+                    {% if upcoming_appointment_list %}
+                    <div class="list-group list-group-flush">
+                        {% for appointment in upcoming_appointment_list %}
+                        <div class="list-item-row">
+                            <div>
+                                <div class="list-title">{{ appointment.doctor.display_name }}</div>
+                                <div class="list-meta">{{ appointment.doctor.specialization }}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="list-title">{{ appointment.appointment_date|date:"d M Y" }}</div>
+                                <div class="list-meta">{{ appointment.appointment_time|time:"h:i A" }}</div>
+                            </div>
+                            <div class="text-center">
+                                <span class="status-pill status-{{ appointment.status|lower }}">
+                                    {{ appointment.status }}
+                                </span>
+                            </div>
+                            <div class="text-end">
+                                <a href="{% url 'appointments:appointment_detail' appointment.id %}"
+                                    class="btn btn-outline-primary btn-sm rounded-3">
+                                    View Appointment
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                        <h5 class="fw-bold mb-2">No upcoming appointments</h5>
+                        <p class="text-muted mb-0">Book your next consultation to see it here.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-xl-4" id="profile-summary">
+                <div class="panel-card h-100">
+                    <div class="panel-header">
+                        <div>
+                            <div class="section-kicker">Profile</div>
+                            <h3 class="panel-title">Profile Summary</h3>
+                        </div>
+                        <a href="{% url 'accounts:edit_profile' %}"
+                            class="btn btn-sm btn-outline-secondary rounded-pill">
+                            Edit Profile
+                        </a>
+                    </div>
+
+                    <div class="profile-summary-box">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1">{{ user_name }}</h5>
+                        <p class="text-muted small mb-3">{{ user.email }}</p>
+
+                        <div class="profile-meta-item">
+                            <span class="meta-label">Phone</span>
+                            <span class="meta-value">{{ profile_phone }}</span>
+                        </div>
+                        <div class="profile-meta-item">
+                            <span class="meta-label">Address</span>
+                            <span class="meta-value">{{ profile_address }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .dashboard-page {
+        background: linear-gradient(180deg, #f4fbfd 0%, #f9fbfd 100%);
+        min-height: 80vh;
+    }
+
+    .welcome-panel {
+        background: linear-gradient(135deg, rgba(9, 104, 183, 0.08), rgba(5, 170, 164, 0.08));
+        border: 1px solid rgba(9, 104, 183, 0.12);
+        border-radius: 26px;
+        padding: 28px 26px;
+    }
+
+    .welcome-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(9, 104, 183, 0.08);
+        color: #0d5ca3;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 8px 14px;
+        margin-bottom: 14px;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .welcome-panel h1 {
+        color: #123f63;
+        font-size: clamp(2rem, 2vw, 2.6rem);
+    }
+
+    .dashboard-cta-btn {
+        background: linear-gradient(90deg, #0b62bb, #0ca9a1);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 14px 30px rgba(11, 98, 187, 0.15);
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border-radius: 22px;
+        border: 1px solid #edf2f7;
+        box-shadow: 0 12px 28px rgba(14, 65, 95, 0.05);
+        padding: 22px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-height: 130px;
+    }
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .primary-card .stat-icon {
+        background: linear-gradient(135deg, #0b62bb, #2d9ad4);
+    }
+
+    .success-card .stat-icon {
+        background: linear-gradient(135deg, #0ca56b, #34c58d);
+    }
+
+    .info-card .stat-icon {
+        background: linear-gradient(135deg, #1b9ab8, #3ac7d7);
+    }
+
+    .warning-card .stat-icon {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+
+    .stat-label {
+        color: #6f869a;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+    }
+
+    .stat-value {
+        font-size: clamp(1.8rem, 2vw, 2.3rem);
+        font-weight: 800;
+        color: #123f63;
+        line-height: 1.1;
+    }
+
+    .panel-card {
+        background: #fff;
+        border: 1px solid #edf2f7;
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(34, 66, 90, 0.05);
+    }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .section-kicker {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #6a86a3;
+        font-weight: 700;
+    }
+
+    .panel-title {
+        color: #123f63;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 4px 0 0;
+    }
+
+    .list-item-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid #f0f5f9;
+    }
+
+    .list-item-row:last-child {
+        border-bottom: none;
+    }
+
+    .list-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #173d5e;
+    }
+
+    .list-meta {
+        font-size: 0.82rem;
+        color: #7088a0;
+        margin-top: 3px;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 110px;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .status-pending {
+        background: #fff8e8;
+        color: #b76d00;
+    }
+
+    .status-confirmed {
+        background: #eaf3ff;
+        color: #105bb2;
+    }
+
+    .status-shipped {
+        background: #e5f8fb;
+        color: #0d7b8d;
+    }
+
+    .status-delivered {
+        background: #eafaf0;
+        color: #11714f;
+    }
+
+    .status-cancelled {
+        background: #fdecec;
+        color: #b42318;
+    }
+
+    .status-active {
+        background: #ebf9f2;
+        color: #11714f;
+    }
+
+    .status-completed {
+        background: #ebf9f2;
+        color: #11714f;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 30px 20px 10px;
+    }
+
+    .empty-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        background: #eef7fb;
+        color: #0b62bb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 28px;
+    }
+
+    .quick-actions {
+        display: grid;
+        gap: 14px;
+    }
+
+    .quick-action-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: linear-gradient(135deg, #eef7ff, #ecfbf9);
+        border: 1px solid #e1eff8;
+        border-radius: 16px;
+        padding: 16px 18px;
+        color: #173d5e;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .quick-action-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(10, 82, 138, 0.08);
+        color: #173d5e;
+        text-decoration: none;
+    }
+
+    .quick-action-card i {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0b62bb, #11a6a3);
+        color: white;
+    }
+
+    .profile-summary-box {
+        background: linear-gradient(180deg, #f6fbff, #ffffff);
+        border: 1px solid #ebf2f6;
+        border-radius: 20px;
+        padding: 22px 18px;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 78px;
+        height: 78px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 14px;
+        background: linear-gradient(135deg, #0b62bb, #0ba8a2);
+        color: white;
+        font-size: 28px;
+    }
+
+    .profile-meta-item {
+        text-align: left;
+        border-top: 1px solid #edf3f7;
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+
+    .meta-label {
+        display: block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #7088a0;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .meta-value {
+        color: #1b3e62;
+        font-weight: 600;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+
+    @media (max-width: 767px) {
+        .list-item-row {
+            grid-template-columns: 1fr;
+            text-align: left;
+        }
+
+        .panel-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .text-end {
+            text-align: left !important;
+        }
+    }
+</style>
+{% endblock %}

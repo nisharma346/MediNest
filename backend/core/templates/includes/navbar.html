@@ -43,7 +43,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'blog:article_list' %}">
                         Health Articles
                     </a>
                 </li>
@@ -59,10 +59,30 @@
             <!-- Right Side -->
             <div class="d-flex align-items-center gap-3">
 
-                <!-- Search -->
-                <button class="nav-icon-btn" type="button" title="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+                <!-- Navbar Search -->
+                <form action="{% url 'products:product_list' %}" method="get" class="d-none d-md-flex align-items-center me-1">
+                    <div class="input-group input-group-sm rounded-pill overflow-hidden border bg-light" style="max-width: 220px;">
+                        <input type="text" name="search" class="form-control border-0 bg-transparent ps-3 pe-1" placeholder="Search products..." value="{{ request.GET.search|default:'' }}" style="font-size: 13px;">
+                        <button class="btn border-0 text-secondary px-2" type="submit" title="Search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'wishlist:wishlist' %}" class="nav-icon-btn position-relative" title="Wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                    {% with wishlist_count=user.wishlistitem_set.count %}
+                    {% if wishlist_count %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style="font-size: 10px;">
+                        {{ wishlist_count }}
+                    </span>
+                    {% endif %}
+                    {% endwith %}
+                </a>
+                {% endif %}
 
                 <!-- Cart -->
                 <a href="{% url 'cart:cart_detail' %}" class="nav-icon-btn" title="Cart">
@@ -81,6 +101,33 @@
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end">
+
+                        {% if user.is_staff %}
+                        <li>
+                            <a class="dropdown-item text-primary fw-bold" href="{% url 'admin_dashboard' %}">
+                                <i class="fa-solid fa-chart-pie me-2 text-primary"></i>
+                                Admin Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        {% endif %}
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">
+
+                                <i class="fa-solid fa-user-pen me-2 text-primary"></i>
+                                Profile / Edit Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'accounts:dashboard' %}">
+                                <i class="fa-solid fa-gauge-high me-2 text-primary"></i>
+                                Dashboard
+                            </a>
+                        </li>
 
                         <li>
                             <a class="dropdown-item" href="{% url 'orders:my_orders' %}">

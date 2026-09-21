@@ -1,0 +1,702 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - MediNest Healthcare{% endblock %}
+
+{% block content %}
+
+<style>
+    .admin-wrapper {
+        background: #f4f7fb;
+        min-height: 90vh;
+        padding-bottom: 60px;
+    }
+
+    .admin-sidebar {
+        background: #0b2545;
+        color: white;
+        border-radius: 20px;
+        padding: 24px 18px;
+        min-height: 100%;
+        box-shadow: 0 10px 30px rgba(11, 37, 69, 0.15);
+    }
+
+    .sidebar-brand {
+        font-size: 20px;
+        font-weight: 800;
+        color: #38bdf8;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .sidebar-brand i {
+        background: linear-gradient(135deg, #0284c7, #0d9488);
+        color: white;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .nav-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #94a3b8;
+        font-weight: 700;
+        margin: 16px 10px 8px;
+    }
+
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 12px;
+        transition: all 0.25s ease;
+    }
+
+    .sidebar-link i {
+        width: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .sidebar-link:hover, .sidebar-link.active {
+        background: rgba(56, 189, 248, 0.12);
+        color: #38bdf8;
+    }
+
+    .sidebar-link.active {
+        font-weight: 700;
+        background: #0284c7;
+        color: white;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .stat-number {
+        font-size: 26px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-top: 6px;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .sales-banner {
+        background: linear-gradient(135deg, #0b3d91, #0284c7);
+        color: white;
+        border-radius: 20px;
+        padding: 26px 30px;
+        box-shadow: 0 8px 30px rgba(11, 61, 145, 0.2);
+    }
+
+    .sales-val {
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .table-card {
+        background: white;
+        border-radius: 18px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    }
+
+    .quick-act-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 13.5px;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .quick-act-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge-status {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+</style>
+
+<div class="admin-wrapper py-4">
+
+    <div class="container-fluid px-lg-5">
+
+        <!-- Mobile Sidebar Offcanvas Toggle -->
+        <div class="d-lg-none mb-3">
+            <button class="btn btn-dark w-100 rounded-3 py-2 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#adminSidebarCollapse">
+                <i class="fa-solid fa-bars me-2"></i> Toggle Admin Menu
+            </button>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- SIDEBAR NAVIGATION -->
+            <div class="col-lg-3 col-xl-2">
+                <div class="collapse d-lg-block" id="adminSidebarCollapse">
+                    <div class="admin-sidebar">
+
+                        <div class="sidebar-brand">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>MediNest Admin</span>
+                        </div>
+
+                        <div class="nav-label">Main</div>
+                        <a href="{% url 'admin_dashboard' %}" class="sidebar-link active">
+                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                        </a>
+
+                        <div class="nav-label">E-Commerce</div>
+                        <a href="/admin/products/product/" class="sidebar-link">
+                            <i class="fa-solid fa-box"></i> Products
+                        </a>
+                        <a href="/admin/products/category/" class="sidebar-link">
+                            <i class="fa-solid fa-tags"></i> Categories
+                        </a>
+                        <a href="/admin/orders/order/" class="sidebar-link">
+                            <i class="fa-solid fa-cart-flatbed"></i> Orders
+                        </a>
+
+                        <div class="nav-label">Healthcare</div>
+                        <a href="/admin/doctors/doctor/" class="sidebar-link">
+                            <i class="fa-solid fa-user-doctor"></i> Doctors
+                        </a>
+                        <a href="/admin/appointments/appointment/" class="sidebar-link">
+                            <i class="fa-solid fa-calendar-check"></i> Appointments
+                        </a>
+
+                        <div class="nav-label">Content & Users</div>
+                        <a href="/admin/auth/user/" class="sidebar-link">
+                            <i class="fa-solid fa-users"></i> Users
+                        </a>
+                        <a href="/admin/blog/article/" class="sidebar-link">
+                            <i class="fa-solid fa-newspaper"></i> Health Articles
+                        </a>
+                        <a href="/admin/products/productreview/" class="sidebar-link">
+                            <i class="fa-solid fa-star"></i> Reviews
+                        </a>
+
+                        <div class="nav-label">System</div>
+                        <a href="/admin/" class="sidebar-link" target="_blank">
+                            <i class="fa-solid fa-gears"></i> Django Admin
+                        </a>
+                        <a href="{% url 'core:home' %}" class="sidebar-link">
+                            <i class="fa-solid fa-globe"></i> Back to Website
+                        </a>
+                        <a href="{% url 'accounts:logout' %}" class="sidebar-link text-danger mt-2">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- MAIN CONTENT AREA -->
+            <div class="col-lg-9 col-xl-10">
+
+                <!-- Header Bar -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 bg-white p-3 px-4 rounded-4 border shadow-sm">
+                    <div>
+                        <h4 class="fw-bold text-dark mb-0">Executive Admin Dashboard 🏥</h4>
+                        <small class="text-muted">Real-time MediNest platform overview & performance metrics</small>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mt-2 mt-sm-0">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill font-monospace" style="font-size: 13px;">
+                            <i class="fa-solid fa-user-shield me-1"></i> Staff: {{ user.username }}
+                        </span>
+                        <a href="/admin/" class="btn btn-sm btn-outline-dark rounded-pill px-3" target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Django Admin
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-bolt me-2 text-warning"></i>Quick Management Actions</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/admin/products/product/add/" class="quick-act-btn bg-primary text-white" target="_blank">
+                            <i class="fa-solid fa-plus"></i> Add Product
+                        </a>
+                        <a href="/admin/doctors/doctor/add/" class="quick-act-btn bg-success text-white" target="_blank">
+                            <i class="fa-solid fa-plus"></i> Add Doctor
+                        </a>
+                        <a href="/admin/blog/article/add/" class="quick-act-btn bg-info text-white" target="_blank">
+                            <i class="fa-solid fa-plus"></i> Add Article
+                        </a>
+                        <a href="/admin/orders/order/" class="quick-act-btn bg-dark text-white" target="_blank">
+                            <i class="fa-solid fa-box-open"></i> View Orders
+                        </a>
+                        <a href="/admin/appointments/appointment/" class="quick-act-btn bg-secondary text-white" target="_blank">
+                            <i class="fa-solid fa-calendar-days"></i> View Appointments
+                        </a>
+                        <a href="/admin/auth/user/" class="quick-act-btn bg-warning text-dark" target="_blank">
+                            <i class="fa-solid fa-users-gear"></i> Manage Users
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- SALES SUMMARY BANNER -->
+                <div class="sales-banner mb-4">
+                    <div class="row align-items-center g-4 text-center text-md-start">
+                        <div class="col-md-4 border-end border-white-50">
+                            <div class="text-white-50 small fw-semibold text-uppercase">Total Completed Sales</div>
+                            <div class="sales-val mt-1">₹{{ total_sales|floatformat:2 }}</div>
+                            <div class="small text-white-50">Excludes cancelled orders</div>
+                        </div>
+                        <div class="col-md-4 border-end border-white-50">
+                            <div class="text-white-50 small fw-semibold text-uppercase">Today's Sales</div>
+                            <div class="sales-val mt-1">₹{{ today_sales|floatformat:2 }}</div>
+                            <div class="small text-white-50">{{ today_orders }} order{% if today_orders != 1 %}s{% endif %} placed today</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-white-50 small fw-semibold text-uppercase">This Month's Sales</div>
+                            <div class="sales-val mt-1">₹{{ month_sales|floatformat:2 }}</div>
+                            <div class="small text-white-50">{{ month_orders }} order{% if month_orders != 1 %}s{% endif %} this month</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 10 DYNAMIC STATISTICS CARDS -->
+                <div class="row g-3 mb-4">
+                    
+                    <!-- Products -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Total Products</div>
+                                    <div class="stat-number">{{ total_products }}</div>
+                                </div>
+                                <div class="stat-icon bg-primary-subtle text-primary">
+                                    <i class="fa-solid fa-pills"></i>
+                                </div>
+                            </div>
+                            <small class="text-success fw-semibold mt-2 d-block" style="font-size: 11px;">
+                                {{ active_products }} Active in Store
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Active Products -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Active Products</div>
+                                    <div class="stat-number">{{ active_products }}</div>
+                                </div>
+                                <div class="stat-icon bg-success-subtle text-success">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Visible to Buyers
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Total Orders -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Total Orders</div>
+                                    <div class="stat-number">{{ total_orders }}</div>
+                                </div>
+                                <div class="stat-icon bg-info-subtle text-info">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                            </div>
+                            <small class="text-warning fw-semibold mt-2 d-block" style="font-size: 11px;">
+                                {{ pending_orders }} Pending
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Pending Orders -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Pending Orders</div>
+                                    <div class="stat-number">{{ pending_orders }}</div>
+                                </div>
+                                <div class="stat-icon bg-warning-subtle text-warning">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Awaiting Processing
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Total Users -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Total Users</div>
+                                    <div class="stat-number">{{ total_users }}</div>
+                                </div>
+                                <div class="stat-icon bg-secondary-subtle text-secondary">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Registered Accounts
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Total Doctors -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Doctors</div>
+                                    <div class="stat-number">{{ total_doctors }}</div>
+                                </div>
+                                <div class="stat-icon bg-primary-subtle text-primary">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Medical Specialists
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Total Appointments -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Appointments</div>
+                                    <div class="stat-number">{{ total_appointments }}</div>
+                                </div>
+                                <div class="stat-icon bg-success-subtle text-success">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+                            </div>
+                            <small class="text-warning fw-semibold mt-2 d-block" style="font-size: 11px;">
+                                {{ pending_appointments }} Pending
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Pending Appointments -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Pending Appts</div>
+                                    <div class="stat-number">{{ pending_appointments }}</div>
+                                </div>
+                                <div class="stat-icon bg-danger-subtle text-danger">
+                                    <i class="fa-solid fa-hourglass-half"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Needs Confirmation
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Health Articles -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Health Articles</div>
+                                    <div class="stat-number">{{ total_articles }}</div>
+                                </div>
+                                <div class="stat-icon bg-info-subtle text-info">
+                                    <i class="fa-solid fa-newspaper"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Published Articles
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Product Reviews -->
+                    <div class="col-6 col-sm-4 col-xl-2.4 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">Product Reviews</div>
+                                    <div class="stat-number">{{ total_reviews }}</div>
+                                </div>
+                                <div class="stat-icon bg-warning-subtle text-warning">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 11px;">
+                                Verified Feedback
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ORDERS & RECENT APPOINTMENTS TABLES -->
+                <div class="row g-4 mb-4">
+                    
+                    <!-- Recent Orders -->
+                    <div class="col-xl-6">
+                        <div class="table-card h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-cart-shopping me-2 text-primary"></i>Recent Orders</h6>
+                                <a href="/admin/orders/order/" class="small text-primary text-decoration-none fw-semibold">View All</a>
+                            </div>
+
+                            {% if recent_orders %}
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in recent_orders %}
+                                        <tr>
+                                            <td class="fw-bold">#{{ order.id }}</td>
+                                            <td>{{ order.full_name|default:order.user.username }}</td>
+                                            <td>{{ order.created_at|date:"M d" }}</td>
+                                            <td class="fw-bold">₹{{ order.total_amount|floatformat:2 }}</td>
+                                            <td>
+                                                <span class="badge-status {% if order.status == 'pending' %}bg-warning-subtle text-warning{% elif order.status == 'delivered' or order.status == 'confirmed' %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-secondary{% endif %}">
+                                                    {{ order.status|title }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/orders/order/{{ order.id }}/change/" class="btn btn-sm btn-outline-primary py-0 rounded-pill" target="_blank">
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4 text-muted small">No orders recorded yet.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Recent Appointments -->
+                    <div class="col-xl-6">
+                        <div class="table-card h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-calendar-check me-2 text-success"></i>Recent Appointments</h6>
+                                <a href="/admin/appointments/appointment/" class="small text-primary text-decoration-none fw-semibold">View All</a>
+                            </div>
+
+                            {% if recent_appointments %}
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Appt ID</th>
+                                            <th>Patient</th>
+                                            <th>Doctor</th>
+                                            <th>Date / Time</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for appt in recent_appointments %}
+                                        <tr>
+                                            <td class="fw-bold">#{{ appt.id }}</td>
+                                            <td>{{ appt.patient_name }}</td>
+                                            <td>{{ appt.doctor.display_name }}</td>
+                                            <td>{{ appt.appointment_date }} {{ appt.appointment_time|time:"H:i" }}</td>
+                                            <td>
+                                                <span class="badge-status {% if appt.status == 'Pending' %}bg-warning-subtle text-warning{% elif appt.status == 'Confirmed' or appt.status == 'Completed' %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">
+                                                    {{ appt.status }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/appointments/appointment/{{ appt.id }}/change/" class="btn btn-sm btn-outline-primary py-0 rounded-pill" target="_blank">
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4 text-muted small">No appointments booked yet.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- LOW STOCK PRODUCTS & RECENT REVIEWS -->
+                <div class="row g-4">
+                    
+                    <!-- Low Stock Products -->
+                    <div class="col-xl-6">
+                        <div class="table-card h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>Low Stock Inventory (<= 5)</h6>
+                                <a href="/admin/products/product/" class="small text-primary text-decoration-none fw-semibold">Manage Inventory</a>
+                            </div>
+
+                            {% if low_stock_products %}
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for prod in low_stock_products %}
+                                        <tr>
+                                            <td class="fw-semibold">{{ prod.name }}</td>
+                                            <td class="text-muted">{{ prod.category.name }}</td>
+                                            <td class="fw-bold">₹{{ prod.discounted_price|floatformat:2 }}</td>
+                                            <td>
+                                                <span class="badge bg-danger text-white rounded-pill px-2 py-1">
+                                                    {{ prod.stock }} left
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/products/product/{{ prod.id }}/change/" class="btn btn-sm btn-outline-danger py-0 rounded-pill" target="_blank">
+                                                    Edit Stock
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4 text-success small">✓ All products have sufficient stock!</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Recent Reviews -->
+                    <div class="col-xl-6">
+                        <div class="table-card h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-comment-dots me-2 text-warning"></i>Recent Product Reviews</h6>
+                                <a href="/admin/products/productreview/" class="small text-primary text-decoration-none fw-semibold" target="_blank">Manage Reviews</a>
+                            </div>
+
+                            {% if recent_reviews %}
+                            <div class="list-group list-group-flush">
+                                {% for rev in recent_reviews %}
+                                <div class="list-group-item px-0 py-2 border-0 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong class="text-dark">{{ rev.product.name }}</strong>
+                                            <span class="text-warning ms-2">⭐ {{ rev.rating }}/5</span>
+                                            <div class="small text-muted">By {{ rev.user.username }} on {{ rev.created_at|date:"M d, Y" }}</div>
+                                        </div>
+                                        <div>
+                                            {% if rev.is_approved %}
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Approved</span>
+                                            {% else %}
+                                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill">Unapproved</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="small text-secondary mb-0 mt-1" style="line-height: 1.4;">
+                                        {{ rev.review_text|truncatewords:15 }}
+                                    </p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4 text-muted small">No product reviews submitted yet.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -75,7 +75,7 @@ class AppointmentForm(forms.ModelForm):
             ]
             if weekday.lower() not in available_days_list:
                 raise forms.ValidationError(
-                    f"Dr. {self.doctor.name} is only available on {self.doctor.available_days}."
+                    f"{self.doctor.display_name} is only available on {self.doctor.available_days}."
                 )
 
         return appointment_date
@@ -84,6 +84,16 @@ class AppointmentForm(forms.ModelForm):
         appointment_time = self.cleaned_data.get('appointment_time')
         if not appointment_time:
             raise forms.ValidationError("Please select a valid appointment time.")
+
+        if self.doctor:
+            start_time, end_time = self.doctor.get_available_time_range()
+            if start_time and end_time:
+                if not (start_time <= appointment_time <= end_time):
+                    readable_range = self.doctor.available_time.replace(" - ", " and ")
+                    raise forms.ValidationError(
+                        f"{self.doctor.display_name} is available only between {readable_range}."
+                    )
+
         return appointment_time
 
     def clean(self):
@@ -104,7 +114,7 @@ class AppointmentForm(forms.ModelForm):
 
             if existing_query.exists():
                 raise forms.ValidationError(
-                    f"Dr. {self.doctor.name} is already booked for the selected date ({appointment_date}) and time slot ({appointment_time.strftime('%I:%M %p')}). Please choose a different slot."
+                    f"{self.doctor.display_name} is already booked for the selected date ({appointment_date}) and time slot ({appointment_time.strftime('%I:%M %p')}). Please choose a different slot."
                 )
 
         return cleaned_data

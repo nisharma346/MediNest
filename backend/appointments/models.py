@@ -92,4 +92,4 @@ class Appointment(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Appointment #{self.id} - {self.patient_name} with Dr. {self.doctor.name}"
+        return f"Appointment #{self.id} - {self.patient_name} with {self.doctor.display_name}"

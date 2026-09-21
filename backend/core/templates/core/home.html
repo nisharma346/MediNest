@@ -740,6 +740,20 @@
                             {{ product.name }}
                         </h5>
 
+                        <!-- Rating -->
+                        <div class="product-rating mb-2">
+                            {% if product.review_count > 0 %}
+                                <span class="text-warning">
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+                                <span class="fw-bold text-dark ms-1" style="font-size: 14px;">{{ product.average_rating }}</span>
+                                <span class="text-muted" style="font-size: 13px;">({{ product.review_count }})</span>
+                            {% else %}
+                                <span class="text-muted" style="font-size: 13px;">No reviews yet</span>
+                            {% endif %}
+                        </div>
+
+
                         <div class="mb-3">
 
                             <span class="product-price">
@@ -783,6 +797,83 @@
                     Products will appear here once added from the admin panel.
                 </p>
 
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LATEST HEALTH ARTICLES
+========================= -->
+
+<section class="home-section bg-light-subtle">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Latest Health Articles</h2>
+
+            <p>
+                Informative health reads to help you make confident,
+                everyday wellness decisions.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for article in latest_articles %}
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="product-card h-100">
+
+                    {% if article.featured_image %}
+
+                    <img src="{{ article.featured_image.url }}" class="product-image" alt="{{ article.title }}">
+
+                    {% else %}
+
+                    <div class="product-image d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-newspaper fa-3x text-secondary"></i>
+                    </div>
+
+                    {% endif %}
+
+                    <div class="product-content">
+
+                        <div class="product-category">
+                            {% if article.category %}{{ article.category.name }}{% endif %}
+                        </div>
+
+                        <h5>{{ article.title }}</h5>
+
+                        <p class="text-muted small mb-3">
+                            {{ article.short_description|truncatechars:100 }}
+                        </p>
+
+                        <a href="{% url 'blog:article_detail' article.slug %}"
+                            class="btn btn-outline-primary w-100 mt-2">
+                            Read More
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+                <p class="text-muted">Health articles will appear here once published from the admin panel.</p>
             </div>
 
             {% endfor %}

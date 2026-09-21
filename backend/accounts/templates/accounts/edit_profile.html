@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediNest | Edit Profile
+{% endblock %}
+
+{% block content %}
+<section class="profile-edit-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-9">
+                <div class="edit-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="section-kicker">Account Settings</div>
+                            <h1 class="page-title">Edit Your Profile</h1>
+                            <p class="page-subtitle">Keep your MediNest account information up to date.</p>
+                        </div>
+                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-primary rounded-pill">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Back to Dashboard
+                        </a>
+                    </div>
+
+                    {% if messages %}
+                    <div class="messages-wrap mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} rounded-3 border-0 shadow-sm" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger rounded-3 mb-4">
+                            {% for error in form.non_field_errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="section-block">
+                            <div class="section-title-wrap">
+                                <span class="section-icon"><i class="fa-solid fa-user"></i></span>
+                                <h3>Personal Information</h3>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First
+                                        Name</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.first_name.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.last_name.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.email.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone
+                                        Number</label>
+                                    {{ form.phone_number }}
+                                    {% if form.phone_number.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.phone_number.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title-wrap">
+                                <span class="section-icon"><i class="fa-solid fa-location-dot"></i></span>
+                                <h3>Address Information</h3>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.address.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                                    {{ form.city }}
+                                    {% if form.city.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.city.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ form.state.id_for_label }}" class="form-label">State</label>
+                                    {{ form.state }}
+                                    {% if form.state.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.state.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ form.pincode.id_for_label }}" class="form-label">Pincode</label>
+                                    {{ form.pincode }}
+                                    {% if form.pincode.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.pincode.errors|join:", " }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary rounded-pill px-4">
+                                <i class="fa-solid fa-xmark me-2"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                <i class="fa-solid fa-floppy-disk me-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .profile-edit-page {
+        background: linear-gradient(180deg, #f3fbfd 0%, #f8fafb 100%);
+        min-height: 80vh;
+    }
+
+    .edit-card {
+        background: #fff;
+        border: 1px solid #edf2f7;
+        border-radius: 26px;
+        box-shadow: 0 12px 32px rgba(18, 63, 99, 0.06);
+        overflow: hidden;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 28px 28px 22px;
+        border-bottom: 1px solid #edf2f7;
+        background: linear-gradient(135deg, rgba(11, 98, 187, 0.04), rgba(12, 166, 161, 0.04));
+    }
+
+    .section-kicker {
+        color: #0d5ca3;
+        text-transform: uppercase;
+        letter-spacing: 0.10em;
+        font-weight: 700;
+        font-size: 11px;
+    }
+
+    .page-title {
+        color: #123f63;
+        font-weight: 800;
+        margin: 8px 0 6px;
+        font-size: clamp(2rem, 2vw, 2.5rem);
+    }
+
+    .page-subtitle {
+        color: #69849d;
+        margin: 0;
+    }
+
+    form {
+        padding: 28px;
+    }
+
+    .section-block {
+        border: 1px solid #edf2f7;
+        background: #fbfdff;
+        border-radius: 22px;
+        padding: 22px;
+        margin-bottom: 24px;
+    }
+
+    .section-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .section-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0b62bb, #14a7a9);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .section-title-wrap h3 {
+        margin: 0;
+        color: #123f63;
+        font-size: 1.3rem;
+        font-weight: 800;
+    }
+
+    .form-label {
+        font-weight: 700;
+        color: #214d72;
+        margin-bottom: 8px;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        border: 1px solid #dfeaf2;
+        border-radius: 12px;
+        background: #fff;
+        color: #173d5e;
+        padding: 12px 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #6fb9d2;
+        box-shadow: 0 0 0 4px rgba(77, 169, 200, 0.12);
+    }
+
+    .invalid-feedback {
+        display: block;
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 6px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    @media (max-width: 767px) {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

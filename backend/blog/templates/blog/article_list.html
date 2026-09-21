@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediNest | Health Articles
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light-subtle">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+                <i class="fa-solid fa-heart-pulse me-2"></i>Health Articles
+            </span>
+            <h1 class="fw-bold text-dark mb-3">Wellness Insights for Everyday Living</h1>
+            <p class="text-muted mx-auto" style="max-width: 700px;">
+                Explore trusted, medically relevant articles on fitness, nutrition, heart care, women's health, and
+                more.
+            </p>
+        </div>
+
+        {% if featured_articles %}
+        <div class="mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h3 class="fw-bold text-dark mb-0">Featured Articles</h3>
+            </div>
+
+            <div class="row g-4">
+                {% for article in featured_articles %}
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+                        {% if article.featured_image %}
+                        <img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }}"
+                            style="height: 240px; object-fit: cover;">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center bg-light" style="height: 240px;">
+                            <i class="fa-solid fa-notes-medical fa-4x text-secondary"></i>
+                        </div>
+                        {% endif %}
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                {% if article.category %}
+                                <span
+                                    class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
+                                    {{article.category.name }}</span>
+                                {% endif %}
+                                <span class="small text-muted">{{ article.published_date|date:"M d, Y" }}</span>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-3">{{ article.title }}</h4>
+                            <p class="text-muted mb-4">{{ article.short_description }}</p>
+                            <a href="{% url 'blog:article_detail' article.slug %}"
+                                class="btn btn-primary rounded-3 px-3">
+                                Read Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-5">
+                    <form method="get" action="{% url 'blog:article_list' %}">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i
+                                    class="fa-solid fa-magnifying-glass text-primary"></i></span>
+                            <input type="text" name="q" value="{{ search_query }}" class="form-control border-start-0"
+                                placeholder="Search articles, symptoms, wellness topics...">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'blog:article_list' %}"
+                            class="btn btn-sm {% if not selected_category %}btn-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+                            All
+                        </a>
+                        {% for category in categories %}
+                        <a href="{% url 'blog:article_list' %}?category={{ category.slug }}{% if search_query %}&q={{ search_query }}{% endif %}"
+                            class="btn btn-sm {% if selected_category == category.slug %}btn-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+                            {{ category.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for article in articles %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+                    {% if article.featured_image %}
+                    <img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }}"
+                        style="height: 220px; object-fit: cover;">
+                    {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-light" style="height: 220px;">
+                        <i class="fa-solid fa-newspaper fa-4x text-secondary"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-4 d-flex flex-column">
+                        {% if article.category %}
+                        <span
+                            class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-2 mb-3 align-self-start">
+                            {{ article.category.name }}</span>
+                        {% endif %}
+                        <h4 class="fw-bold text-dark mb-3">{{ article.title }}</h4>
+                        <p class="text-muted mb-3 flex-grow-1">{{ article.short_description }}</p>
+                        <div
+                            class="d-flex justify-content-between align-items-center text-muted small border-top pt-3 mt-auto">
+                            <span><i class="fa-regular fa-calendar me-1"></i>{{ article.published_date|date:"M d, Y"}}
+                            </span>
+                            <a href="{% url 'blog:article_detail' article.slug %}"
+                                class="text-primary fw-semibold text-decoration-none">Read Article</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info border-0 rounded-4 shadow-sm text-center py-4">
+                    <i class="fa-solid fa-circle-info me-2"></i>
+                    No articles match your current search or category filter.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

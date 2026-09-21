@@ -47,7 +47,7 @@
         color: #14213d;
         font-size: 38px;
         font-weight: 700;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
     }
 
     .detail-description {
@@ -110,6 +110,32 @@
         transform: translateY(-2px);
     }
 
+    .wishlist-action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e11d48;
+        background: white;
+        color: #e11d48;
+        text-decoration: none;
+        padding: 13px 26px;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-left: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .wishlist-action-btn:hover {
+        background: #fff1f2;
+        color: #be123c;
+    }
+
+    .wishlist-action-btn.active {
+        background: #e11d48;
+        color: white;
+    }
+
     .back-btn {
         display: inline-block;
         color: #0d6efd;
@@ -139,7 +165,7 @@
             ← Back to Products
         </a>
 
-        <div class="detail-card">
+        <div class="detail-card mb-5">
 
             <div class="row align-items-center g-5">
 
@@ -168,9 +194,24 @@
                         {{ product.category.name }}
                     </div>
 
-                    <h1 class="detail-title">
+                    <h1 class="detail-title mb-2">
                         {{ product.name }}
                     </h1>
+
+                    <!-- Rating Header -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-warning me-2 fs-6">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= product.average_rating %}
+                                    <i class="fa-solid fa-star"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star text-muted" style="opacity: 0.4;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="fw-bold me-2">{{ product.average_rating }}</span>
+                        <span class="text-muted">({{ product.review_count }} review{% if product.review_count != 1 %}s{% endif %})</span>
+                    </div>
 
                     <p class="detail-description">
                         {{ product.description }}
@@ -213,10 +254,28 @@
                     </p>
 
 
-                    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">
-                        <i class="fa-solid fa-cart-shopping me-2"></i>
-                        Add to Cart
-                    </a>
+                    <div class="d-flex flex-wrap align-items-center">
+                        <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">
+                            <i class="fa-solid fa-cart-shopping me-2"></i>
+                            Add to Cart
+                        </a>
+
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'wishlist:add_to_wishlist' product.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="wishlist-action-btn {% if in_wishlist %}active{% endif %}">
+                                <i class="fa-solid fa-heart me-2"></i>
+                                {% if in_wishlist %}Added to Wishlist{% else %}Add to Wishlist{% endif %}
+                            </button>
+                        </form>
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="wishlist-action-btn">
+                            <i class="fa-regular fa-heart me-2"></i>
+                            Add to Wishlist
+                        </a>
+                        {% endif %}
+                    </div>
 
                     {% else %}
 
@@ -232,8 +291,221 @@
 
         </div>
 
+
+        <!-- REVIEWS & RATINGS SECTION -->
+        <div class="reviews-wrapper mt-5">
+            <h3 class="fw-bold mb-4" style="color: #14213d;">Customer Reviews & Ratings</h3>
+
+            <div class="row g-4 mb-5">
+                <!-- Rating Summary Card -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
+                        <div class="display-4 fw-bold text-primary mb-1">
+                            ⭐ {{ product.average_rating }} <span class="fs-5 text-muted">/ 5</span>
+                        </div>
+                        <div class="text-warning mb-2 fs-5">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= product.average_rating %}
+                                    <i class="fa-solid fa-star"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star text-muted" style="opacity: 0.4;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="text-muted fw-semibold">
+                            Based on {{ product.review_count }} review{% if product.review_count != 1 %}s{% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rating Breakdown Card -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 justify-content-center">
+                        <h6 class="fw-bold mb-3">Rating Breakdown</h6>
+                        {% for star, count in rating_breakdown.counts.items %}
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="text-muted me-3" style="width: 60px; font-size: 14px;">
+                                    {{ star }} Star{% if star != 1 %}s{% endif %}
+                                </div>
+                                <div class="progress flex-grow-1 me-3" style="height: 10px; border-radius: 10px; background: #eef3f8;">
+                                    <div class="progress-bar bg-warning" role="progressbar" 
+                                         style="width: {% if star == 5 %}{{ rating_breakdown.percentages.5 }}{% elif star == 4 %}{{ rating_breakdown.percentages.4 }}{% elif star == 3 %}{{ rating_breakdown.percentages.3 }}{% elif star == 2 %}{{ rating_breakdown.percentages.2 }}{% else %}{{ rating_breakdown.percentages.1 }}{% endif %}%; border-radius: 10px;"></div>
+                                </div>
+                                <div class="text-muted small fw-semibold" style="width: 40px; text-align: right;">
+                                    {{ count }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- WRITE / EDIT REVIEW FORM -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-5 bg-white">
+                {% if user.is_authenticated %}
+                    {% if has_purchased or user_review %}
+                        <h5 class="fw-bold mb-3" style="color: #0b3d91;">
+                            {% if user_review %}Edit Review{% else %}Write a Review{% endif %}
+                        </h5>
+                        <form method="post" action="{% url 'products:add_or_edit_review' product.slug %}">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Rating:</label>
+                                <div class="star-rating-input d-flex align-items-center gap-2 fs-3 text-warning">
+                                    <input type="hidden" name="rating" id="selected-rating" value="{{ user_review.rating|default:'' }}">
+                                    {% for i in "12345" %}
+                                        <i class="fa-regular fa-star star-icon" data-value="{{ forloop.counter }}" style="cursor: pointer;"></i>
+                                    {% endfor %}
+                                    <span id="rating-label" class="ms-2 fs-6 text-muted font-weight-normal">Select rating</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="id_review_text" class="form-label fw-semibold">Review:</label>
+                                {{ review_form.review_text }}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+                                <i class="fa-solid fa-paper-plane me-2"></i>
+                                {% if user_review %}Update Review{% else %}Submit Review{% endif %}
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info border-0 rounded-3 mb-0 d-flex align-items-center" style="background: #eef7ff; color: #0d6efd;">
+                            <i class="fa-solid fa-circle-info fs-4 me-3"></i>
+                            <div>
+                                You can review this product after purchasing it.
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning border-0 rounded-3 mb-0 d-flex align-items-center">
+                        <i class="fa-solid fa-lock fs-4 me-3"></i>
+                        <div>
+                            Please <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="fw-bold text-decoration-underline">log in</a> to write a review. You can review this product after purchasing it.
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- INDIVIDUAL REVIEWS LIST -->
+            <div class="reviews-list">
+                <h5 class="fw-bold mb-4" style="color: #14213d;">
+                    Customer Feedback ({{ product.review_count }})
+                </h5>
+
+                {% if approved_reviews %}
+                    <div class="row g-3">
+                        {% for review in approved_reviews %}
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="fw-bold fs-6 text-dark">
+                                                <i class="fa-solid fa-user-circle me-2 text-secondary"></i>
+                                                {{ review.user.get_full_name|default:review.user.username }}
+                                            </div>
+                                            <div class="text-warning my-1 fs-6">
+                                                {% for i in "12345" %}
+                                                    {% if forloop.counter <= review.rating %}
+                                                        <i class="fa-solid fa-star"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star text-muted" style="opacity: 0.4;"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="text-muted small d-block">
+                                                {{ review.created_at|date:"M d, Y" }}
+                                            </span>
+                                            {% if user.is_authenticated and review.user == user %}
+                                                <form method="post" action="{% url 'products:delete_review' review.id %}" class="d-inline mt-1" onsubmit="return confirm('Are you sure you want to delete your review?');">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-link btn-sm text-danger p-0 text-decoration-none border-0" style="font-size: 13px;">
+                                                        <i class="fa-solid fa-trash me-1"></i>Delete Review
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="text-secondary mb-0 mt-2" style="line-height: 1.6;">
+                                        {{ review.review_text|linebreaksbr }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4 bg-white rounded-4 shadow-sm">
+                        <i class="fa-regular fa-comments fs-1 text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No reviews yet for this product. Be the first verified buyer to leave a review!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
     </div>
 
 </section>
+
+<!-- JAVASCRIPT FOR STAR RATING SELECTION -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const starIcons = document.querySelectorAll('.star-icon');
+    const ratingInput = document.getElementById('selected-rating');
+    const ratingLabel = document.getElementById('rating-label');
+
+    const labels = {
+        1: '1 Star - Poor',
+        2: '2 Stars - Fair',
+        3: '3 Stars - Average',
+        4: '4 Stars - Good',
+        5: '5 Stars - Excellent'
+    };
+
+    function highlightStars(rating) {
+        starIcons.forEach(icon => {
+            const val = parseInt(icon.getAttribute('data-value'));
+            if (val <= rating) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+        });
+        if (rating && labels[rating]) {
+            ratingLabel.textContent = labels[rating];
+        } else {
+            ratingLabel.textContent = 'Select rating';
+        }
+    }
+
+    const currentVal = parseInt(ratingInput ? ratingInput.value : 0);
+    if (currentVal > 0) {
+        highlightStars(currentVal);
+    }
+
+    starIcons.forEach(icon => {
+        icon.addEventListener('mouseover', function() {
+            const val = parseInt(this.getAttribute('data-value'));
+            highlightStars(val);
+        });
+
+        icon.addEventListener('mouseout', function() {
+            const savedVal = parseInt(ratingInput.value || 0);
+            highlightStars(savedVal);
+        });
+
+        icon.addEventListener('click', function() {
+            const val = parseInt(this.getAttribute('data-value'));
+            ratingInput.value = val;
+            highlightStars(val);
+        });
+    });
+});
+</script>
 
 {% endblock %}
