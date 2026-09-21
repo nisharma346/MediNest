@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .update-detail-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #edf2f5;
+        padding: 35px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .update-detail-img {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 16px;
+        margin-bottom: 30px;
+    }
+
+    .update-callout {
+        background: #f0fdf4;
+        border-left: 4px solid #16a34a;
+        padding: 18px 22px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        color: #15803d;
+        font-size: 15.5px;
+        font-weight: 500;
+        line-height: 1.6;
+    }
+
+    .update-content-text {
+        color: #334155;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .sidebar-card {
+        background: white;
+        border-radius: 18px;
+        border: 1px solid #edf2f5;
+        padding: 24px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .sidebar-update-item {
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .sidebar-update-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+</style>
+
+<div class="container py-4">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'core:health_update_list' %}" class="text-decoration-none">Health Updates</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ update.title|truncatechars:40 }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <div class="update-detail-card">
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold" style="font-size: 12.5px;">
+                        <i class="fa-solid fa-tag me-1"></i> {{ update.category }}
+                    </span>
+                    <span class="text-muted small">
+                        <i class="fa-regular fa-calendar-check me-1 text-primary"></i> {{ update.published_date|date:"F d, Y" }}
+                    </span>
+                    <span class="text-muted small ms-auto">
+                        <i class="fa-solid fa-shield-halved me-1 text-success"></i> Official Notice
+                    </span>
+                </div>
+
+                <h1 class="fw-bold text-dark mb-3" style="font-size: 32px; line-height: 1.25;">
+                    {{ update.title }}
+                </h1>
+
+                {% if update.image %}
+                <img src="{{ update.image.url }}" alt="{{ update.title }}" class="update-detail-img">
+                {% endif %}
+
+                <div class="update-callout">
+                    <i class="fa-solid fa-circle-info me-2"></i> {{ update.short_description }}
+                </div>
+
+                <div class="update-content-text mb-4">
+                    {{ update.content|linebreaks }}
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <a href="{% url 'core:health_update_list' %}" class="btn btn-outline-secondary rounded-pill px-4 fw-semibold">
+                        <i class="fa-solid fa-arrow-left me-2"></i> All Health Updates
+                    </a>
+
+                    <a href="{% url 'doctors:doctor_list' %}" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                        <i class="fa-solid fa-user-doctor me-2"></i> Consult a Doctor
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Recent Updates Card -->
+            <div class="sidebar-card mb-4">
+                <h5 class="fw-bold text-dark mb-3">
+                    <i class="fa-solid fa-bullhorn text-primary me-2"></i> Recent Updates
+                </h5>
+
+                {% for item in recent_updates %}
+                <div class="sidebar-update-item">
+                    <span class="badge bg-light text-secondary mb-1" style="font-size: 11px;">
+                        {{ item.category }}
+                    </span>
+                    <h6 class="fw-bold mb-1" style="font-size: 14.5px;">
+                        <a href="{% url 'core:health_update_detail' item.slug %}" class="text-dark text-decoration-none hover-primary">
+                            {{ item.title }}
+                        </a>
+                    </h6>
+                    <small class="text-muted">
+                        <i class="fa-regular fa-clock me-1"></i> {{ item.published_date|date:"M d, Y" }}
+                    </small>
+                </div>
+                {% empty %}
+                <p class="text-muted small mb-0">No other recent health updates.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Help Box -->
+            <div class="sidebar-card bg-primary text-white p-4 text-center">
+                <i class="fa-solid fa-headset fa-3x mb-3 text-white-50"></i>
+                <h5 class="fw-bold mb-2">Have Health Questions?</h5>
+                <p class="small text-white-75 mb-3">Our verified medical professionals are ready to assist you with personalized consultation.</p>
+                <a href="{% url 'doctors:doctor_list' %}" class="btn btn-light text-primary rounded-pill w-100 fw-bold py-2">
+                    Book Consultation <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Avg
@@ -10,7 +10,7 @@ from doctors.models import Doctor
 from appointments.models import Appointment
 from orders.models import Order
 from wishlist.models import WishlistItem
-from .models import Service
+from .models import Service, Testimonial, HealthUpdate, GalleryItem
 
 
 User = get_user_model()
@@ -33,6 +33,18 @@ def home(request):
         is_published=True
     ).select_related("category").order_by("-published_date", "-created_at")[:4]
 
+    testimonials = Testimonial.objects.filter(
+        is_approved=True
+    ).order_by("-is_featured", "-created_at")[:6]
+
+    latest_updates = HealthUpdate.objects.filter(
+        is_active=True
+    ).order_by("-is_featured", "-published_date")[:4]
+
+    gallery_items = GalleryItem.objects.filter(
+        is_active=True
+    ).order_by("-is_featured", "-created_at")[:6]
+
     # Dynamic Statistics
     total_products_count = Product.objects.filter(is_active=True).count()
     total_doctors_count = Doctor.objects.filter(is_available=True).count()
@@ -54,6 +66,9 @@ def home(request):
             "featured_doctors": featured_doctors,
             "services": services,
             "latest_articles": latest_articles,
+            "testimonials": testimonials,
+            "latest_updates": latest_updates,
+            "gallery_items": gallery_items,
             "total_products_count": total_products_count,
             "total_doctors_count": total_doctors_count,
             "avg_patient_rating": avg_patient_rating,
@@ -61,6 +76,62 @@ def home(request):
         }
     )
 
+
+def gallery_list(request):
+    category = request.GET.get("category", "").strip()
+    items = GalleryItem.objects.filter(is_active=True)
+    if category:
+        items = items.filter(category=category)
+    items = items.order_by("-is_featured", "-created_at")
+
+    categories = GalleryItem.CATEGORY_CHOICES
+
+    return render(
+        request,
+        "core/gallery_list.html",
+        {
+            "items": items,
+            "categories": categories,
+            "selected_category": category,
+        }
+    )
+
+
+
+def health_update_list(request):
+    category = request.GET.get("category", "").strip()
+    updates = HealthUpdate.objects.filter(is_active=True)
+    if category:
+        updates = updates.filter(category=category)
+    updates = updates.order_by("-is_featured", "-published_date")
+
+    categories = HealthUpdate.CATEGORY_CHOICES
+
+    return render(
+        request,
+        "core/health_update_list.html",
+        {
+            "updates": updates,
+            "categories": categories,
+            "selected_category": category,
+        }
+    )
+
+
+def health_update_detail(request, slug):
+    update = get_object_or_404(HealthUpdate, slug=slug, is_active=True)
+    recent_updates = HealthUpdate.objects.filter(
+        is_active=True
+    ).exclude(pk=update.pk).order_by("-published_date")[:5]
+
+    return render(
+        request,
+        "core/health_update_detail.html",
+        {
+            "update": update,
+            "recent_updates": recent_updates,
+        }
+    )
 
 
 def services(request):
@@ -73,6 +144,7 @@ def services(request):
         "core/services.html",
         {"services": services}
     )
+
 
 
 @login_required

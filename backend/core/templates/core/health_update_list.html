@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .updates-header {
+        background: linear-gradient(135deg, #0b3d91 0%, #00798c 100%);
+        color: white;
+        padding: 55px 0 45px;
+        margin-bottom: 40px;
+        border-radius: 0 0 24px 24px;
+    }
+
+    .category-pill {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 13.5px;
+        font-weight: 600;
+        text-decoration: none;
+        color: #475569;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        transition: all 0.25s ease;
+    }
+
+    .category-pill:hover,
+    .category-pill.active {
+        background: #0b3d91;
+        color: white !important;
+        border-color: #0b3d91;
+    }
+
+    .update-card {
+        height: 100%;
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #edf2f5;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .update-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(11, 61, 145, 0.12);
+    }
+
+    .update-img {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        background: #f8fafc;
+    }
+
+    .update-img-placeholder {
+        height: 180px;
+        width: 100%;
+        background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+        color: #0284c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+    }
+
+    .update-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .update-badge {
+        display: inline-block;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .update-featured-badge {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .update-title {
+        color: #0f172a;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1.4;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .update-desc {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+
+    .update-meta {
+        font-size: 13px;
+        color: #94a3b8;
+    }
+</style>
+
+<!-- Header Banner -->
+<section class="updates-header">
+    <div class="container text-center">
+        <span class="badge bg-white text-primary px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm" style="font-size: 13px;">
+            <i class="fa-solid fa-bullhorn me-1"></i> Official Announcements & Advisories
+        </span>
+        <h1 class="fw-extrabold display-5 mb-3">Health Updates & Notices</h1>
+        <p class="lead opacity-90 mx-auto" style="max-width: 680px; font-size: 17px;">
+            Stay informed with official MediNest advisories, public health notices, wellness updates, and platform announcements.
+        </p>
+    </div>
+</section>
+
+<div class="container mb-5">
+
+    <!-- Category Filters -->
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+        <a href="{% url 'core:health_update_list' %}"
+            class="category-pill {% if not selected_category %}active{% endif %}">
+            All Updates
+        </a>
+        {% for cat_val, cat_label in categories %}
+        <a href="{% url 'core:health_update_list' %}?category={{ cat_val|urlencode }}"
+            class="category-pill {% if selected_category == cat_val %}active{% endif %}">
+            {{ cat_label }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Announcement Grid -->
+    <div class="row g-4">
+        {% for update in updates %}
+        <div class="col-md-6 col-lg-4">
+            <div class="update-card position-relative">
+                {% if update.image %}
+                <img src="{{ update.image.url }}" alt="{{ update.title }}" class="update-img">
+                {% else %}
+                <div class="update-img-placeholder">
+                    <i class="fa-solid fa-notes-medical"></i>
+                </div>
+                {% endif %}
+
+                <div class="update-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="update-badge">
+                            {{ update.category }}
+                        </span>
+                        {% if update.is_featured %}
+                        <span class="update-badge update-featured-badge">
+                            <i class="fa-solid fa-star me-1"></i> Featured
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="update-title">{{ update.title }}</h5>
+
+                    <p class="update-desc">{{ update.short_description }}</p>
+
+                    <div class="pt-3 border-top d-flex align-items-center justify-content-between mt-auto">
+                        <span class="update-meta">
+                            <i class="fa-regular fa-calendar-check me-1 text-primary"></i>
+                            {{ update.published_date|date:"M d, Y" }}
+                        </span>
+
+                        <a href="{% url 'core:health_update_detail' update.slug %}"
+                            class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
+                            Read Update <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="p-5 bg-light rounded-4 border max-w-md mx-auto" style="max-width: 550px;">
+                <i class="fa-solid fa-bullhorn fa-4x text-muted mb-3 opacity-40"></i>
+                <h4 class="fw-bold text-dark mb-2">No Health Updates Available</h4>
+                <p class="text-muted mb-4">
+                    {% if selected_category %}
+                    No updates found in the <strong>"{{ selected_category }}"</strong> category.
+                    {% else %}
+                    There are no published announcements or health updates at the moment. Please check back soon!
+                    {% endif %}
+                </p>
+                <a href="{% url 'core:health_update_list' %}" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                    <i class="fa-solid fa-rotate-left me-1"></i> View All Categories
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

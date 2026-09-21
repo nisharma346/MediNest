@@ -390,8 +390,186 @@
     }
 
     /* =========================
+       TESTIMONIAL CARDS
+    ========================= */
+
+    .testimonial-card {
+        height: 100%;
+        background: white;
+        border-radius: 20px;
+        padding: 26px;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 80, 120, 0.10);
+    }
+
+    .testimonial-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e2f1f8;
+    }
+
+    .testimonial-avatar-placeholder {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+        color: #0284c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+        border: 2px solid #e2f1f8;
+    }
+
+    .testimonial-name {
+        font-weight: 700;
+        color: #19324d;
+        font-size: 16px;
+    }
+
+    .testimonial-rating {
+        font-size: 13.5px;
+        color: #f59e0b;
+    }
+
+    .testimonial-quote-icon {
+        color: #0099a8;
+        font-size: 18px;
+        opacity: 0.8;
+    }
+
+    .testimonial-message {
+        color: #52677d;
+        font-size: 14.5px;
+        line-height: 1.65;
+        margin-bottom: 20px;
+        font-style: italic;
+        flex-grow: 1;
+    }
+
+    .testimonial-featured-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: #fef3c7;
+        color: #b45309;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* =========================
+       HEALTH UPDATES CARDS
+    ========================= */
+
+    .notice-card {
+        height: 100%;
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+        border-left: 5px solid #00798c;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .notice-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 121, 140, 0.12);
+        border-left-color: #0b3d91;
+    }
+
+    .notice-category-badge {
+        display: inline-block;
+        background: #f0fdf4;
+        color: #166534;
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .notice-title {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 17px;
+        margin-top: 10px;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .notice-desc {
+        color: #64748b;
+        font-size: 13.5px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        flex-grow: 1;
+    }
+
+
+    /* =========================
+       HOME GALLERY CARDS
+    ========================= */
+
+    .home-gallery-card {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid #edf2f5;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+        background: white;
+        height: 220px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .home-gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .home-gallery-card:hover img {
+        transform: scale(1.08);
+    }
+
+    .home-gallery-info {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.85) 100%);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+
+    /* =========================
        CTA SECTION
     ========================= */
+
+
 
     .cta-section {
         padding: 75px 0;
@@ -748,6 +926,74 @@
 </section>
 
 
+<!-- LATEST HEALTH UPDATES & ANNOUNCEMENTS SECTION -->
+<section class="home-section" style="background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);">
+    <div class="container">
+        <div class="section-heading">
+            <h2>Latest Health Updates & Announcements</h2>
+            <p>Official advisories, health awareness notices, and platform updates from the MediNest medical team.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for update in latest_updates %}
+            <div class="col-md-6 col-lg-3">
+                <div class="notice-card position-relative">
+                    {% if update.is_featured %}
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span class="badge bg-warning text-dark rounded-pill fw-bold" style="font-size: 10.5px;">
+                            <i class="fa-solid fa-star me-1"></i> Featured
+                        </span>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <span class="notice-category-badge">
+                            {{ update.category }}
+                        </span>
+                    </div>
+
+                    <h5 class="notice-title">
+                        <a href="{% url 'core:health_update_detail' update.slug %}" class="text-decoration-none text-dark hover-primary">
+                            {{ update.title }}
+                        </a>
+                    </h5>
+
+                    <p class="notice-desc">
+                        {{ update.short_description|truncatechars:95 }}
+                    </p>
+
+                    <div class="pt-2 border-top d-flex align-items-center justify-content-between mt-auto">
+                        <small class="text-muted" style="font-size: 12px;">
+                            <i class="fa-regular fa-clock me-1 text-primary"></i> {{ update.published_date|date:"M d, Y" }}
+                        </small>
+
+                        <a href="{% url 'core:health_update_detail' update.slug %}" class="btn btn-link btn-sm p-0 fw-bold text-decoration-none text-primary" style="font-size: 13px;">
+                            Read <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <div class="p-4 bg-white rounded-4 border">
+                    <i class="fa-solid fa-bullhorn fa-3x text-muted mb-3 opacity-50"></i>
+                    <p class="text-muted mb-0 fw-medium">No health updates or announcements published at the moment.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if latest_updates %}
+        <div class="text-center mt-5">
+            <a href="{% url 'core:health_update_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-bullhorn me-2"></i> View All Health Updates
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
 <!-- LATEST HEALTH ARTICLES -->
 <section class="home-section bg-light-subtle">
     <div class="container">
@@ -799,6 +1045,147 @@
             </a>
         </div>
         {% endif %}
+    </div>
+</section>
+
+
+<!-- HEALTH & WELLNESS GALLERY SECTION -->
+<section class="home-section why-section">
+    <div class="container">
+        <div class="section-heading">
+            <h2>Health & Wellness Gallery</h2>
+            <p>Visual highlights of MediNest facilities, wellness programs, medical camps, and healthcare services.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for item in gallery_items %}
+            <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="home-gallery-card" data-bs-toggle="modal" data-bs-target="#homeGalleryModal{{ item.id }}">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                    {% else %}
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-muted">
+                        <i class="fa-regular fa-image fa-3x opacity-50"></i>
+                    </div>
+                    {% endif %}
+
+                    <div class="home-gallery-info">
+                        <span class="badge bg-primary text-white me-auto mb-1" style="font-size: 11px;">
+                            {{ item.category }}
+                        </span>
+                        <h6 class="fw-bold mb-0 text-white text-truncate">{{ item.title }}</h6>
+                    </div>
+                </div>
+
+                <!-- Modal Lightbox for Homepage Item -->
+                <div class="modal fade" id="homeGalleryModal{{ item.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
+                            <div class="modal-header border-0 bg-light py-3 px-4">
+                                <div>
+                                    <span class="badge bg-primary text-white me-2" style="font-size: 11px;">{{ item.category }}</span>
+                                    <h5 class="modal-title fw-bold text-dark d-inline mb-0">{{ item.title }}</h5>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-0 text-center bg-black">
+                                {% if item.image %}
+                                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid" style="max-height: 520px; object-fit: contain;">
+                                {% endif %}
+                            </div>
+                            {% if item.description %}
+                            <div class="modal-footer border-0 bg-light p-3">
+                                <p class="text-secondary small mb-0 w-100 text-start">{{ item.description }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <div class="p-4 bg-white rounded-4 border">
+                    <i class="fa-regular fa-images fa-3x text-muted mb-3 opacity-50"></i>
+                    <p class="text-muted mb-0 fw-medium">Gallery items will appear here once uploaded from the admin panel.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if gallery_items %}
+        <div class="text-center mt-5">
+            <a href="{% url 'core:gallery_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                <i class="fa-solid fa-images me-2"></i> View Full Gallery
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<!-- PATIENT TESTIMONIALS SECTION -->
+<section class="home-section">
+    <div class="container">
+        <div class="section-heading">
+            <h2>What Our Patients Say</h2>
+            <p>Real stories and experiences shared by people who trust MediNest for their everyday health and wellness.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6 col-lg-4">
+                <div class="testimonial-card position-relative">
+                    {% if testimonial.is_featured %}
+                    <div class="testimonial-featured-badge">
+                        <i class="fa-solid fa-star me-1"></i> Featured
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex align-items-center mb-3">
+                        {% if testimonial.profile_image %}
+                        <img src="{{ testimonial.profile_image.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar me-3">
+                        {% else %}
+                        <div class="testimonial-avatar-placeholder me-3">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        {% endif %}
+
+                        <div>
+                            <h5 class="testimonial-name mb-0">{{ testimonial.name }}</h5>
+                            <div class="testimonial-rating mt-1">
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= testimonial.rating %}
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star text-muted opacity-40"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-quote-icon mb-2">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+
+                    <p class="testimonial-message">
+                        "{{ testimonial.message }}"
+                    </p>
+
+                    <div class="testimonial-date text-muted small mt-auto pt-2 border-top">
+                        <i class="fa-regular fa-calendar me-1"></i> {{ testimonial.created_at|date:"M d, Y" }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <div class="p-4 bg-white rounded-4 border">
+                    <i class="fa-regular fa-comment-dots fa-3x text-muted mb-3 opacity-50"></i>
+                    <p class="text-muted mb-0 fw-medium">No patient testimonials available yet. Verified reviews and experiences will appear here.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
