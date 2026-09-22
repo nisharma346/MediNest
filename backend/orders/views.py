@@ -182,7 +182,19 @@ def payment_callback(request):
             status=400,
         )
 
-    order = Order.objects.get(id=local_order_id, user=request.user)
+    order = get_object_or_404(Order, id=local_order_id, user=request.user)
+
+    if order.status == "cancelled":
+        return JsonResponse(
+            {"success": False, "message": "Cancelled orders cannot be processed for payment."},
+            status=400,
+        )
+
+    if order.razorpay_order_id and order.razorpay_order_id != razorpay_order_id:
+        return JsonResponse(
+            {"success": False, "message": "Razorpay order ID mismatch."},
+            status=400,
+        )
 
     if not _verify_razorpay_signature(razorpay_order_id, payment_id, signature):
         return JsonResponse(
@@ -213,6 +225,7 @@ def payment_callback(request):
             "redirect_url": reverse("orders:order_success", args=[order.id]),
         }
     )
+
 
 
 @login_required
