@@ -199,4 +199,34 @@ class GalleryItem(models.Model):
     def __str__(self):
         return f"{self.title} ({self.category})"
 
+
+class ContactMessage(models.Model):
+    STATUS_CHOICES = (
+        ("New", "New"),
+        ("Read", "Read"),
+        ("Replied", "Replied"),
+    )
+
+    name = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, default="")
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="New"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Contact Message"
+        verbose_name_plural = "Contact Messages"
+
+    def __str__(self):
+        return f"{self.subject} - {self.name} ({self.status})"
+
+
 

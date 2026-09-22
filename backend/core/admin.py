@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, Testimonial, HealthUpdate, GalleryItem
+from .models import Service, Testimonial, HealthUpdate, GalleryItem, ContactMessage
 
 
 @admin.register(Service)
@@ -213,6 +213,59 @@ class GalleryItemAdmin(admin.ModelAdmin):
     def unfeature(self, request, queryset):
         rows_updated = queryset.update(is_featured=False)
         self.message_user(request, f"{rows_updated} gallery item(s) unfeatured.")
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        "subject",
+        "name",
+        "email",
+        "phone",
+        "status",
+        "created_at",
+    )
+
+    list_filter = (
+        "status",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "email",
+        "subject",
+        "message",
+    )
+
+    list_editable = (
+        "status",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    actions = [
+        "mark_as_read",
+        "mark_as_replied",
+    ]
+
+    @admin.action(description="Mark selected messages as Read")
+    def mark_as_read(self, request, queryset):
+        updated = queryset.update(status="Read")
+        self.message_user(request, f"{updated} contact message(s) marked as Read.")
+
+    @admin.action(description="Mark selected messages as Replied")
+    def mark_as_replied(self, request, queryset):
+        updated = queryset.update(status="Replied")
+        self.message_user(request, f"{updated} contact message(s) marked as Replied.")
+
 
 
 

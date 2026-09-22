@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - MediNest{% endblock %}
+
+{% block content %}
+<style>
+    .contact-section {
+        padding: 60px 0;
+        background: #f8fbff;
+        min-height: 80vh;
+    }
+
+    .contact-heading {
+        max-width: 750px;
+        margin: 0 auto 40px;
+        text-align: center;
+    }
+
+    .contact-heading h1 {
+        font-weight: 700;
+        color: #14213d;
+        font-size: 38px;
+    }
+
+    .contact-heading p {
+        color: #6c757d;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .contact-card {
+        background: #ffffff;
+        border: 1px solid #edf1f7;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        height: 100%;
+    }
+
+    .contact-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .contact-info-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: #eaf3ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .contact-info-content h6 {
+        font-weight: 700;
+        color: #14213d;
+        margin-bottom: 4px;
+        font-size: 16px;
+    }
+
+    .contact-info-content p {
+        color: #6c757d;
+        margin-bottom: 0;
+        font-size: 14.5px;
+        line-height: 1.5;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #14213d;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px 16px;
+        border: 1px solid #dee2e6;
+        font-size: 14.5px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+
+    .btn-submit-contact {
+        background: linear-gradient(135deg, #0750a0, #00a49b);
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        padding: 13px 30px;
+        font-weight: 600;
+        font-size: 15.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(7, 80, 160, 0.2);
+    }
+
+    .btn-submit-contact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(7, 80, 160, 0.3);
+        color: #ffffff;
+    }
+</style>
+
+<div class="contact-section">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="contact-heading">
+            <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">
+                <i class="fa-solid fa-headset me-1"></i> Get In Touch
+            </span>
+            <h1>Contact MediNest Healthcare</h1>
+            <p>Have a question or need assistance with medical appointments, health products, or services? Send us a message and our team will get back to you promptly.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Contact Information Sidebar -->
+            <div class="col-lg-4 col-md-5">
+                <div class="contact-card">
+                    <h4 class="fw-bold text-dark mb-4">Contact Information</h4>
+
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="contact-info-content">
+                            <h6>Our Headquarters</h6>
+                            <p>123 Healthcare Boulevard, Medical District, Tech City 10001</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div class="contact-info-content">
+                            <h6>Phone Numbers</h6>
+                            <p>+1 (800) 555-MEDINEST<br>+1 (800) 555-6334</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="contact-info-content">
+                            <h6>Email Support</h6>
+                            <p>support@medinest.com<br>care@medinest.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item mb-0">
+                        <div class="contact-info-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div class="contact-info-content">
+                            <h6>Working Hours</h6>
+                            <p>Mon - Fri: 8:00 AM - 8:00 PM<br>Sat - Sun: 9:00 AM - 5:00 PM<br><strong class="text-primary">24/7 Emergency Support</strong></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Contact Form Card -->
+            <div class="col-lg-7 col-md-7">
+                <div class="contact-card">
+                    <h4 class="fw-bold text-dark mb-3">Send Us a Message</h4>
+                    <p class="text-muted mb-4" style="font-size: 14.5px;">Fill out the form below and our medical team will respond shortly.</p>
+
+                    <form method="post" action="{% url 'core:contact' %}" novalidate>
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <div><i class="fa-solid fa-circle-exclamation me-2"></i>{{ error }}</div>
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-3">
+
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">
+                                    Full Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       name="{{ form.name.name }}"
+                                       id="{{ form.name.id_for_label }}"
+                                       value="{{ form.name.value|default:'' }}"
+                                       class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                       placeholder="Your Full Name">
+                                {% if form.name.errors %}
+                                <div class="invalid-feedback d-block mt-1">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.name.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">
+                                    Email Address <span class="text-danger">*</span>
+                                </label>
+                                <input type="email"
+                                       name="{{ form.email.name }}"
+                                       id="{{ form.email.id_for_label }}"
+                                       value="{{ form.email.value|default:'' }}"
+                                       class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                       placeholder="name@example.com">
+                                {% if form.email.errors %}
+                                <div class="invalid-feedback d-block mt-1">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.email.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                    Phone Number <span class="text-muted fw-normal">(Optional)</span>
+                                </label>
+                                <input type="text"
+                                       name="{{ form.phone.name }}"
+                                       id="{{ form.phone.id_for_label }}"
+                                       value="{{ form.phone.value|default:'' }}"
+                                       class="form-control {% if form.phone.errors %}is-invalid{% endif %}"
+                                       placeholder="e.g. +1 234 567 8900">
+                                {% if form.phone.errors %}
+                                <div class="invalid-feedback d-block mt-1">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.phone.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Subject -->
+                            <div class="col-md-6">
+                                <label for="{{ form.subject.id_for_label }}" class="form-label">
+                                    Subject <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       name="{{ form.subject.name }}"
+                                       id="{{ form.subject.id_for_label }}"
+                                       value="{{ form.subject.value|default:'' }}"
+                                       class="form-control {% if form.subject.errors %}is-invalid{% endif %}"
+                                       placeholder="Subject of your inquiry">
+                                {% if form.subject.errors %}
+                                <div class="invalid-feedback d-block mt-1">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.subject.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Message -->
+                            <div class="col-12">
+                                <label for="{{ form.message.id_for_label }}" class="form-label">
+                                    Message <span class="text-danger">*</span>
+                                </label>
+                                <textarea name="{{ form.message.name }}"
+                                          id="{{ form.message.id_for_label }}"
+                                          rows="5"
+                                          class="form-control {% if form.message.errors %}is-invalid{% endif %}"
+                                          placeholder="Please write your detailed message here...">{{ form.message.value|default:'' }}</textarea>
+                                {% if form.message.errors %}
+                                <div class="invalid-feedback d-block mt-1">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.message.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-submit-contact w-100 w-sm-auto">
+                                    <i class="fa-solid fa-paper-plane me-2"></i> Send Message
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -24,6 +24,28 @@
         .table-responsive {
             -webkit-overflow-scrolling: touch;
         }
+        .medinest-logo-footer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-size: 23px;
+            font-weight: 800;
+            color: #ffffff !important;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .medinest-logo-footer i {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0750a0, #00a49b);
+            color: white;
+            font-size: 19px;
+        }
         @media (max-width: 576px) {
             .container {
                 padding-left: 15px;
@@ -58,7 +80,12 @@
     <footer class="bg-dark text-white mt-5 py-4">
         <div class="container text-center">
 
-            <h5>MediNest 🏥</h5>
+            <div class="mb-2">
+                <a class="medinest-logo-footer" href="{% url 'core:home' %}">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    MediNest
+                </a>
+            </div>
 
             <p class="mb-1 text-white-50">
                 Your trusted healthcare & wellness platform.

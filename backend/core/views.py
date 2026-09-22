@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Avg
@@ -10,7 +11,8 @@ from doctors.models import Doctor
 from appointments.models import Appointment
 from orders.models import Order
 from wishlist.models import WishlistItem
-from .models import Service, Testimonial, HealthUpdate, GalleryItem
+from .models import Service, Testimonial, HealthUpdate, GalleryItem, ContactMessage
+from .forms import ContactForm
 
 
 User = get_user_model()
@@ -144,6 +146,32 @@ def services(request):
         "core/services.html",
         {"services": services}
     )
+
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                "Thank you for contacting MediNest. Our team will get back to you soon."
+            )
+            return redirect("core:contact")
+        else:
+            messages.error(
+                request,
+                "Please fix the validation errors below."
+            )
+    else:
+        form = ContactForm()
+
+    return render(
+        request,
+        "core/contact.html",
+        {"form": form}
+    )
+
 
 
 
