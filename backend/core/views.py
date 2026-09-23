@@ -148,6 +148,23 @@ def services(request):
     )
 
 
+def service_detail(request, pk):
+    service = get_object_or_404(Service, pk=pk, is_active=True)
+    other_services = Service.objects.filter(
+        is_active=True
+    ).exclude(pk=pk).order_by("name")[:4]
+
+    return render(
+        request,
+        "core/service_detail.html",
+        {
+            "service": service,
+            "other_services": other_services,
+        }
+    )
+
+
+
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
