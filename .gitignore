@@ -1,0 +1,29 @@
+# Environment / secrets
+.env
+*.env
+
+# Virtual environment
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+db.sqlite3
+*.sqlite3
+
+# User uploaded media
+media/
+
+# Backup / database dump
+medinest_backup.json
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

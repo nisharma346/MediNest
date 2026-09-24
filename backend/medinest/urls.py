@@ -17,6 +17,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("orders/", include("orders.urls")),
     path("blog/", include("blog.urls")),
+    path("ai-assistant/", include("ai_assistant.urls")),
 ]
 
 

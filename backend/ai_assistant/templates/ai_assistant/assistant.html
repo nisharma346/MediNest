@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+MediNest | AI Health Assistant
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'ai_assistant/css/assistant.css' %}">
+
+<section class="py-5 bg-light-subtle">
+    <div class="container ai-assistant-container">
+
+        <!-- Page Header -->
+        <div class="text-center mb-4">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+                <i class="fa-solid fa-robot me-2"></i>24/7 AI Health Companion
+            </span>
+            <h1 class="fw-bold text-dark display-6 mb-2">MediNest AI Health Assistant</h1>
+            <p class="text-muted fs-6 mx-auto" style="max-width: 620px;">
+                Get general health and wellness information instantly. Ask symptoms, wellness tips, nutrition guidelines, and healthy lifestyle questions.
+            </p>
+        </div>
+
+        <!-- Chat Card Container -->
+        <div class="card ai-card">
+            
+            <!-- Card Header Banner -->
+            <div class="ai-header-banner d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar-icon bg-white text-primary fw-bold shadow-sm">
+                        <i class="fa-solid fa-heart-pulse fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0 text-white">MediNest Assistant</h5>
+                        <small class="text-white-50"><i class="fa-solid fa-circle text-success me-1" style="font-size: 8px;"></i>Online • Educational Guidance Only</small>
+                    </div>
+                </div>
+
+                <button id="clearChatBtn" class="btn btn-outline-light btn-sm rounded-pill px-3" title="Clear Conversation">
+                    <i class="fa-solid fa-trash-can me-1"></i>Clear Chat
+                </button>
+            </div>
+
+            <div class="p-4 bg-white">
+                <!-- Medical Disclaimer Alert -->
+                <div class="disclaimer-alert d-flex align-items-start gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-warning fs-5 flex-shrink-0 mt-1"></i>
+                    <div>
+                        <strong>Medical Disclaimer:</strong> MediNest AI Health Assistant provides general educational health information only. It is not a licensed doctor and cannot diagnose medical conditions or prescribe medications. 
+                        <em>If this may be a medical emergency, seek immediate emergency medical care or call your local emergency service.</em>
+                    </div>
+                </div>
+
+                <!-- Quick Suggestion Pills -->
+                <div class="mb-3">
+                    <span class="small text-muted fw-semibold me-2 d-inline-block mb-1">Suggested Topics:</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="suggestion-pill" data-query="What are general ways to improve sleep quality?">
+                            <i class="fa-solid fa-moon me-1 text-primary"></i>Improve Sleep
+                        </button>
+                        <button type="button" class="suggestion-pill" data-query="What are common daily nutrition guidelines for adults?">
+                            <i class="fa-solid fa-apple-whole me-1 text-success"></i>Nutrition Tips
+                        </button>
+                        <button type="button" class="suggestion-pill" data-query="How can I manage mild stress and anxiety naturally?">
+                            <i class="fa-solid fa-brain me-1 text-info"></i>Stress Relief
+                        </button>
+                        <button type="button" class="suggestion-pill" data-query="What helps relieve a mild tension headache?">
+                            <i class="fa-solid fa-headache me-1 text-warning"></i>Tension Headache
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scrollable Chat Message Window -->
+                <div id="chatBox" class="chat-box rounded-3 border">
+                    <!-- Initial Welcome Message from AI -->
+                    <div class="message-row ai-row">
+                        <div class="avatar-icon ai-avatar">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div class="message-bubble ai-bubble">
+                            Hello! I am your <strong>MediNest AI Health Assistant</strong>.<br><br>
+                            I can provide general health information, wellness advice, nutrition tips, and explain general symptom categories.<br><br>
+                            <em>How can I assist you with your health and wellness today?</em>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form id="chatForm" class="mt-3">
+                    {% csrf_token %}
+                    <div class="input-group input-group-lg rounded-pill border overflow-hidden shadow-sm bg-white p-1">
+                        <input type="text" id="userInput" class="form-control border-0 bg-transparent fs-6 ps-3 shadow-none"
+                            placeholder="Ask a health or wellness question..." autocomplete="off" maxlength="1000" required>
+                        <button type="submit" id="sendBtn" class="btn btn-primary rounded-pill px-4 ms-1 fw-semibold" style="background: linear-gradient(90deg, #0750a0, #008f98); border: none;">
+                            Send <i class="fa-solid fa-paper-plane ms-1"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center px-2 mt-2">
+                        <small class="text-muted" style="font-size: 0.78rem;">
+                            <i class="fa-solid fa-lock me-1"></i>Session conversation only • Not saved to database
+                        </small>
+                        <small class="text-muted" style="font-size: 0.78rem;">
+                            Press Enter to send
+                        </small>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script src="{% static 'ai_assistant/js/assistant.js' %}"></script>
+{% endblock %}

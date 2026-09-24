@@ -1,13 +1,20 @@
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Article, ArticleCategory
 
 
 def article_list(request):
-    categories = ArticleCategory.objects.filter(is_active=True).order_by("name")
+    categories = ArticleCategory.objects.filter(is_active=True).annotate(
+        article_count=Count('articles', filter=Q(articles__is_published=True))
+    ).order_by("name")
+
     search_query = request.GET.get("q", "").strip()
     selected_category = request.GET.get("category", "")
+
+    selected_category_obj = None
+    if selected_category:
+        selected_category_obj = categories.filter(slug=selected_category).first()
 
     articles = Article.objects.filter(is_published=True).select_related("category")
 
@@ -33,7 +40,9 @@ def article_list(request):
         "featured_articles": featured_articles,
         "categories": categories,
         "selected_category": selected_category,
+        "selected_category_obj": selected_category_obj,
         "search_query": search_query,
+        "total_articles_count": articles.count(),
     }
     return render(request, "blog/article_list.html", context)
 

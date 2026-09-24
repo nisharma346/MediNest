@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'blog',
     'cart',
     'wishlist',
+    'ai_assistant',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,7 @@ MAILERS = {
 
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+
+# OpenAI Configuration
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

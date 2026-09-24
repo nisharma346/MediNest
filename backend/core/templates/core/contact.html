@@ -1,301 +1,485 @@
 {% extends "base.html" %}
 
-{% block title %}Contact Us - MediNest{% endblock %}
+{% block title %}Contact Us - MediNest Healthcare{% endblock %}
 
 {% block content %}
 <style>
-    .contact-section {
-        padding: 60px 0;
-        background: #f8fbff;
-        min-height: 80vh;
+    .contact-hero {
+        background: linear-gradient(135deg, #eaf8ff 0%, #f3fbff 50%, #e9faf4 100%);
+        border-bottom: 1px solid #e2e8f0;
     }
-
-    .contact-heading {
-        max-width: 750px;
-        margin: 0 auto 40px;
-        text-align: center;
+    .hero-badge-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        padding: 6px 16px;
+        border-radius: 50px;
+        border: 1px solid #dcecf8;
+        box-shadow: 0 4px 15px rgba(0, 80, 150, 0.06);
     }
-
-    .contact-heading h1 {
-        font-weight: 700;
-        color: #14213d;
-        font-size: 38px;
+    .hero-gradient-title {
+        background: linear-gradient(90deg, #063f91, #0099a8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
-
-    .contact-heading p {
-        color: #6c757d;
-        font-size: 16px;
-        margin-top: 10px;
-    }
-
     .contact-card {
         background: #ffffff;
-        border: 1px solid #edf1f7;
-        border-radius: 20px;
-        padding: 35px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
-        height: 100%;
+        border: 1px solid #e2e8f0;
+        border-radius: 1.25rem;
+        padding: 2.25rem;
+        box-shadow: 0 10px 30px rgba(7, 80, 160, 0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-
     .contact-info-item {
         display: flex;
         align-items: flex-start;
-        gap: 18px;
-        margin-bottom: 28px;
+        gap: 16px;
+        margin-bottom: 1.5rem;
     }
-
     .contact-info-icon {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
         border-radius: 14px;
-        background: #eaf3ff;
-        color: #0d6efd;
+        background: linear-gradient(135deg, #eaf3ff, #e6f4f1);
+        color: #0750a0;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 1.2rem;
         flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(7, 80, 160, 0.08);
     }
-
-    .contact-info-content h6 {
-        font-weight: 700;
-        color: #14213d;
-        margin-bottom: 4px;
-        font-size: 16px;
-    }
-
-    .contact-info-content p {
-        color: #6c757d;
-        margin-bottom: 0;
-        font-size: 14.5px;
-        line-height: 1.5;
-    }
-
     .form-label {
         font-weight: 600;
-        color: #14213d;
-        font-size: 14px;
-        margin-bottom: 6px;
+        color: #1e293b;
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
     }
-
     .form-control {
-        border-radius: 12px;
-        padding: 12px 16px;
-        border: 1px solid #dee2e6;
-        font-size: 14.5px;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #cbd5e1;
+        font-size: 0.95rem;
         transition: all 0.2s ease;
     }
-
     .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        border-color: #0099a8;
+        box-shadow: 0 0 0 0.25rem rgba(0, 153, 168, 0.15);
     }
-
-    .btn-submit-contact {
-        background: linear-gradient(135deg, #0750a0, #00a49b);
-        color: #ffffff;
+    .btn-gradient-submit {
+        background: linear-gradient(90deg, #063f91, #0099a8);
+        color: #ffffff !important;
         border: none;
-        border-radius: 12px;
-        padding: 13px 30px;
+        border-radius: 0.75rem;
+        padding: 0.85rem 2rem;
         font-weight: 600;
-        font-size: 15.5px;
+        font-size: 1rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(7, 80, 160, 0.2);
+        box-shadow: 0 6px 20px rgba(6, 63, 145, 0.2);
     }
-
-    .btn-submit-contact:hover {
+    .btn-gradient-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(7, 80, 160, 0.3);
-        color: #ffffff;
+        box-shadow: 0 10px 25px rgba(6, 63, 145, 0.3);
+        color: #ffffff !important;
+    }
+    .quick-action-btn {
+        transition: all 0.25s ease;
+        border-radius: 50rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+    .quick-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+    .map-container {
+        border-radius: 1.25rem;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    .faq-accordion .accordion-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.9rem !important;
+        overflow: hidden;
+        margin-bottom: 0.85rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+    .faq-accordion .accordion-button {
+        font-weight: 600;
+        color: #1e293b;
+        background-color: #ffffff;
+        padding: 1.1rem 1.3rem;
+        font-size: 1rem;
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+        color: #063f91;
+        background-color: #f0f7ff;
+        box-shadow: none;
+    }
+    .faq-accordion .accordion-body {
+        color: #475569;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 </style>
 
-<div class="contact-section">
+<!-- Hero Section -->
+<section class="contact-hero py-5">
+    <div class="container">
+        <div class="text-center mx-auto" style="max-width: 800px;">
+            <div class="hero-badge-container mb-3">
+                <i class="fa-solid fa-headset text-primary fs-6"></i>
+                <span class="fw-bold text-primary small text-uppercase tracking-wider">Healthcare Support & Enquiries</span>
+            </div>
+            <h1 class="fw-bold text-dark display-5 mb-3" style="letter-spacing: -0.5px;">
+                Get in Touch with <span class="hero-gradient-title">MediNest</span>
+            </h1>
+            <p class="text-secondary fs-6 mb-0 mx-auto" style="max-width: 680px; line-height: 1.6;">
+                Have a question about doctor appointments, health products, services, or general wellness? Our dedicated medical support team is here to help.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Contact Section -->
+<section class="py-5 bg-light-subtle">
     <div class="container">
 
-        <!-- Header -->
-        <div class="contact-heading">
-            <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">
-                <i class="fa-solid fa-headset me-1"></i> Get In Touch
-            </span>
-            <h1>Contact MediNest Healthcare</h1>
-            <p>Have a question or need assistance with medical appointments, health products, or services? Send us a message and our team will get back to you promptly.</p>
-        </div>
+        <div class="row g-4 align-items-stretch">
 
-        <div class="row g-4 justify-content-center">
-
-            <!-- Contact Information Sidebar -->
-            <div class="col-lg-4 col-md-5">
-                <div class="contact-card">
-                    <h4 class="fw-bold text-dark mb-4">Contact Information</h4>
-
-                    <div class="contact-info-item">
-                        <div class="contact-info-icon">
-                            <i class="fa-solid fa-location-dot"></i>
+            <!-- Left: Contact Form -->
+            <div class="col-lg-7">
+                <div class="contact-card h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h3 class="fw-bold text-dark mb-0">Send Us a Message</h3>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 small fw-semibold">Support Form</span>
                         </div>
-                        <div class="contact-info-content">
-                            <h6>Our Headquarters</h6>
-                            <p>123 Healthcare Boulevard, Medical District, Tech City 10001</p>
-                        </div>
+                        <p class="text-muted small mb-4">
+                            Fill out the form below and our healthcare team will get back to you promptly.
+                        </p>
+
+                        <form method="post" action="{% url 'core:contact' %}" novalidate>
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <div><i class="fa-solid fa-circle-exclamation me-2"></i>{{ error }}</div>
+                                {% endfor %}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+
+                            <div class="row g-3">
+
+                                <!-- Full Name -->
+                                <div class="col-md-6">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">
+                                        Full Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           name="{{ form.name.name }}"
+                                           id="{{ form.name.id_for_label }}"
+                                           value="{{ form.name.value|default:'' }}"
+                                           class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                           placeholder="John Doe"
+                                           aria-required="true"
+                                           required>
+                                    {% if form.name.errors %}
+                                    <div class="invalid-feedback d-block mt-1">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.name.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                                        Email Address <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email"
+                                           name="{{ form.email.name }}"
+                                           id="{{ form.email.id_for_label }}"
+                                           value="{{ form.email.value|default:'' }}"
+                                           class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                           placeholder="name@example.com"
+                                           aria-required="true"
+                                           required>
+                                    {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block mt-1">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.email.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Phone Number (Optional) -->
+                                <div class="col-md-6">
+                                    <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                        Phone Number <span class="text-muted fw-normal">(Optional)</span>
+                                    </label>
+                                    <input type="text"
+                                           name="{{ form.phone.name }}"
+                                           id="{{ form.phone.id_for_label }}"
+                                           value="{{ form.phone.value|default:'' }}"
+                                           class="form-control {% if form.phone.errors %}is-invalid{% endif %}"
+                                           placeholder="+1 (800) 555-0199">
+                                    {% if form.phone.errors %}
+                                    <div class="invalid-feedback d-block mt-1">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.phone.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Subject -->
+                                <div class="col-md-6">
+                                    <label for="{{ form.subject.id_for_label }}" class="form-label">
+                                        Subject <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           name="{{ form.subject.name }}"
+                                           id="{{ form.subject.id_for_label }}"
+                                           value="{{ form.subject.value|default:'' }}"
+                                           class="form-control {% if form.subject.errors %}is-invalid{% endif %}"
+                                           placeholder="Inquiry about doctor appointment"
+                                           aria-required="true"
+                                           required>
+                                    {% if form.subject.errors %}
+                                    <div class="invalid-feedback d-block mt-1">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.subject.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Message -->
+                                <div class="col-12">
+                                    <label for="{{ form.message.id_for_label }}" class="form-label">
+                                        Message <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea name="{{ form.message.name }}"
+                                              id="{{ form.message.id_for_label }}"
+                                              rows="4"
+                                              class="form-control {% if form.message.errors %}is-invalid{% endif %}"
+                                              placeholder="Write your detailed query or message here..."
+                                              aria-required="true"
+                                              required>{{ form.message.value|default:'' }}</textarea>
+                                    {% if form.message.errors %}
+                                    <div class="invalid-feedback d-block mt-1">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.message.errors.0 }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-3">
+                                    <button type="submit" class="btn btn-gradient-submit w-100">
+                                        Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="contact-info-item">
-                        <div class="contact-info-icon">
-                            <i class="fa-solid fa-phone"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <h6>Phone Numbers</h6>
-                            <p>+1 (800) 555-MEDINEST<br>+1 (800) 555-6334</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-info-item">
-                        <div class="contact-info-icon">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <h6>Email Support</h6>
-                            <p>support@medinest.com<br>care@medinest.com</p>
+                    <!-- Medical Emergency Notice -->
+                    <div class="alert alert-warning border-warning-subtle rounded-3 p-3 mt-4 mb-0 d-flex align-items-start gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-warning fs-4 flex-shrink-0 mt-1"></i>
+                        <div class="small text-secondary">
+                            <strong class="d-block text-dark mb-1"><i class="fa-solid fa-ambulance me-1 text-danger"></i> Medical Emergency Notice:</strong>
+                            If you are experiencing a medical emergency, please contact your local emergency service or visit the nearest hospital emergency department immediately.
                         </div>
                     </div>
-
-                    <div class="contact-info-item mb-0">
-                        <div class="contact-info-icon">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <h6>Working Hours</h6>
-                            <p>Mon - Fri: 8:00 AM - 8:00 PM<br>Sat - Sun: 9:00 AM - 5:00 PM<br><strong class="text-primary">24/7 Emergency Support</strong></p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-            <!-- Contact Form Card -->
-            <div class="col-lg-7 col-md-7">
-                <div class="contact-card">
-                    <h4 class="fw-bold text-dark mb-3">Send Us a Message</h4>
-                    <p class="text-muted mb-4" style="font-size: 14.5px;">Fill out the form below and our medical team will respond shortly.</p>
+            <!-- Right: Contact Info Cards & Quick Actions -->
+            <div class="col-lg-5">
+                <div class="contact-card h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h3 class="fw-bold text-dark mb-4">Contact Information</h3>
 
-                    <form method="post" action="{% url 'core:contact' %}" novalidate>
-                        {% csrf_token %}
-
-                        {% if form.non_field_errors %}
-                        <div class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
-                            {% for error in form.non_field_errors %}
-                                <div><i class="fa-solid fa-circle-exclamation me-2"></i>{{ error }}</div>
-                            {% endfor %}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <!-- Address -->
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Our Location</h6>
+                                <p class="text-muted small mb-0" style="line-height: 1.5;">
+                                    MediNest Healthcare Center, 123 Healthcare Boulevard, Medical District
+                                    <span class="d-block text-secondary fst-italic mt-1" style="font-size: 0.78rem;">(Demo Business Address)</span>
+                                </p>
+                            </div>
                         </div>
-                        {% endif %}
 
-                        <div class="row g-3">
-
-                            <!-- Name -->
-                            <div class="col-md-6">
-                                <label for="{{ form.name.id_for_label }}" class="form-label">
-                                    Full Name <span class="text-danger">*</span>
-                                </label>
-                                <input type="text"
-                                       name="{{ form.name.name }}"
-                                       id="{{ form.name.id_for_label }}"
-                                       value="{{ form.name.value|default:'' }}"
-                                       class="form-control {% if form.name.errors %}is-invalid{% endif %}"
-                                       placeholder="Your Full Name">
-                                {% if form.name.errors %}
-                                <div class="invalid-feedback d-block mt-1">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.name.errors.0 }}
-                                </div>
-                                {% endif %}
+                        <!-- Phone -->
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fa-solid fa-phone"></i>
                             </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6">
-                                <label for="{{ form.email.id_for_label }}" class="form-label">
-                                    Email Address <span class="text-danger">*</span>
-                                </label>
-                                <input type="email"
-                                       name="{{ form.email.name }}"
-                                       id="{{ form.email.id_for_label }}"
-                                       value="{{ form.email.value|default:'' }}"
-                                       class="form-control {% if form.email.errors %}is-invalid{% endif %}"
-                                       placeholder="name@example.com">
-                                {% if form.email.errors %}
-                                <div class="invalid-feedback d-block mt-1">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.email.errors.0 }}
-                                </div>
-                                {% endif %}
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Phone & Support Line</h6>
+                                <p class="text-muted small mb-0">
+                                    <a href="tel:+18005556334" class="text-decoration-none text-dark fw-semibold">+1 (800) 555-MEDINEST</a><br>
+                                    <span class="text-muted">+1 (800) 555-6334</span>
+                                </p>
                             </div>
-
-                            <!-- Phone -->
-                            <div class="col-md-6">
-                                <label for="{{ form.phone.id_for_label }}" class="form-label">
-                                    Phone Number <span class="text-muted fw-normal">(Optional)</span>
-                                </label>
-                                <input type="text"
-                                       name="{{ form.phone.name }}"
-                                       id="{{ form.phone.id_for_label }}"
-                                       value="{{ form.phone.value|default:'' }}"
-                                       class="form-control {% if form.phone.errors %}is-invalid{% endif %}"
-                                       placeholder="e.g. +1 234 567 8900">
-                                {% if form.phone.errors %}
-                                <div class="invalid-feedback d-block mt-1">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.phone.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Subject -->
-                            <div class="col-md-6">
-                                <label for="{{ form.subject.id_for_label }}" class="form-label">
-                                    Subject <span class="text-danger">*</span>
-                                </label>
-                                <input type="text"
-                                       name="{{ form.subject.name }}"
-                                       id="{{ form.subject.id_for_label }}"
-                                       value="{{ form.subject.value|default:'' }}"
-                                       class="form-control {% if form.subject.errors %}is-invalid{% endif %}"
-                                       placeholder="Subject of your inquiry">
-                                {% if form.subject.errors %}
-                                <div class="invalid-feedback d-block mt-1">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.subject.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Message -->
-                            <div class="col-12">
-                                <label for="{{ form.message.id_for_label }}" class="form-label">
-                                    Message <span class="text-danger">*</span>
-                                </label>
-                                <textarea name="{{ form.message.name }}"
-                                          id="{{ form.message.id_for_label }}"
-                                          rows="5"
-                                          class="form-control {% if form.message.errors %}is-invalid{% endif %}"
-                                          placeholder="Please write your detailed message here...">{{ form.message.value|default:'' }}</textarea>
-                                {% if form.message.errors %}
-                                <div class="invalid-feedback d-block mt-1">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{{ form.message.errors.0 }}
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-submit-contact w-100 w-sm-auto">
-                                    <i class="fa-solid fa-paper-plane me-2"></i> Send Message
-                                </button>
-                            </div>
-
                         </div>
-                    </form>
 
+                        <!-- Email -->
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Email Support</h6>
+                                <p class="text-muted small mb-0">
+                                    <a href="mailto:support@medinest.com" class="text-decoration-none text-primary fw-semibold">support@medinest.com</a><br>
+                                    <a href="mailto:care@medinest.com" class="text-decoration-none text-secondary">care@medinest.com</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Hours -->
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Opening Hours</h6>
+                                <p class="text-muted small mb-0" style="line-height: 1.6;">
+                                    Mon – Fri: 8:00 AM – 8:00 PM<br>
+                                    Sat – Sun: 9:00 AM – 5:00 PM<br>
+                                    <span class="badge bg-success-subtle text-success rounded-pill px-2 py-1 mt-1 small">24/7 AI & Emergency Info</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Contact Action Buttons -->
+                    <div class="border-top pt-4 mt-3">
+                        <h6 class="fw-bold text-dark mb-3">Quick Actions</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="tel:+18005556334" class="quick-action-btn bg-primary text-white">
+                                <i class="fa-solid fa-phone"></i> Call Us
+                            </a>
+                            <a href="mailto:support@medinest.com" class="quick-action-btn bg-light text-dark border">
+                                <i class="fa-solid fa-envelope text-primary"></i> Email Us
+                            </a>
+                            <a href="{% url 'doctors:doctor_list' %}" class="quick-action-btn bg-info-subtle text-info-emphasis border border-info-subtle">
+                                <i class="fa-solid fa-calendar-check text-info"></i> Book Appointment
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
 
     </div>
-</div>
+</section>
+
+<!-- Google Maps Section -->
+<section class="py-5 bg-white border-top">
+    <div class="container">
+        <div class="text-center mx-auto mb-4" style="max-width: 600px;">
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 small fw-semibold text-uppercase mb-2">Find Us</span>
+            <h2 class="fw-bold text-dark display-6 mb-2">Our Location</h2>
+            <p class="text-muted fs-6">Visit MediNest or connect with our healthcare team in person.</p>
+        </div>
+
+        <div class="map-container">
+            <!-- Replace this iframe src with the official MediNest Google Maps embed URL -->
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093747!2d144.9537363153167!3d-37.81627977975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s"
+                width="100%"
+                height="420"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="MediNest Location Map">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ / Support Section ("Need Help?") -->
+<section class="py-5 bg-light-subtle border-top">
+    <div class="container" style="max-width: 900px;">
+        <div class="text-center mx-auto mb-4">
+            <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1 small fw-semibold text-uppercase mb-2">Support Center</span>
+            <h2 class="fw-bold text-dark display-6 mb-2">Need Help? Frequently Asked Questions</h2>
+            <p class="text-muted fs-6">Quick answers to common questions about appointments, orders, and healthcare services.</p>
+        </div>
+
+        <div class="accordion faq-accordion" id="contactFaqAccordion">
+            
+            <!-- FAQ 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <i class="fa-solid fa-calendar-check me-2 text-primary"></i> How can I book a doctor appointment?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#contactFaqAccordion">
+                    <div class="accordion-body">
+                        You can easily book an appointment by browsing our qualified doctors on the <a href="{% url 'doctors:doctor_list' %}" class="fw-semibold text-primary">Doctors List</a>, selecting your preferred specialist, picking an available time slot, and confirming your appointment online.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <i class="fa-solid fa-box-open me-2 text-primary"></i> How can I track or view my order status?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#contactFaqAccordion">
+                    <div class="accordion-body">
+                        If you are logged into your account, you can check all your health product orders under <a href="{% url 'orders:my_orders' %}" class="fw-semibold text-primary">My Orders</a> in your account dashboard.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        <i class="fa-solid fa-user-doctor me-2 text-primary"></i> Can I ask general health questions online?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#contactFaqAccordion">
+                    <div class="accordion-body">
+                        Yes! You can use our 24/7 <a href="{% url 'ai_assistant:assistant' %}" class="fw-semibold text-primary">MediNest AI Health Assistant</a> for instant educational wellness guidance, symptom categories, and lifestyle advice anytime.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
+                        <i class="fa-solid fa-pills me-2 text-primary"></i> How do I search for health products or medicines?
+                    </button>
+                </h2>
+                <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqHeadingFour" data-bs-parent="#contactFaqAccordion">
+                    <div class="accordion-body">
+                        Visit our <a href="{% url 'products:product_list' %}" class="fw-semibold text-primary">Products Catalog</a> to search and filter healthcare products, supplements, and medical devices by category.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 {% endblock %}
