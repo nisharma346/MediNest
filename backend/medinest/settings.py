@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -100,13 +101,27 @@ WSGI_APPLICATION = 'medinest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Database
+# Local development: SQLite
+# Production/Render: PostgreSQL via DATABASE_URL
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -157,9 +172,13 @@ MAILERS = {
     },
 }
 
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+raw_razorpay_key_id = os.getenv("RAZORPAY_KEY_ID", "") or ""
+raw_razorpay_key_secret = os.getenv("RAZORPAY_KEY_SECRET", "") or ""
+
+RAZORPAY_KEY_ID = raw_razorpay_key_id.strip().strip("'\"")
+RAZORPAY_KEY_SECRET = raw_razorpay_key_secret.strip().strip("'\"")
 
 # OpenAI Configuration
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+raw_openai_key = os.getenv("OPENAI_API_KEY", "") or ""
+OPENAI_API_KEY = raw_openai_key.strip().strip("'\"")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

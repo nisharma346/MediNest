@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+import logging
 import razorpay
 
 
@@ -20,6 +21,8 @@ try:
 except ImportError:  # pragma: no cover
     razorpay = None
 
+logger = logging.getLogger(__name__)
+
 
 def _generate_invoice_number(order):
     timestamp = timezone.now().strftime("%Y%m%d")
@@ -27,12 +30,13 @@ def _generate_invoice_number(order):
 
 
 def _verify_razorpay_signature(razorpay_order_id, payment_id, signature):
-    if not settings.RAZORPAY_KEY_SECRET:
+    key_secret = (getattr(settings, "RAZORPAY_KEY_SECRET", "") or "").strip()
+    if not key_secret:
         return False
 
     payload = f"{razorpay_order_id}|{payment_id}".encode()
     expected = hmac.new(
-        settings.RAZORPAY_KEY_SECRET.encode(),
+        key_secret.encode(),
         payload,
         hashlib.sha256,
     ).hexdigest()
@@ -101,14 +105,17 @@ def checkout(request):
                         status=400,
                     )
 
-                if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
+                key_id = (getattr(settings, "RAZORPAY_KEY_ID", "") or "").strip()
+                key_secret = (getattr(settings, "RAZORPAY_KEY_SECRET", "") or "").strip()
+
+                if not key_id or not key_secret:
                     return JsonResponse(
                         {"success": False, "message": "Razorpay is not configured yet."},
                         status=400,
                     )
 
                 client = razorpay.Client(
-                    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+                    auth=(key_id, key_secret)
                 )
 
                 try:
@@ -124,6 +131,7 @@ def checkout(request):
                         }
                     )
                 except Exception as exc:  # pragma: no cover
+                    logger.error("Razorpay checkout order creation failed for order %s: %s", order.id, type(exc).__name__)
                     return JsonResponse(
                         {"success": False, "message": f"Razorpay payment setup failed: {exc}"},
                         status=400,
@@ -139,7 +147,7 @@ def checkout(request):
                         "razorpay_order_id": order.razorpay_order_id,
                         "amount": int(total * 100),
                         "currency": "INR",
-                        "key": settings.RAZORPAY_KEY_ID,
+                        "key": key_id,
                     }
                 )
 
@@ -171,10 +179,19 @@ def checkout(request):
 @login_required
 @require_POST
 def payment_callback(request):
-    local_order_id = request.POST.get("local_order_id") or request.POST.get("order_id")
-    payment_id = request.POST.get("payment_id")
-    razorpay_order_id = request.POST.get("razorpay_order_id")
-    signature = request.POST.get("signature")
+    if request.content_type == "application/json":
+        import json
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+        except Exception:
+            data = {}
+    else:
+        data = request.POST
+
+    local_order_id = data.get("local_order_id")
+    payment_id = data.get("payment_id")
+    razorpay_order_id = data.get("razorpay_order_id") or data.get("order_id")
+    signature = data.get("signature")
 
     if not local_order_id or not payment_id or not razorpay_order_id or not signature:
         return JsonResponse(

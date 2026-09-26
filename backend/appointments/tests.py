@@ -64,3 +64,29 @@ class AppointmentAvailabilityValidationTests(TestCase):
         )
 
         self.assertTrue(form.is_valid(), form.errors)
+
+
+from io import StringIO
+from django.core.management import call_command
+from appointments.utils import get_razorpay_diagnostic, verify_razorpay_auth
+
+
+class RazorpayDiagnosticTests(TestCase):
+    def test_diagnostic_helper(self):
+        diag = get_razorpay_diagnostic()
+        self.assertIn("key_id_exists", diag)
+        self.assertIn("key_secret_exists", diag)
+        self.assertIn("is_test_mode", diag)
+        self.assertIn("sdk_installed", diag)
+        self.assertTrue(diag["sdk_installed"])
+
+    def test_check_razorpay_management_command(self):
+        out = StringIO()
+        call_command("check_razorpay", stdout=out)
+        output = out.getvalue()
+        self.assertIn("Razorpay Configuration Diagnostic", output)
+        self.assertIn("Razorpay Authentication Check", output)
+        # Ensure secret key is NEVER printed in command output
+        from django.conf import settings
+        if settings.RAZORPAY_KEY_SECRET:
+            self.assertNotIn(settings.RAZORPAY_KEY_SECRET, output)
