@@ -45,9 +45,9 @@ def get_hero_image_url():
         if local_testimonials_path.exists():
             return f"{settings.MEDIA_URL}testimonials/{hero_filename}"
 
-        return f"{settings.MEDIA_URL}{hero_filename}"
+        return "https://res.cloudinary.com/oucmj9sm/image/upload/medinest_hero_image.png"
     except BaseException:
-        return f"{settings.MEDIA_URL}medinest_hero_image.png"
+        return "https://res.cloudinary.com/oucmj9sm/image/upload/medinest_hero_image.png"
 
 
 def home(request):
