@@ -34,7 +34,8 @@ class Doctor(models.Model):
     profile_image = models.ImageField(
         upload_to="doctors/",
         blank=True,
-        null=True
+        null=True,
+        max_length=255
     )
 
     consultation_fee = models.DecimalField(

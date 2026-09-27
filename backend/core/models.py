@@ -20,7 +20,8 @@ class Service(models.Model):
     image = models.ImageField(
         upload_to="services/",
         blank=True,
-        null=True
+        null=True,
+        max_length=255
     )
 
     is_active = models.BooleanField(default=True)
@@ -39,7 +40,8 @@ class Testimonial(models.Model):
     profile_image = models.ImageField(
         upload_to="testimonials/",
         blank=True,
-        null=True
+        null=True,
+        max_length=255
     )
 
     rating = models.PositiveSmallIntegerField(
@@ -101,6 +103,7 @@ class HealthUpdate(models.Model):
         upload_to="health_updates/",
         blank=True,
         null=True,
+        max_length=255,
         help_text="Optional header / announcement image."
     )
 
@@ -165,6 +168,7 @@ class GalleryItem(models.Model):
 
     image = models.ImageField(
         upload_to="gallery/",
+        max_length=255,
         help_text="Gallery photo / image file."
     )
 
@@ -229,4 +233,4 @@ class ContactMessage(models.Model):
         return f"{self.subject} - {self.name} ({self.status})"
 
 
-
+

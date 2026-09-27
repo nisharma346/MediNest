@@ -10,7 +10,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True, blank=True)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="categories/", blank=True, null=True)
+    image = models.ImageField(upload_to="categories/", blank=True, null=True, max_length=255)
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class Product(models.Model):
     )
 
     stock = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to="products/", blank=True, null=True)
+    image = models.ImageField(upload_to="products/", blank=True, null=True, max_length=255)
 
     is_active = models.BooleanField(default=True)
 

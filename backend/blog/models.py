@@ -37,7 +37,7 @@ class Article(models.Model):
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     short_description = models.CharField(max_length=255)
     content = models.TextField()
-    featured_image = models.ImageField(upload_to="blog/", blank=True, null=True)
+    featured_image = models.ImageField(upload_to="blog/", blank=True, null=True, max_length=255)
     author = models.CharField(max_length=120, default="MediNest Editorial Team")
     published_date = models.DateTimeField(default=timezone.now)
     is_published = models.BooleanField(default=False)
