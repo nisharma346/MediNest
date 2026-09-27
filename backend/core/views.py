@@ -1,3 +1,5 @@
+import os
+import urllib.parse
 from pathlib import Path
 
 import cloudinary
@@ -28,10 +30,10 @@ def get_hero_image_url():
         cloudinary_url = getattr(settings, "CLOUDINARY_URL", None) or os.environ.get("CLOUDINARY_URL")
         if cloudinary_url:
             try:
-                import cloudinary.utils
-                url, _ = cloudinary.utils.cloudinary_url("medinest_hero_image", secure=True)
-                if url:
-                    return url
+                parsed = urllib.parse.urlparse(cloudinary_url)
+                cloud_name = parsed.hostname
+                if cloud_name:
+                    return f"https://res.cloudinary.com/{cloud_name}/image/upload/{hero_filename}"
             except BaseException:
                 pass
 
