@@ -173,6 +173,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
 if CLOUDINARY_URL:
+    CLOUDINARY_STORAGE = {
+        "CLOUDINARY_URL": CLOUDINARY_URL,
+    }
     STORAGES = {
         "default": {
             "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -184,6 +187,11 @@ if CLOUDINARY_URL:
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 else:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": "placeholder",
+        "API_KEY": "000000000000000",
+        "API_SECRET": "placeholder",
+    }
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
