@@ -24,29 +24,21 @@ User = get_user_model()
 
 def get_hero_image_url():
     hero_filename = "medinest_hero_image.png"
-    public_id = Path(hero_filename).stem
-
-    local_candidates = [
-        Path(settings.MEDIA_ROOT) / hero_filename,
-        Path(settings.MEDIA_ROOT) / "testimonials" / hero_filename,
-    ]
-    local_media_path = next((candidate for candidate in local_candidates if candidate.exists()), None)
-
-    if settings.DEBUG and local_media_path is not None:
-        return f"{settings.MEDIA_URL}{local_media_path.name if local_media_path.parent == Path(settings.MEDIA_ROOT) else 'testimonials/' + local_media_path.name}"
+    cloudinary_public_id = f"testimonials/{Path(hero_filename).stem}"
+    local_media_path = Path(settings.MEDIA_ROOT) / "testimonials" / hero_filename
 
     if settings.CLOUDINARY_URL:
         try:
-            return cloudinary.CloudinaryImage(public_id).build_url()
+            return cloudinary.CloudinaryImage(
+                cloudinary_public_id
+            ).build_url(secure=True)
         except Exception:
             pass
 
-    if local_media_path is not None:
-        if local_media_path.parent == Path(settings.MEDIA_ROOT):
-            return f"{settings.MEDIA_URL}{local_media_path.name}"
-        return f"{settings.MEDIA_URL}testimonials/{local_media_path.name}"
+    if local_media_path.exists():
+        return f"{settings.MEDIA_URL}testimonials/{hero_filename}"
 
-    return f"{settings.MEDIA_URL}{hero_filename}"
+    return f"{settings.MEDIA_URL}testimonials/{hero_filename}"
 
 
 def home(request):
