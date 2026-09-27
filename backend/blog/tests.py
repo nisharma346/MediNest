@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from blog.models import Article, ArticleCategory
 
@@ -47,3 +50,22 @@ class ArticleVisibilityTests(TestCase):
 
         draft_response = self.client.get(reverse("blog:article_detail", args=[self.draft_article.slug]))
         self.assertEqual(draft_response.status_code, 404)
+
+    def test_future_dated_articles_are_hidden_from_public_pages(self):
+        future_article = Article.objects.create(
+            title="Future Article Not Yet Visible",
+            slug="future-article-not-yet-visible",
+            short_description="This should remain hidden until its publish date arrives.",
+            content="Future published content should not appear on the public site yet.",
+            category=self.category,
+            author="MediNest Team",
+            is_published=True,
+            published_date=timezone.now() + timedelta(days=1),
+            is_featured=False,
+        )
+
+        listing_response = self.client.get(reverse("blog:article_list"))
+        self.assertNotContains(listing_response, future_article.title)
+
+        detail_response = self.client.get(reverse("blog:article_detail", args=[future_article.slug]))
+        self.assertEqual(detail_response.status_code, 404)

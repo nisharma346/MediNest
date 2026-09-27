@@ -15,7 +15,7 @@ def doctor_list(request):
 
 
 def doctor_detail(request, pk):
-    doctor = get_object_or_404(Doctor, pk=pk)
+    doctor = get_object_or_404(Doctor, pk=pk, is_available=True)
     return render(
         request,
         "doctors/doctor_detail.html",

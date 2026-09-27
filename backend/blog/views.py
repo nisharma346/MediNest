@@ -1,12 +1,16 @@
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 
 from .models import Article, ArticleCategory
 
 
 def article_list(request):
     categories = ArticleCategory.objects.filter(is_active=True).annotate(
-        article_count=Count('articles', filter=Q(articles__is_published=True))
+        article_count=Count(
+            'articles',
+            filter=Q(articles__is_published=True) & Q(articles__published_date__lte=timezone.now())
+        )
     ).order_by("name")
 
     search_query = request.GET.get("q", "").strip()
@@ -16,7 +20,10 @@ def article_list(request):
     if selected_category:
         selected_category_obj = categories.filter(slug=selected_category).first()
 
-    articles = Article.objects.filter(is_published=True).select_related("category")
+    articles = Article.objects.filter(
+        is_published=True,
+        published_date__lte=timezone.now(),
+    ).select_related("category")
 
     if search_query:
         articles = articles.filter(
@@ -33,6 +40,7 @@ def article_list(request):
     featured_articles = Article.objects.filter(
         is_published=True,
         is_featured=True,
+        published_date__lte=timezone.now(),
     ).order_by("-published_date", "-created_at")[:3]
 
     context = {
@@ -52,10 +60,12 @@ def article_detail(request, slug):
         Article,
         slug=slug,
         is_published=True,
+        published_date__lte=timezone.now(),
     )
 
     related_articles = Article.objects.filter(
         is_published=True,
+        published_date__lte=timezone.now(),
         category=article.category,
     ).exclude(pk=article.pk).order_by("-published_date", "-created_at")[:4]
 

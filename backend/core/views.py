@@ -32,7 +32,8 @@ def home(request):
     ).order_by("name")[:6]
 
     latest_articles = Article.objects.filter(
-        is_published=True
+        is_published=True,
+        published_date__lte=timezone.now(),
     ).select_related("category").order_by("-published_date", "-created_at")[:4]
 
     testimonials = Testimonial.objects.filter(
@@ -40,7 +41,8 @@ def home(request):
     ).order_by("-is_featured", "-created_at")[:6]
 
     latest_updates = HealthUpdate.objects.filter(
-        is_active=True
+        is_active=True,
+        published_date__lte=timezone.now(),
     ).order_by("-is_featured", "-published_date")[:4]
 
     gallery_items = GalleryItem.objects.filter(
@@ -102,7 +104,10 @@ def gallery_list(request):
 
 def health_update_list(request):
     category = request.GET.get("category", "").strip()
-    updates = HealthUpdate.objects.filter(is_active=True)
+    updates = HealthUpdate.objects.filter(
+        is_active=True,
+        published_date__lte=timezone.now(),
+    )
     if category:
         updates = updates.filter(category=category)
     updates = updates.order_by("-is_featured", "-published_date")
@@ -121,9 +126,15 @@ def health_update_list(request):
 
 
 def health_update_detail(request, slug):
-    update = get_object_or_404(HealthUpdate, slug=slug, is_active=True)
+    update = get_object_or_404(
+        HealthUpdate,
+        slug=slug,
+        is_active=True,
+        published_date__lte=timezone.now(),
+    )
     recent_updates = HealthUpdate.objects.filter(
-        is_active=True
+        is_active=True,
+        published_date__lte=timezone.now(),
     ).exclude(pk=update.pk).order_by("-published_date")[:5]
 
     return render(
