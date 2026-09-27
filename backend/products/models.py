@@ -116,5 +116,5 @@ class ProductReview(models.Model):
         verbose_name_plural = "Product Reviews"
 
     def __str__(self):
-        return f"{self.product.name} - {self.user.username} ({self.rating}★)"
+        return f"{self.product.name} - {self.user.username} ({self.rating}/5)"
 

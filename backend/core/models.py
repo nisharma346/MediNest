@@ -68,7 +68,7 @@ class Testimonial(models.Model):
         ordering = ["-is_featured", "-created_at"]
 
     def __str__(self):
-        return f"{self.name} ({self.rating}★)"
+        return f"{self.name} ({self.rating}/5)"
 
 
 class HealthUpdate(models.Model):
