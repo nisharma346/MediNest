@@ -186,6 +186,7 @@ if CLOUDINARY_URL:
     }
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
 else:
     CLOUDINARY_STORAGE = {
         "CLOUD_NAME": "placeholder",
@@ -194,20 +195,19 @@ else:
     }
     STORAGES = {
         "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
+            "BACKEND": "medinest.storage.MediaFileSystemStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
-    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+    DEFAULT_FILE_STORAGE = "medinest.storage.MediaFileSystemStorage"
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-
-WHITENOISE_MANIFEST_STRICT = False
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+WHITENOISE_MANIFEST_STRICT = False
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

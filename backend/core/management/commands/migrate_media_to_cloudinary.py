@@ -75,8 +75,8 @@ class Command(BaseCommand):
 
         upload_to_value = str(upload_to).strip("/").replace("\\", "/")
         if upload_to_value:
-            return "/".join(part for part in [app_label, model_name.lower(), upload_to_value] if part and part not in (".", "/"))
-        return "/".join(part for part in [app_label, model_name.lower()] if part)
+            return upload_to_value
+        return f"{app_label}/{model_name.lower()}"
 
     def _find_media_fields(self):
         model_specs = []
