@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import cloudinary
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -16,6 +20,33 @@ from .forms import ContactForm
 
 
 User = get_user_model()
+
+
+def get_hero_image_url():
+    hero_filename = "medinest_hero_image.png"
+    public_id = Path(hero_filename).stem
+
+    local_candidates = [
+        Path(settings.MEDIA_ROOT) / hero_filename,
+        Path(settings.MEDIA_ROOT) / "testimonials" / hero_filename,
+    ]
+    local_media_path = next((candidate for candidate in local_candidates if candidate.exists()), None)
+
+    if settings.DEBUG and local_media_path is not None:
+        return f"{settings.MEDIA_URL}{local_media_path.name if local_media_path.parent == Path(settings.MEDIA_ROOT) else 'testimonials/' + local_media_path.name}"
+
+    if settings.CLOUDINARY_URL:
+        try:
+            return cloudinary.CloudinaryImage(public_id).build_url()
+        except Exception:
+            pass
+
+    if local_media_path is not None:
+        if local_media_path.parent == Path(settings.MEDIA_ROOT):
+            return f"{settings.MEDIA_URL}{local_media_path.name}"
+        return f"{settings.MEDIA_URL}testimonials/{local_media_path.name}"
+
+    return f"{settings.MEDIA_URL}{hero_filename}"
 
 
 def home(request):
@@ -62,6 +93,8 @@ def home(request):
             WishlistItem.objects.filter(user=request.user).values_list("product_id", flat=True)
         )
 
+    hero_image_url = get_hero_image_url()
+
     return render(
         request,
         "core/home.html",
@@ -77,6 +110,7 @@ def home(request):
             "total_doctors_count": total_doctors_count,
             "avg_patient_rating": avg_patient_rating,
             "wishlist_ids": wishlist_ids,
+            "hero_image_url": hero_image_url,
         }
     )
 

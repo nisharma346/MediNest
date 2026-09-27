@@ -665,7 +665,9 @@
                 </h1>
 
                 <p class="hero-description">
-                    MediNest brings together trusted doctors, genuine healthcare products, and vital wellness services into one seamless platform. Book consultations, order medicines, and manage your family's health effortlessly.
+                    MediNest brings together trusted doctors, genuine healthcare products, and vital wellness services
+                    into one seamless platform. Book consultations, order medicines, and manage your family's health
+                    effortlessly.
                 </p>
 
                 <div class="hero-buttons">
@@ -681,7 +683,7 @@
             <div class="col-lg-5">
                 <div class="hero-image-wrapper">
                     <div class="hero-image-card">
-                        <img src="/media/medinest_hero_image.png" alt="MediNest Healthcare" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80';">
+                        <img src="{{ hero_image_url }}" alt="MediNest Healthcare">
                     </div>
                 </div>
             </div>
@@ -798,7 +800,8 @@
                             Fee: ₹{{ doctor.consultation_fee|floatformat:2 }}
                         </div>
 
-                        <a href="{% url 'appointments:book_appointment' doctor.id %}" class="btn btn-primary rounded-pill w-100 fw-semibold btn-sm py-2">
+                        <a href="{% url 'appointments:book_appointment' doctor.id %}"
+                            class="btn btn-primary rounded-pill w-100 fw-semibold btn-sm py-2">
                             <i class="fa-regular fa-calendar-check me-1"></i> Book Appointment
                         </a>
                     </div>
@@ -813,7 +816,8 @@
 
         {% if featured_doctors %}
         <div class="text-center mt-5">
-            <a href="{% url 'doctors:doctor_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+            <a href="{% url 'doctors:doctor_list' %}"
+                class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
                 <i class="fa-solid fa-user-doctor me-2"></i> View All Doctors
             </a>
         </div>
@@ -870,13 +874,14 @@
                         <!-- Rating Badge -->
                         <div class="product-rating mb-2">
                             {% if product.review_count > 0 %}
-                                <span class="text-warning">
-                                    <i class="fa-solid fa-star"></i>
-                                </span>
-                                <span class="fw-bold text-dark ms-1" style="font-size: 13.5px;">{{ product.average_rating }}</span>
-                                <span class="text-muted" style="font-size: 12.5px;">({{ product.review_count }})</span>
+                            <span class="text-warning">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span class="fw-bold text-dark ms-1" style="font-size: 13.5px;">{{ product.average_rating
+                                }}</span>
+                            <span class="text-muted" style="font-size: 12.5px;">({{ product.review_count }})</span>
                             {% else %}
-                                <span class="text-muted" style="font-size: 12.5px;">No reviews yet</span>
+                            <span class="text-muted" style="font-size: 12.5px;">No reviews yet</span>
                             {% endif %}
                         </div>
 
@@ -898,10 +903,12 @@
                         {% endif %}
 
                         <div class="d-grid gap-2 mt-3">
-                            <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary btn-sm rounded-pill fw-semibold py-2">
+                            <a href="{% url 'cart:add_to_cart' product.id %}"
+                                class="btn btn-primary btn-sm rounded-pill fw-semibold py-2">
                                 <i class="fa-solid fa-cart-shopping me-1"></i> Add to Cart
                             </a>
-                            <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-primary btn-sm rounded-pill fw-semibold py-2">
+                            <a href="{% url 'products:product_detail' product.slug %}"
+                                class="btn btn-outline-primary btn-sm rounded-pill fw-semibold py-2">
                                 <i class="fa-solid fa-eye me-1"></i> View Details
                             </a>
                         </div>
@@ -917,7 +924,8 @@
 
         {% if featured_products %}
         <div class="text-center mt-5">
-            <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+            <a href="{% url 'products:product_list' %}"
+                class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
                 <i class="fa-solid fa-bag-shopping me-2"></i> View All Products
             </a>
         </div>
@@ -953,7 +961,8 @@
                     </div>
 
                     <h5 class="notice-title">
-                        <a href="{% url 'core:health_update_detail' update.slug %}" class="text-decoration-none text-dark hover-primary">
+                        <a href="{% url 'core:health_update_detail' update.slug %}"
+                            class="text-decoration-none text-dark hover-primary">
                             {{ update.title }}
                         </a>
                     </h5>
@@ -964,10 +973,13 @@
 
                     <div class="pt-2 border-top d-flex align-items-center justify-content-between mt-auto">
                         <small class="text-muted" style="font-size: 12px;">
-                            <i class="fa-regular fa-clock me-1 text-primary"></i> {{ update.published_date|date:"M d, Y" }}
+                            <i class="fa-regular fa-clock me-1 text-primary"></i> {{ update.published_date|date:"M d, Y"
+                            }}
                         </small>
 
-                        <a href="{% url 'core:health_update_detail' update.slug %}" class="btn btn-link btn-sm p-0 fw-bold text-decoration-none text-primary" style="font-size: 13px;">
+                        <a href="{% url 'core:health_update_detail' update.slug %}"
+                            class="btn btn-link btn-sm p-0 fw-bold text-decoration-none text-primary"
+                            style="font-size: 13px;">
                             Read <i class="fa-solid fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -985,7 +997,8 @@
 
         {% if latest_updates %}
         <div class="text-center mt-5">
-            <a href="{% url 'core:health_update_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+            <a href="{% url 'core:health_update_list' %}"
+                class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
                 <i class="fa-solid fa-bullhorn me-2"></i> View All Health Updates
             </a>
         </div>
@@ -1025,7 +1038,8 @@
                             {{ article.short_description|truncatechars:90 }}
                         </p>
 
-                        <a href="{% url 'blog:article_detail' article.slug %}" class="btn btn-outline-primary btn-sm rounded-pill w-100 mt-auto py-2 fw-semibold">
+                        <a href="{% url 'blog:article_detail' article.slug %}"
+                            class="btn btn-outline-primary btn-sm rounded-pill w-100 mt-auto py-2 fw-semibold">
                             Read More <i class="fa-solid fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -1083,14 +1097,17 @@
                         <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
                             <div class="modal-header border-0 bg-light py-3 px-4">
                                 <div>
-                                    <span class="badge bg-primary text-white me-2" style="font-size: 11px;">{{ item.category }}</span>
+                                    <span class="badge bg-primary text-white me-2" style="font-size: 11px;">{{
+                                        item.category }}</span>
                                     <h5 class="modal-title fw-bold text-dark d-inline mb-0">{{ item.title }}</h5>
                                 </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body p-0 text-center bg-black">
                                 {% if item.image %}
-                                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid" style="max-height: 520px; object-fit: contain;">
+                                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid"
+                                    style="max-height: 520px; object-fit: contain;">
                                 {% endif %}
                             </div>
                             {% if item.description %}
@@ -1106,7 +1123,8 @@
             <div class="col-12 text-center py-4">
                 <div class="p-4 bg-white rounded-4 border">
                     <i class="fa-regular fa-images fa-3x text-muted mb-3 opacity-50"></i>
-                    <p class="text-muted mb-0 fw-medium">Gallery items will appear here once uploaded from the admin panel.</p>
+                    <p class="text-muted mb-0 fw-medium">Gallery items will appear here once uploaded from the admin
+                        panel.</p>
                 </div>
             </div>
             {% endfor %}
@@ -1128,7 +1146,8 @@
     <div class="container">
         <div class="section-heading">
             <h2>What Our Patients Say</h2>
-            <p>Real stories and experiences shared by people who trust MediNest for their everyday health and wellness.</p>
+            <p>Real stories and experiences shared by people who trust MediNest for their everyday health and wellness.
+            </p>
         </div>
 
         <div class="row g-4">
@@ -1143,7 +1162,8 @@
 
                     <div class="d-flex align-items-center mb-3">
                         {% if testimonial.profile_image %}
-                        <img src="{{ testimonial.profile_image.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar me-3">
+                        <img src="{{ testimonial.profile_image.url }}" alt="{{ testimonial.name }}"
+                            class="testimonial-avatar me-3">
                         {% else %}
                         <div class="testimonial-avatar-placeholder me-3">
                             <i class="fa-solid fa-user"></i>
@@ -1154,12 +1174,12 @@
                             <h5 class="testimonial-name mb-0">{{ testimonial.name }}</h5>
                             <div class="testimonial-rating mt-1">
                                 {% for i in "12345"|make_list %}
-                                    {% if forloop.counter <= testimonial.rating %}
-                                        <i class="fa-solid fa-star text-warning"></i>
+                                {% if forloop.counter <= testimonial.rating %} <i class="fa-solid fa-star text-warning">
+                                    </i>
                                     {% else %}
-                                        <i class="fa-regular fa-star text-muted opacity-40"></i>
+                                    <i class="fa-regular fa-star text-muted opacity-40"></i>
                                     {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -1181,7 +1201,8 @@
             <div class="col-12 text-center py-4">
                 <div class="p-4 bg-white rounded-4 border">
                     <i class="fa-regular fa-comment-dots fa-3x text-muted mb-3 opacity-50"></i>
-                    <p class="text-muted mb-0 fw-medium">No patient testimonials available yet. Verified reviews and experiences will appear here.</p>
+                    <p class="text-muted mb-0 fw-medium">No patient testimonials available yet. Verified reviews and
+                        experiences will appear here.</p>
                 </div>
             </div>
             {% endfor %}
