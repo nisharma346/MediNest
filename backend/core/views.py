@@ -24,21 +24,24 @@ User = get_user_model()
 
 def get_hero_image_url():
     hero_filename = "medinest_hero_image.png"
-    cloudinary_public_id = f"testimonials/{Path(hero_filename).stem}"
-    local_media_path = Path(settings.MEDIA_ROOT) / "testimonials" / hero_filename
+    stem = Path(hero_filename).stem
+    local_root_path = Path(settings.MEDIA_ROOT) / hero_filename
+    local_testimonials_path = Path(settings.MEDIA_ROOT) / "testimonials" / hero_filename
 
-    if settings.CLOUDINARY_URL:
+    cloudinary_url = getattr(settings, "CLOUDINARY_URL", None) or os.environ.get("CLOUDINARY_URL")
+    if cloudinary_url:
         try:
-            return cloudinary.CloudinaryImage(
-                cloudinary_public_id
-            ).build_url(secure=True)
+            return cloudinary.CloudinaryImage(stem).build_url(secure=True)
         except Exception:
             pass
 
-    if local_media_path.exists():
+    if local_root_path.exists():
+        return f"{settings.MEDIA_URL}{hero_filename}"
+
+    if local_testimonials_path.exists():
         return f"{settings.MEDIA_URL}testimonials/{hero_filename}"
 
-    return f"{settings.MEDIA_URL}testimonials/{hero_filename}"
+    return f"{settings.MEDIA_URL}{hero_filename}"
 
 
 def home(request):
