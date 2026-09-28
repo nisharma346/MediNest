@@ -96,8 +96,9 @@ MediNest | Appointment Details #{{ appointment.id }}
                                 <h5 class="fw-bold mb-1">{{ appointment.doctor.display_name }}</h5>
                                 <div class="text-primary small fw-semibold">{{ appointment.doctor.specialization }}
                                 </div>
-                                <div class="text-muted small">{{ appointment.doctor.qualification }} ({{
-                                    appointment.doctor.experience }} yrs exp)</div>
+                                <div class="text-muted small">
+                                    {{ appointment.doctor.qualification }} ({{ appointment.doctor.experience }} yrs exp)
+                                </div>
                             </div>
 
                             <a href="{% url 'doctors:doctor_detail' appointment.doctor.id %}"
@@ -120,8 +121,8 @@ MediNest | Appointment Details #{{ appointment.id }}
                                         <strong>Time:</strong> {{ appointment.appointment_time|time:"h:i A" }}
                                     </p>
                                     <p class="mb-2">
-                                        <strong>Consultation Fee:</strong> <span class="fw-bold text-success">₹{{
-                                            appointment.consultation_fee }}</span>
+                                        <strong>Consultation Fee:</strong> <span class="fw-bold text-success">
+                                            ₹{{ appointment.consultation_fee }}</span>
                                     </p>
                                     <p class="mb-0 text-muted small">
                                         <strong>Booked On:</strong> {{ appointment.created_at|date:"M d, Y, h:i A" }}
