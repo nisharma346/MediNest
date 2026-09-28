@@ -666,7 +666,8 @@
 
                 <p class="hero-description">
                     MediNest brings together trusted doctors, genuine healthcare products, and vital wellness
-                    services into one seamless platform. Book consultations, order medicines, and manage your family's health
+                    services into one seamless platform. Book consultations, order medicines, and manage your family's
+                    health
                     effortlessly.
                 </p>
 
@@ -877,8 +878,8 @@
                             <span class="text-warning">
                                 <i class="fa-solid fa-star"></i>
                             </span>
-                            <span class="fw-bold text-dark ms-1" style="font-size: 13.5px;">{{ product.average_rating
-                                }}</span>
+                            <span class="fw-bold text-dark ms-1" style="font-size: 13.5px;">{{ product.average_rating}}
+                            </span>
                             <span class="text-muted" style="font-size: 12.5px;">({{ product.review_count }})</span>
                             {% else %}
                             <span class="text-muted" style="font-size: 12.5px;">No reviews yet</span>
@@ -973,8 +974,12 @@
 
                     <div class="pt-2 border-top d-flex align-items-center justify-content-between mt-auto">
                         <small class="text-muted" style="font-size: 12px;">
-                            <i class="fa-regular fa-clock me-1 text-primary"></i> {{ update.published_date|date:"M d, Y"
-                            }}
+                            <i class="fa-regular fa-clock me-1 text-primary"></i>
+                            {{ update.published_date|date:"M d,Y"}}
+
+
+
+
                         </small>
 
                         <a href="{% url 'core:health_update_detail' update.slug %}"
@@ -1097,8 +1102,9 @@
                         <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
                             <div class="modal-header border-0 bg-light py-3 px-4">
                                 <div>
-                                    <span class="badge bg-primary text-white me-2" style="font-size: 11px;">{{
-                                        item.category }}</span>
+                                    <span class="badge bg-primary text-white me-2" style="font-size: 11px;">
+                                        {{ item.category }}
+                                    </span>
                                     <h5 class="modal-title fw-bold text-dark d-inline mb-0">{{ item.title }}</h5>
                                 </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
