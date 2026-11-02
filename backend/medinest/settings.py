@@ -33,6 +33,10 @@ ALLOWED_HOSTS = [
     "medinest-sm5d.onrender.com",
     "localhost",
     "127.0.0.1",
+    ".vercel.app",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
 ]
 
 # Security headers configuration
@@ -113,8 +117,9 @@ WSGI_APPLICATION = 'medinest.wsgi.application'
 # Production/Render: PostgreSQL via DATABASE_URL
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+USE_REMOTE_DATABASE = os.getenv("USE_REMOTE_DATABASE", "False").lower() in ("true", "1", "t")
 
-if DATABASE_URL:
+if DATABASE_URL and (not DEBUG or USE_REMOTE_DATABASE):
     DATABASES = {
         "default": dj_database_url.config(
             default=DATABASE_URL,
@@ -168,11 +173,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Keep static files separate from admin-uploaded media files.
-# Cloudinary manages uploaded user media on Render when CLOUDINARY_URL is configured.
+# Use local media files during development; Cloudinary handles uploads in production.
 # The Cloudinary URL is provided as an environment variable; no credentials are stored in source code.
 CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
-if CLOUDINARY_URL:
+if CLOUDINARY_URL and not DEBUG:
     CLOUDINARY_STORAGE = {
         "CLOUDINARY_URL": CLOUDINARY_URL,
     }
