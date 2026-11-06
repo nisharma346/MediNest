@@ -34,9 +34,11 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".vercel.app",
+    "medi-nest-tau.vercel.app",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
+    "https://medi-nest-tau.vercel.app",
 ]
 
 # Security headers configuration
@@ -177,7 +179,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # The Cloudinary URL is provided as an environment variable; no credentials are stored in source code.
 CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
-if CLOUDINARY_URL and not DEBUG:
+if CLOUDINARY_URL:
     CLOUDINARY_STORAGE = {
         "CLOUDINARY_URL": CLOUDINARY_URL,
     }
